@@ -12,12 +12,10 @@ interface IControlledInput extends Omit<ControllerProps, "render"> {
   control: Control<any, any>;
   placeholder?: string;
   password?: boolean;
-  error?: string;
 }
 
 export const ControlledInput = ({
   name,
-  error,
   label,
   control,
   disabled,
@@ -42,9 +40,11 @@ export const ControlledInput = ({
             password={password}
             error={Boolean(error)}
           />
-          <HelperText type="error" visible={Boolean(error)}>
-            {error?.message}
-          </HelperText>
+          {Boolean(error) && (
+            <HelperText type="error" visible={Boolean(error)}>
+              {error?.message}
+            </HelperText>
+          )}
         </Container>
       )}
     />
