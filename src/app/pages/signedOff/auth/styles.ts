@@ -1,6 +1,4 @@
 import { Row } from "@components/base/Row";
-import { Text } from "@components/base/Text";
-import { ImageBackground } from "react-native";
 import styled from "styled-components/native";
 
 export const Layout = styled.View`
@@ -9,12 +7,7 @@ export const Layout = styled.View`
   align-items: center;
   padding: 16px;
   justify-content: space-between;
-`;
-
-export const Background = styled(ImageBackground)``;
-
-export const BrandText = styled(Text)`
-  margin-top: 16px;
+  background-color: ${({ theme }) => theme.colors.SECONDARY};
 `;
 
 export const WrapperTop = styled.View`

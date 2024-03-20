@@ -39,6 +39,7 @@ export const Button = ({
     <PaperButton
       textColor={colors[loadingColors[mode]]}
       style={style}
+      labelStyle={{ fontSize: 16, fontWeight: "600" }}
       mode={mode}
       {...rest}
     >

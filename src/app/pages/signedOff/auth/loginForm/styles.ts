@@ -8,7 +8,7 @@ export const Container = styled.View`
   gap: 16px;
   margin: 32px 0;
   border-radius: 16px;
-  background-color: ${({ theme }) => theme.colors.SECONDARY};
+  background-color: ${({ theme }) => theme.colors.SECONDARY_INACTIVE};
 `;
 
 export const PasswordWrapper = styled.View`
@@ -18,5 +18,4 @@ export const PasswordWrapper = styled.View`
 
 export const StyledButton = styled(Button)`
   align-self: flex-end;
-  padding-top: 4px;
 `;

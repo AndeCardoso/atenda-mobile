@@ -1,6 +1,6 @@
 import { AxiosHttpClient } from "@http/httpClient";
-import { UserRegisterRequestDTO } from "./dtos/UserRegisterRequestDTO";
-import { UserRegisterResponseDTO } from "./dtos/UserRegisterResponseDTO";
+import { UserRegisterRequestDTO } from "./dtos/request/UserRegisterRequestDTO";
+import { UserRegisterResponseDTO } from "./dtos/response/UserRegisterResponseDTO";
 import { HttpResponse } from "@model/http/httpClient";
 
 export default class UserService {
