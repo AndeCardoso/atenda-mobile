@@ -1,12 +1,38 @@
-import React from "react";
-import { useAuth } from "@hooks/connection/useAuth";
-import { Text, View } from "react-native";
+import React, { useState } from "react";
+import { Layout } from "@components/Layout";
+import { FAB, Portal, useTheme } from "react-native-paper";
+import { useHomeController } from "./useHomeController";
 
 export const HomeScreen = () => {
-  const { logout } = useAuth();
+  const { colors } = useTheme();
+  const { fabActions } = useHomeController();
+  const [state, setState] = useState({ open: false });
+
+  const onStateChange = ({ open }) => setState({ open });
+
+  const { open } = state;
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text onPress={logout}>Home</Text>
-    </View>
+    <Layout header="ATENDA">
+      <Portal>
+        <FAB.Group
+          open={open}
+          visible
+          icon={open ? "note-plus" : "plus"}
+          actions={fabActions}
+          fabStyle={{
+            borderRadius: 50,
+            backgroundColor: colors.PRIMARY,
+            marginRight: 32,
+          }}
+          color={colors.SECONDARY}
+          onStateChange={onStateChange}
+          onPress={() => {
+            if (open) {
+              // do something if the speed dial is open
+            }
+          }}
+        />
+      </Portal>
+    </Layout>
   );
 };
