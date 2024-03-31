@@ -16,8 +16,8 @@ export const AuthPage = () => {
 
   const { control, handleSubmit } = useForm<IAuthForm>({
     defaultValues: {
-      email: "ande@test.com",
-      password: "321654",
+      email: "admin@test.com",
+      password: "123456",
     },
   });
 
