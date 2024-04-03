@@ -28,6 +28,7 @@ export const LoginForm = ({ control }: ILoginFormProps) => {
         placeholder="Digite seu e-mail"
         name="email"
         control={control}
+        mode={"outlined"}
       />
       <PasswordWrapper>
         <ControlledInput
@@ -41,6 +42,7 @@ export const LoginForm = ({ control }: ILoginFormProps) => {
           name="password"
           password
           control={control}
+          mode={"outlined"}
         />
         <StyledButton link onPress={goToRecoverPassword}>
           Recuperar senha

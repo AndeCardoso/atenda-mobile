@@ -1,18 +1,20 @@
 import React, { useState } from "react";
 import { Layout } from "@components/Layout";
-import { FAB, Portal, useTheme } from "react-native-paper";
+import { FAB, Portal } from "react-native-paper";
 import { useHomeController } from "./useHomeController";
+import { useTheme } from "styled-components";
 
-export const HomeScreen = () => {
+export const HomePage = () => {
   const { colors } = useTheme();
   const { fabActions } = useHomeController();
   const [state, setState] = useState({ open: false });
 
-  const onStateChange = ({ open }) => setState({ open });
+  const onStateChange = ({ open }: { open: boolean }) => setState({ open });
 
   const { open } = state;
+
   return (
-    <Layout header="ATENDA">
+    <Layout header="ATENDA" hasScroll>
       <Portal>
         <FAB.Group
           open={open}
@@ -26,11 +28,6 @@ export const HomeScreen = () => {
           }}
           color={colors.SECONDARY}
           onStateChange={onStateChange}
-          onPress={() => {
-            if (open) {
-              // do something if the speed dial is open
-            }
-          }}
         />
       </Portal>
     </Layout>

@@ -12,5 +12,6 @@ export const Container = styled(Row)`
 `;
 
 export const StyledRow = styled(Row)`
+  width: auto;
   gap: 16px;
 `;

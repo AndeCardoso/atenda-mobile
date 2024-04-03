@@ -1,10 +1,8 @@
 import React, { PropsWithChildren } from "react";
 import { StyleProp, TextStyle } from "react-native";
 import { Text as PaperText } from "react-native-paper";
-import { colors } from "@global/styles/colors";
+import { Colors, colors } from "@global/styles/colors";
 import { useTheme } from "styled-components";
-
-export type Colors = keyof typeof colors;
 
 interface ITextProps extends PropsWithChildren {
   brandFont?: boolean;

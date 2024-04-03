@@ -13,5 +13,11 @@ interface ILoaderProps {
 
 export const Loader = ({ text, size, color, style }: ILoaderProps) => {
   const { colors } = useTheme();
-  return <ActivityIndicator size={size} color={colors[color]} style={style} />;
+  return (
+    <ActivityIndicator
+      size={size}
+      color={colors[color ?? "PRIMARY"]}
+      style={style}
+    />
+  );
 };

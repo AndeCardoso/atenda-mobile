@@ -59,7 +59,7 @@ export class AxiosHttpClient implements IHttpClient {
   }
 
   private createHeaders({ token, headers }: CreateHeadersProps) {
-    const tokenAuth = token ? { Authorization: `Bearer ${token}` } : null;
+    const tokenAuth = token ? { authorization: `${token}` } : null;
     return {
       "Content-Type": "application/json",
       ...tokenAuth,

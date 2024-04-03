@@ -1,12 +1,14 @@
 import React, { PropsWithChildren, ReactNode } from "react";
-import { SafeAreaView, ViewStyle } from "react-native";
+import { SafeAreaView, View, ViewStyle } from "react-native";
 import { useTheme } from "react-native-paper";
 import { Header } from "./Header";
 import { StatusBar } from "../base/StatusBar";
+import { ScrollView } from "react-native-gesture-handler";
 
 interface ILayoutProps extends PropsWithChildren {
   header?: string;
   footer?: ReactNode;
+  hasScroll?: boolean;
   goBack?: () => void;
   close?: () => void;
 }
@@ -14,6 +16,7 @@ interface ILayoutProps extends PropsWithChildren {
 export const Layout = ({
   header,
   footer,
+  hasScroll,
   goBack,
   close,
   children,
@@ -30,7 +33,16 @@ export const Layout = ({
     <SafeAreaView style={style}>
       {header && <Header text={header} goBack={goBack} close={close} />}
 
-      {children}
+      {hasScroll ? (
+        <ScrollView
+          style={{ width: "100%", flex: 1 }}
+          showsVerticalScrollIndicator={false}
+        >
+          {children}
+        </ScrollView>
+      ) : (
+        <View style={{ width: "100%", flex: 1 }}>{children}</View>
+      )}
 
       {footer && footer}
       <StatusBar textColor="dark" backgroundColor={colors.primary} />
