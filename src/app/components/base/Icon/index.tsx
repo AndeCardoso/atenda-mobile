@@ -4,7 +4,7 @@ import { TIconNames } from "./types";
 import { useTheme } from "styled-components";
 import { Colors } from "@global/styles/colors";
 
-interface IIconProps {
+export interface IIconProps {
   name: TIconNames;
   size?: number;
   color?: Colors;
