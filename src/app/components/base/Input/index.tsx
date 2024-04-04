@@ -82,11 +82,10 @@ export const Input = ({
       style={disabled ? disabledInputStyle : inputStyle}
       error={error}
       right={
-        !disabled &&
         value &&
         value.length > 0 && (
           <TextInput.Icon
-            icon={"close"}
+            icon={disabled ? "lock" : "close"}
             color={theme.colors.primary}
             onPress={handleClear}
           />
