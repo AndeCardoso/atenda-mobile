@@ -1,8 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
-import { SignedOffScreens } from "@routes/screens";
 import { useUser } from "@hooks/connection/useUser";
-import { SuperConsole } from "@tools/indentedConsole";
 import { IRegisterUserForm } from "./registerForm/formSchema";
+import { HttpStatusCode } from "axios";
 
 export const useRegisterUserController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
@@ -19,8 +18,9 @@ export const useRegisterUserController = () => {
 
   const handleRegister = async (values: IRegisterUserForm) => {
     const res = await mutateAsyncRegister(values);
-    SuperConsole(res);
-    handleGoBack();
+    if (res.statusCode === HttpStatusCode.Ok) {
+      handleGoBack();
+    }
   };
 
   return {
