@@ -1,33 +1,38 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import { useTheme } from "styled-components";
 import { SignedInScreens } from "@routes/screens";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import TechnicianService from "@services/technician";
 import { HttpStatusCode } from "axios";
 import { SuperConsole } from "@tools/indentedConsole";
+import { useCallback } from "react";
 
 export const useTechnicianDetailController = () => {
   const { colors } = useTheme();
   const { navigate, canGoBack, goBack } = useNavigation<any>();
   const { params } = useRoute<any>();
   const { technicianId } = params;
+  const queryClient = useQueryClient();
+
   const technicianService = new TechnicianService();
 
-  const { data } = useQuery(
+  const { data, isLoading } = useQuery(
     ["technicianDetail", technicianId],
     async () => {
-      const response = await technicianService.get({
+      const { statusCode, body } = await technicianService.get({
         technicianId,
       });
-      switch (response.statusCode) {
+      switch (statusCode) {
         case HttpStatusCode.Ok:
-          return response.body;
+          return body;
         case HttpStatusCode.NoContent:
         case HttpStatusCode.BadRequest:
-          SuperConsole(response.body);
-          return;
         default:
-          SuperConsole(response.body);
+          SuperConsole(body);
           return;
       }
     },
@@ -76,9 +81,18 @@ export const useTechnicianDetailController = () => {
     },
   ];
 
+  useFocusEffect(
+    useCallback(() => {
+      queryClient.invalidateQueries("technicianDetail");
+    }, [])
+  );
+
   return {
     technicianData: data,
     handleGoBack,
     fabActions,
+    viewState: {
+      loading: isLoading,
+    },
   };
 };

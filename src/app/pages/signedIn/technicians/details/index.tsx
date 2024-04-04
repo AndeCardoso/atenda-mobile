@@ -30,7 +30,7 @@ export const TechnicianDetailPage = () => {
     technicianData,
     handleGoBack,
     fabActions,
-    viewState: { isLoading },
+    viewState: { loading },
   } = useTechnicianDetailController();
 
   const [state, setState] = useState({ open: false });
@@ -39,7 +39,7 @@ export const TechnicianDetailPage = () => {
 
   return (
     <Layout header="Detalhes do técnico" goBack={handleGoBack} hasScroll>
-      {isLoading ? (
+      {loading ? (
         <Loader />
       ) : (
         <>
