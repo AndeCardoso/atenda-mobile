@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { useAuth } from "@hooks/connection/useAuth";
+import { useAuth } from "@hooks/useAuth";
 import { useTheme } from "styled-components";
 import { SignedInNavigators, SignedInScreens } from "@routes/screens";
 
