@@ -15,18 +15,16 @@ export const useTechnicianFormController = () => {
   const { data, isLoading: dataLoading } = useQuery(
     ["getTechnicianUpdate", technicianId],
     async () => {
-      const response = await technicianService.get({
+      const { statusCode, body } = await technicianService.get({
         technicianId,
       });
-      switch (response.statusCode) {
+      switch (statusCode) {
         case HttpStatusCode.Ok:
-          return response.body;
+          return body;
         case HttpStatusCode.NoContent:
         case HttpStatusCode.BadRequest:
-          SuperConsole(response.body);
-          return;
         default:
-          SuperConsole(response.body);
+          SuperConsole(body);
           return;
       }
     },
@@ -45,7 +43,7 @@ export const useTechnicianFormController = () => {
       {
         onSuccess: async ({ statusCode, body }) => {
           switch (statusCode) {
-            case HttpStatusCode.Created:
+            case HttpStatusCode.Ok:
               return body;
             case HttpStatusCode.BadRequest:
             default:
@@ -78,8 +76,9 @@ export const useTechnicianFormController = () => {
     delete body["address"];
 
     const res = await mutateAsyncRegister(body);
-    SuperConsole(res);
-    handleGoBack();
+    if (res.statusCode === HttpStatusCode.Ok) {
+      handleGoBack();
+    }
   };
 
   return {

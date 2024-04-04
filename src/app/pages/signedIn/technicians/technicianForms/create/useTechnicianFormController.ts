@@ -49,8 +49,9 @@ export const useTechnicianFormController = () => {
     };
 
     const res = await mutateAsyncRegister(body);
-    SuperConsole(body);
-    handleGoBack();
+    if (res.statusCode === HttpStatusCode.Created) {
+      handleGoBack();
+    }
   };
 
   return {
