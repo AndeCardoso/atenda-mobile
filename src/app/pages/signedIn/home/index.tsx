@@ -3,9 +3,11 @@ import { Layout } from "@components/Layout";
 import { FAB, Portal } from "react-native-paper";
 import { useHomeController } from "./useHomeController";
 import { useTheme } from "styled-components";
+import { useIsFocused } from "@react-navigation/native";
 
 export const HomePage = () => {
   const { colors } = useTheme();
+  const isFocused = useIsFocused();
   const { fabActions } = useHomeController();
   const [state, setState] = useState({ open: false });
 
@@ -18,7 +20,7 @@ export const HomePage = () => {
       <Portal>
         <FAB.Group
           open={open}
-          visible
+          visible={isFocused}
           icon={open ? "note-plus" : "plus"}
           actions={fabActions}
           fabStyle={{

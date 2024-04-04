@@ -19,12 +19,19 @@ import { Row } from "@components/base/Row";
 import { Spacer } from "@components/base/Spacer";
 import { Icon } from "@components/base/Icon";
 import { Divider } from "@components/base/Separator";
+import { Loader } from "@components/base/Loader";
+import { useIsFocused } from "@react-navigation/native";
 
 export const TechnicianDetailPage = () => {
   const { colors } = useTheme();
+  const isFocused = useIsFocused();
 
-  const { technicianData, handleGoBack, fabActions } =
-    useTechnicianDetailController();
+  const {
+    technicianData,
+    handleGoBack,
+    fabActions,
+    viewState: { isLoading },
+  } = useTechnicianDetailController();
 
   const [state, setState] = useState({ open: false });
   const onStateChange = ({ open }: { open: boolean }) => setState({ open });
@@ -32,85 +39,102 @@ export const TechnicianDetailPage = () => {
 
   return (
     <Layout header="Detalhes do técnico" goBack={handleGoBack} hasScroll>
-      <Container>
-        <Spacer />
-        <Row>
-          <Icon name="tools" color="WHITE" />
-          <Text color="WHITE" size={24} weight="600">
-            {technicianData?.name}
-          </Text>
-        </Row>
-        <Spacer />
-        <Divider />
-        <DisplayField text="Cpf" value={formatCpf(technicianData?.cpf)} />
-        <Divider />
-        <DisplayField
-          text="Celular"
-          value={formatCellphoneNumber(technicianData?.phone)}
-        />
-        <Divider />
-        <Row>
-          <DisplayField
-            text="Cargo"
-            value={
-              technicianData?.position &&
-              technicianPositionDisplay[technicianData?.position]
-            }
-          />
-          <DisplayField
-            text="Status"
-            value={
-              technicianData?.status &&
-              technicianStatusDisplay[technicianData?.status]
-            }
-          />
-        </Row>
-        <Divider />
-        <DisplayField
-          text="Logradouro"
-          value={technicianData?.address.street}
-        />
-        <Divider />
-        <Row>
-          <DisplayField text="Numero" value={technicianData?.address.number} />
-          <DisplayField
-            text="Complemento"
-            value={technicianData?.address.complement}
-          />
-        </Row>
-        <Divider />
-        <Row>
-          <DisplayField
-            text="Bairro"
-            value={technicianData?.address.district}
-          />
-          <DisplayField
-            text="Cep"
-            value={formatCep(technicianData?.address.cep)}
-          />
-        </Row>
-        <Divider />
-        <Row>
-          <DisplayField text="Cidade" value={technicianData?.address.city} />
-          <DisplayField text="Estado" value={technicianData?.address.state} />
-        </Row>
-      </Container>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <Container>
+            <Spacer />
+            <Row>
+              <Icon name="tools" color="WHITE" />
+              <Text color="WHITE" size={24} weight="600">
+                {technicianData?.name}
+              </Text>
+            </Row>
+            <Spacer />
+            <Divider />
+            <DisplayField text="Cpf" value={formatCpf(technicianData?.cpf)} />
+            <Divider />
+            <DisplayField
+              text="Celular"
+              value={formatCellphoneNumber(technicianData?.phone)}
+            />
+            <Divider />
+            <Row>
+              <DisplayField
+                text="Cargo"
+                value={
+                  technicianData?.position &&
+                  technicianPositionDisplay[technicianData?.position]
+                }
+              />
+              <DisplayField
+                text="Status"
+                value={
+                  technicianData?.status &&
+                  technicianStatusDisplay[technicianData?.status]
+                }
+              />
+            </Row>
+            <Divider />
+            <DisplayField
+              text="Logradouro"
+              value={technicianData?.address.street}
+            />
+            <Divider />
+            <Row>
+              <DisplayField
+                text="Numero"
+                value={technicianData?.address.number}
+              />
+              {technicianData?.address.complement ? (
+                <DisplayField
+                  text="Complemento"
+                  value={technicianData?.address.complement}
+                />
+              ) : null}
+            </Row>
+            <Divider />
+            <Row>
+              <DisplayField
+                text="Bairro"
+                value={technicianData?.address.district}
+              />
+              <DisplayField
+                text="Cep"
+                value={formatCep(technicianData?.address.cep)}
+              />
+            </Row>
+            <Divider />
+            <Row>
+              <DisplayField
+                text="Cidade"
+                value={technicianData?.address.city}
+              />
+              <DisplayField
+                text="Estado"
+                value={technicianData?.address.state}
+              />
+            </Row>
+          </Container>
 
-      <Portal>
-        <FAB.Group
-          open={open}
-          visible
-          icon={open ? "file-document-multiple" : "file-document"}
-          actions={fabActions}
-          fabStyle={{
-            borderRadius: 50,
-            backgroundColor: colors.PRIMARY,
-            marginRight: 32,
-          }}
-          color={colors.SECONDARY}
-          onStateChange={onStateChange}
-        />
-      </Portal>
+          <Portal>
+            <FAB.Group
+              open={open}
+              visible={isFocused}
+              icon={open ? "file-document-multiple" : "file-document"}
+              actions={fabActions}
+              fabStyle={{
+                borderRadius: 50,
+                backgroundColor: colors.PRIMARY,
+                marginRight: 32,
+              }}
+              color={colors.SECONDARY}
+              onStateChange={onStateChange}
+            />
+          </Portal>
+        </>
+      )}
     </Layout>
   );
 };
