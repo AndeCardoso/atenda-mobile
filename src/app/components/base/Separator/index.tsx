@@ -5,18 +5,18 @@ import { ViewStyle } from "react-native";
 import { Colors } from "@global/styles/colors";
 
 interface IDividerProps {
-  paddingVertical?: number;
+  spaceVertical?: number;
   color?: Colors;
 }
 
 export const Divider = ({
-  paddingVertical,
+  spaceVertical,
   color = "PRIMARY",
 }: IDividerProps) => {
   const theme = useTheme();
   const { colors } = theme;
   const style: ViewStyle = {
-    paddingVertical: paddingVertical,
+    marginVertical: spaceVertical,
     backgroundColor: colors[color ?? "WHITE"],
   };
   return <DividerPaper style={style} bold />;

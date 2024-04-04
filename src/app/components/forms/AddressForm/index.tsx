@@ -15,11 +15,11 @@ interface IAddressForm {
 export const AddressForm = ({ control, hasNickname }: IAddressForm) => {
   return (
     <Container>
-      <Divider color="PRIMARY" />
+      <Divider spaceVertical={16} />
       <Text size={16} color="WHITE">
         Endereço
       </Text>
-      <Divider color="PRIMARY" />
+      <Divider spaceVertical={16} />
       {hasNickname ? (
         <ControlledInput
           label="Apelido"
