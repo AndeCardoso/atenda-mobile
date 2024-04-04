@@ -8,7 +8,6 @@ import {
 } from "@model/http/paginationRequest";
 import { TechnicianGetRequestDTO } from "./dtos/request/TechnicianGetRequestDTO";
 import { TechnicianGetResponseDTO } from "./dtos/response/TechnicianGetResponseDTO";
-import { SuperConsole } from "@tools/indentedConsole";
 
 export default class TechnicianService {
   public async register(
