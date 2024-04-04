@@ -8,6 +8,11 @@ import { Divider } from "@components/base/Separator";
 import { Spacer } from "@components/base/Spacer";
 import { Masks } from "react-native-mask-input";
 import { ITechnicianForm } from "../../schema";
+import {
+  technicianPositionList,
+  technicianStatusList,
+} from "@pages/signedIn/technicians/constants";
+import { ControlledSelect } from "@components/controlleds/ControlledSelect";
 
 interface ITechnicianFormProps {
   control: Control<ITechnicianForm>;
@@ -16,11 +21,11 @@ interface ITechnicianFormProps {
 export const UpdateTechnicianForm = ({ control }: ITechnicianFormProps) => {
   return (
     <Container>
-      <Divider />
+      <Divider spaceVertical={16} />
       <Text size={16} color="WHITE">
         Dados de contato
       </Text>
-      <Divider />
+      <Divider spaceVertical={16} />
       <ControlledInput
         label="Nome"
         placeholder="Ex.: João Paulo"
@@ -42,15 +47,17 @@ export const UpdateTechnicianForm = ({ control }: ITechnicianFormProps) => {
         control={control}
         mask={Masks.BRL_PHONE}
       />
-      <ControlledInput
+      <ControlledSelect
         label="Cargo"
-        placeholder="Ex.: Campo"
+        placeholder="Selecione o cargo"
+        options={technicianPositionList}
         name="position"
         control={control}
       />
-      <ControlledInput
+      <ControlledSelect
         label="Status"
-        placeholder="Ex.: Em atendimento"
+        placeholder="Selecione o status"
+        options={technicianStatusList}
         name="status"
         control={control}
       />
