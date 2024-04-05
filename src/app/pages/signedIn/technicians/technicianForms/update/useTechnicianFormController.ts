@@ -5,6 +5,7 @@ import { SuperConsole } from "@tools/indentedConsole";
 import { TechnicianRegisterRequestDTO } from "@services/technician/dtos/request/TechnicianRegisterRequestDTO";
 import TechnicianService from "@services/technician";
 import { ITechnicianForm } from "../schema";
+import { unmask } from "@utils/formatString";
 
 export const useTechnicianFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
@@ -38,8 +39,24 @@ export const useTechnicianFormController = () => {
 
   const { mutateAsync: mutateAsyncRegister, isLoading: registerLoading } =
     useMutation(
-      async (body: TechnicianRegisterRequestDTO) =>
-        await technicianService.update(technicianId, body),
+      ["updateTechnician"],
+      async (data: ITechnicianForm) => {
+        delete data["address"];
+        const body = {
+          ...data,
+          phone: unmask(data.phone),
+          cpf: unmask(data.cpf),
+          cep: unmask(data.cep),
+          position: data.position.value,
+          status: data.status?.value,
+          state: data.state.text,
+          city: data.city.text,
+        };
+        return await technicianService.update(
+          technicianId,
+          body as TechnicianRegisterRequestDTO
+        );
+      },
       {
         onSuccess: async ({ statusCode, body }) => {
           switch (statusCode) {
@@ -66,16 +83,7 @@ export const useTechnicianFormController = () => {
   };
 
   const handleRegister = async (values: ITechnicianForm) => {
-    const body = {
-      ...values,
-      phone: values.phone.replace(/[^\d]/g, ""),
-      cpf: values.cpf.replace(/[^\d]/g, ""),
-      cep: values.cep.replace(/[^\d]/g, ""),
-    };
-
-    delete body["address"];
-
-    const res = await mutateAsyncRegister(body);
+    const res = await mutateAsyncRegister(values);
     if (res.statusCode === HttpStatusCode.Ok) {
       handleGoBack();
     }

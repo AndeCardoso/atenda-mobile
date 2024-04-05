@@ -1,16 +1,16 @@
 import * as yup from "yup";
-import { technicianPositionEnum, technicianStatusEnum } from "../constants";
 import {
   IAdressForm,
   addressObjectSchema,
 } from "@components/forms/AddressForm/formSchema";
+import { IOption } from "@components/base/Select";
 
 export interface ITechnicianForm extends IAdressForm {
   name: string;
   phone: string;
   cpf: string;
-  position: technicianPositionEnum;
-  status?: technicianStatusEnum;
+  position: IOption;
+  status?: IOption;
 }
 
 export const technicianSchema: yup.ObjectSchema<ITechnicianForm> = yup
@@ -23,7 +23,7 @@ export const technicianSchema: yup.ObjectSchema<ITechnicianForm> = yup
       .max(32, "Nome deve ter no máximo de 32 caracteres"),
     phone: yup.string().required("Campo obrigatório"),
     cpf: yup.string().required("Campo obrigatório"),
-    position: yup.number().required("Campo obrigatório"),
-    status: yup.number(),
+    position: yup.object<IOption>().required("Campo obrigatório"),
+    status: yup.object<IOption>().notRequired(),
     ...addressObjectSchema,
   });

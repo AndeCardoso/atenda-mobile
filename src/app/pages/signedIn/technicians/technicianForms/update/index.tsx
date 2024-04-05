@@ -9,6 +9,7 @@ import { useTechnicianFormController } from "./useTechnicianFormController";
 import { Loader } from "@components/base/Loader";
 import { ITechnicianForm, technicianSchema } from "../schema";
 import { UpdateTechnicianForm } from "./form";
+import { technicianPositionList, technicianStatusList } from "../../constants";
 
 export const TechnicianUpdateFormPage = () => {
   const { goBack } = useNavigation();
@@ -18,12 +19,21 @@ export const TechnicianUpdateFormPage = () => {
     viewState: { dataLoading, registerLoading },
   } = useTechnicianFormController();
 
-  const { control, handleSubmit, reset } = useForm<ITechnicianForm>({
+  const { control, handleSubmit, reset, getValues } = useForm<ITechnicianForm>({
     resolver: yupResolver(technicianSchema),
   });
 
   useEffect(() => {
-    reset({ ...technicianData, ...technicianData?.address });
+    reset({
+      ...technicianData,
+      position: technicianPositionList.find(
+        (item) => item.value === technicianData?.position
+      ),
+      status: technicianStatusList.find(
+        (item) => item.value === technicianData?.status
+      ),
+      ...technicianData?.address,
+    });
   }, [technicianData]);
 
   return (

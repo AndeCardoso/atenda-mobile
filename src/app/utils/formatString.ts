@@ -30,3 +30,9 @@ export const formatCep = (value?: string) => {
     return value;
   }
 };
+
+export const unmask = (value?: string) => {
+  if (!value) return "";
+
+  return value.replace(/[^\d]/g, "");
+};
