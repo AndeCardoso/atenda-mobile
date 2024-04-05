@@ -1,17 +1,16 @@
 import React from "react";
 import { ActivityIndicator } from "react-native-paper";
-import { Colors } from "../Text";
 import { useTheme } from "styled-components";
 import { ViewStyle } from "react-native";
+import { Colors } from "@global/styles/colors";
 
 interface ILoaderProps {
-  text?: string;
   size?: number | "small" | "large";
   color?: Colors;
   style?: ViewStyle;
 }
 
-export const Loader = ({ text, size, color, style }: ILoaderProps) => {
+export const Loader = ({ size, color, style }: ILoaderProps) => {
   const { colors } = useTheme();
   return (
     <ActivityIndicator

@@ -11,12 +11,15 @@ import { Mask } from "react-native-mask-input";
 interface IControlledSelect extends Omit<ControllerProps, "render"> {
   label?: string;
   labelStyle?: StyleProp<TextStyle>;
-  options: IOption[];
+  options?: IOption[];
   control: Control<any, any>;
+  loading?: boolean;
   mode?: "flat" | "outlined";
   width?: number;
   placeholder?: string;
   mask?: Mask;
+  onPress?: () => void;
+  onSelect?: (value?: any) => void;
 }
 
 export const ControlledSelect = ({
@@ -24,30 +27,32 @@ export const ControlledSelect = ({
   label,
   options,
   control,
+  loading,
   mode,
   width,
   disabled,
   labelStyle,
   placeholder,
-  defaultValue,
   mask,
+  onPress,
+  onSelect,
 }: IControlledSelect) => {
   const { colors } = useTheme();
-
   const labelStylesDefault: StyleProp<TextStyle> = {
     color: colors.WHITE,
     fontWeight: "600",
     fontSize: 16,
   };
+
   return (
     <Controller
       name={name}
       control={control}
-      defaultValue={defaultValue}
       render={({ field: { value, onChange }, fieldState: { error } }) => {
-        console.log(
-          options.find((opt) => opt?.value?.toString() === value?.toString())
-        );
+        const handleSelect = (value: any) => {
+          onChange(value);
+          onSelect && onSelect(value);
+        };
         return (
           <Container width={width}>
             {label ? (
@@ -55,19 +60,15 @@ export const ControlledSelect = ({
             ) : undefined}
             <Select
               options={options}
-              value={
-                value
-                  ? options.find(
-                      (opt) => opt?.value?.toString() === value?.toString()
-                    )
-                  : undefined
-              }
-              onSelect={onChange}
+              value={value}
+              onSelect={handleSelect}
               placeholder={placeholder}
               error={Boolean(error)}
               disabled={disabled}
+              loading={loading}
               mode={mode}
               mask={mask}
+              onPress={onPress}
             />
             <HelperText
               type="error"
