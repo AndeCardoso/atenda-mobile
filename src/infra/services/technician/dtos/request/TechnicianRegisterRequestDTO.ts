@@ -1,10 +1,10 @@
-import { IAdressForm } from "@components/forms/AddressForm/formSchema";
 import {
   technicianPositionEnum,
   technicianStatusEnum,
 } from "@pages/signedIn/technicians/constants";
+import { AddressRequestDTO } from "@services/location/dtos/request/AddressRequestDTO";
 
-export interface TechnicianRegisterRequestDTO extends IAdressForm {
+export interface TechnicianRegisterRequestDTO extends AddressRequestDTO {
   name: string;
   phone: string;
   cpf: string;
