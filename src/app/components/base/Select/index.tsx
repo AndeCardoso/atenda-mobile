@@ -74,7 +74,6 @@ export const Select = ({
   function handleClear() {
     inputRef.current?.clear();
     setSelectedValueState(undefined);
-    // setDisplayValueState("");
     onSelect?.("");
   }
 
@@ -102,7 +101,9 @@ export const Select = ({
         placeholder={placeholder}
         textColor={disabled ? colors.SECONDARY_INACTIVE : theme.colors.primary}
         outlineColor={disabled ? "transparent" : theme.colors.primary}
-        placeholderTextColor={theme.colors.secondary}
+        placeholderTextColor={
+          disabled ? colors.SECONDARY_INACTIVE : theme.colors.secondary
+        }
         style={disabled ? disabledInputStyle : inputStyle}
         error={error}
         editable={false}
