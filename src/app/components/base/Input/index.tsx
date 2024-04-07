@@ -40,8 +40,7 @@ export const Input = ({
   };
 
   const disabledInputStyle: StyleProp<TextStyle> = {
-    width: "100%",
-    backgroundColor: "black",
+    ...inputStyle,
     color: colors.SECONDARY_INACTIVE,
     pointerEvents: "none",
   };
