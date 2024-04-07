@@ -9,8 +9,8 @@ export interface ITechnicianForm extends IAdressForm {
   name: string;
   phone: string;
   cpf: string;
-  position: IOption;
-  status?: IOption;
+  position: IOption | string;
+  status?: IOption | string;
 }
 
 export const technicianSchema: yup.ObjectSchema<ITechnicianForm> = yup
@@ -23,7 +23,24 @@ export const technicianSchema: yup.ObjectSchema<ITechnicianForm> = yup
       .max(32, "Nome deve ter no máximo de 32 caracteres"),
     phone: yup.string().required("Campo obrigatório"),
     cpf: yup.string().required("Campo obrigatório"),
-    position: yup.object<IOption>().required("Campo obrigatório"),
-    status: yup.object<IOption>().notRequired(),
+    position: yup
+      .mixed()
+      .test("is-object-or-string", "Campo obrigatório", (value) => {
+        return (
+          (yup.object().isValidSync(value) && Object.keys(value).length > 0) ||
+          (yup.string().isValidSync(value) &&
+            value !== undefined &&
+            value.trim().length > 0)
+        );
+      })
+      .required("Campo obrigatório"),
+    status: yup
+      .mixed()
+      .test("is-object-or-string", (value) => {
+        return (
+          yup.object().isValidSync(value) || yup.string().isValidSync(value)
+        );
+      })
+      .notRequired(),
     ...addressObjectSchema,
   });
