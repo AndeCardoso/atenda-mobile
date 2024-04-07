@@ -14,6 +14,7 @@ interface IControlledInput extends Omit<ControllerProps, "render"> {
   control: Control<any, any>;
   mode?: "flat" | "outlined";
   width?: number;
+  fullwidth?: boolean;
   placeholder?: string;
   password?: boolean;
   mask?: Mask;
@@ -25,6 +26,7 @@ export const ControlledInput = ({
   control,
   mode,
   width,
+  fullwidth,
   disabled,
   password,
   labelStyle,
@@ -45,7 +47,7 @@ export const ControlledInput = ({
       control={control}
       defaultValue={defaultValue}
       render={({ field: { value, onChange }, fieldState: { error } }) => (
-        <Container width={width}>
+        <Container width={width} fullwidth={fullwidth}>
           {label ? (
             <Text style={labelStyle ?? labelStylesDefault}>{label}</Text>
           ) : undefined}
