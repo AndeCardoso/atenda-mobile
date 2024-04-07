@@ -21,7 +21,7 @@ export const HomePage = () => {
         <FAB.Group
           open={open}
           visible={isFocused}
-          icon={open ? "note-plus" : "plus"}
+          icon={open ? "close" : "menu"}
           actions={fabActions}
           fabStyle={{
             borderRadius: 50,

@@ -4,7 +4,6 @@ import styled from "styled-components/native";
 export const Container = styled.View`
   width: 100%;
   padding: 32px;
-  gap: 16px;
   margin: 32px 0;
   border-radius: 16px;
   background-color: ${({ theme }) => theme.colors.SECONDARY_INACTIVE};

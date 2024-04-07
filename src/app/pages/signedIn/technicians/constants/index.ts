@@ -53,7 +53,7 @@ export enum technicianPositionEnum {
 export const technicianPositionDisplay = {
   [technicianPositionEnum.FIELD]: "Campo",
   [technicianPositionEnum.LAB]: "Laboratório",
-  [technicianPositionEnum.FIELD_LAB]: "Laboratório e campo",
+  [technicianPositionEnum.FIELD_LAB]: "Labor. e campo",
 };
 
 export const technicianPositionList: IOption[] = [
