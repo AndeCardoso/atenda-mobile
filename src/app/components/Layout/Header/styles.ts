@@ -1,13 +1,19 @@
 import { Row } from "@components/base/Row";
+import { Text } from "@components/base/Text";
 import styled from "styled-components/native";
 
-export const Container = styled(Row)`
+export const Container = styled.View`
   width: 100%;
-  height: 10%;
-  padding: 24px;
+  padding: 16px;
+  align-items: flex-start;
+  background-color: ${({ theme }) => theme.colors.PRIMARY};
+  gap: 16px;
+`;
+
+export const ContainerTop = styled(Row)`
   align-items: center;
   justify-content: space-between;
-  background-color: ${({ theme }) => theme.colors.PRIMARY};
+  padding: 0 8px;
   gap: 24px;
 `;
 

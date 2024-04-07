@@ -9,6 +9,7 @@ interface ILayoutProps extends PropsWithChildren {
   header?: string;
   footer?: ReactNode;
   hasScroll?: boolean;
+  onSearch?: (value?: string) => void;
   goBack?: () => void;
   close?: () => void;
 }
@@ -17,6 +18,7 @@ export const Layout = ({
   header,
   footer,
   hasScroll,
+  onSearch,
   goBack,
   close,
   children,
@@ -29,19 +31,28 @@ export const Layout = ({
     backgroundColor: colors.secondary,
   };
 
+  const containerStyle: ViewStyle = {
+    flex: 1,
+    width: "100%",
+  };
+
   return (
     <SafeAreaView style={style}>
-      {header && <Header text={header} goBack={goBack} close={close} />}
+      {header && (
+        <Header
+          text={header}
+          onSearch={onSearch}
+          goBack={goBack}
+          close={close}
+        />
+      )}
 
       {hasScroll ? (
-        <ScrollView
-          style={{ width: "100%", flex: 1 }}
-          showsVerticalScrollIndicator={false}
-        >
+        <ScrollView style={containerStyle} showsVerticalScrollIndicator={false}>
           {children}
         </ScrollView>
       ) : (
-        <View style={{ width: "100%", flex: 1 }}>{children}</View>
+        <View style={containerStyle}>{children}</View>
       )}
 
       {footer && footer}
