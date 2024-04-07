@@ -1,10 +1,14 @@
 import React, { PropsWithChildren } from "react";
-import { StyleProp, TextStyle } from "react-native";
-import { Text as PaperText } from "react-native-paper";
-import { Colors, colors } from "@global/styles/colors";
+import {
+  StyleProp,
+  Text as UnstyledText,
+  TextStyle,
+  TextInputProps,
+} from "react-native";
+import { Colors } from "@global/styles/colors";
 import { useTheme } from "styled-components";
 
-interface ITextProps extends PropsWithChildren {
+interface ITextProps extends PropsWithChildren, TextInputProps {
   brandFont?: boolean;
   size?: number;
   color?: Colors;
@@ -19,17 +23,22 @@ export const Text = ({
   color,
   weight,
   style,
+  ...rest
 }: ITextProps) => {
   const { colors } = useTheme();
 
-  const fontStyle: StyleProp<TextStyle> = {
+  const fontStyle: TextStyle = {
+    flex: 1,
     fontSize: size,
     fontFamily: brandFont ? "Anton" : "Arial",
     color: colors[color || "BLACK"],
     fontWeight: weight || "400",
+    ...(style as object),
   };
 
   return (
-    <PaperText style={Object.assign(fontStyle, style)}>{children}</PaperText>
+    <UnstyledText style={fontStyle} {...rest}>
+      {children}
+    </UnstyledText>
   );
 };
