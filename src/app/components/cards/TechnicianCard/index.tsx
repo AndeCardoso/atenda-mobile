@@ -32,7 +32,13 @@ export const TechnicianCard = ({
     >
       <CardContainer>
         <Row space="space-between">
-          <Text color="WHITE" size={24} weight="700" numberOfLines={1}>
+          <Text
+            color="WHITE"
+            size={24}
+            weight="700"
+            numberOfLines={1}
+            fullwidth
+          >
             {name}
           </Text>
 
