@@ -3,17 +3,12 @@ import { Layout } from "@components/Layout";
 import { useTheme } from "styled-components";
 import { FAB, Portal } from "react-native-paper";
 import { useTechniciansController } from "./useTechniciansController";
-import { FlatList } from "react-native";
-import { Text } from "@components/base/Text";
-import { Card } from "@components/base/Card";
+import { FlatList, RefreshControl } from "react-native";
 import { Spacer } from "@components/base/Spacer";
-import {
-  technicianPositionDisplay,
-  technicianStatusDisplay,
-} from "./constants";
-import { formatCellphoneNumber, formatCpf } from "@utils/formatString";
 import { Loader } from "@components/base/Loader";
 import { useIsFocused } from "@react-navigation/native";
+import { LoaderBox } from "@components/base/Loader/styles";
+import { TechnicianCard } from "@components/cards/TechnicianCard";
 
 export const TechniciansPage = () => {
   const { colors } = useTheme();
@@ -25,7 +20,8 @@ export const TechniciansPage = () => {
     onTechnicianSearch,
     handleGoToDetails,
     fabActions,
-    viewState: { loading },
+    refetch,
+    viewState: { loading, reloading },
   } = useTechniciansController();
 
   const [state, setState] = useState({ open: false });
@@ -33,9 +29,15 @@ export const TechniciansPage = () => {
   const { open } = state;
 
   return (
-    <Layout header="Técnicos" close={handleGoBack}>
+    <Layout
+      header="Técnicos"
+      onSearch={onTechnicianSearch}
+      close={handleGoBack}
+    >
       {loading ? (
-        <Loader />
+        <LoaderBox>
+          <Loader size={64} />
+        </LoaderBox>
       ) : (
         <>
           <FlatList
@@ -43,29 +45,19 @@ export const TechniciansPage = () => {
             keyExtractor={(item) => item.id.toString()}
             ItemSeparatorComponent={() => <Spacer spaceVertical={16} />}
             contentContainerStyle={{ padding: 16 }}
+            showsVerticalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl
+                onRefresh={refetch}
+                refreshing={reloading}
+                tintColor={colors.PRIMARY}
+              />
+            }
             renderItem={({ item }) => (
-              <Card onPress={() => handleGoToDetails(item.id)}>
-                <Text color="WHITE" size={24} weight="600">
-                  {item.name}
-                </Text>
-                <Text color="WHITE" size={14}>
-                  CPF:
-                </Text>
-                <Text color="WHITE">{formatCpf(item.cpf)}</Text>
-                <Text color="WHITE" size={14}>
-                  Celular:
-                </Text>
-                <Text color="WHITE">{formatCellphoneNumber(item.phone)}</Text>
-                <Text color="WHITE">
-                  {technicianPositionDisplay[item.position]}
-                </Text>
-                <Text color="WHITE" size={14}>
-                  Status:
-                </Text>
-                <Text color="WHITE">
-                  {item.status && technicianStatusDisplay[item.status]}
-                </Text>
-              </Card>
+              <TechnicianCard
+                data={item}
+                onPress={() => handleGoToDetails(item.id)}
+              />
             )}
           />
           <Portal>
@@ -76,10 +68,10 @@ export const TechniciansPage = () => {
               actions={fabActions}
               fabStyle={{
                 borderRadius: 50,
-                backgroundColor: colors.PRIMARY,
+                backgroundColor: !open ? colors.SECONDARY : colors.PRIMARY,
                 marginRight: 32,
               }}
-              color={colors.SECONDARY}
+              color={!open ? colors.PRIMARY : colors.SECONDARY}
               onStateChange={onStateChange}
             />
           </Portal>

@@ -16,7 +16,7 @@ export const useTechniciansController = () => {
 
   const [technicianSearch, setTechnicianSearch] = useState("");
 
-  const { data, isLoading } = useInfiniteQuery(
+  const { data, refetch, isLoading, isRefetching } = useInfiniteQuery(
     ["technicians", technicianSearch],
     async ({ pageParam }) => {
       const { statusCode, body } = await technicianService.list({
@@ -24,7 +24,7 @@ export const useTechniciansController = () => {
         page: pageParam ?? 1,
         column: "name",
         order: "asc",
-        search: undefined,
+        search: technicianSearch,
       });
       switch (statusCode) {
         case HttpStatusCode.Ok:
@@ -76,13 +76,6 @@ export const useTechniciansController = () => {
 
   const fabActions = [
     {
-      icon: "refresh",
-      label: "Atualizar",
-      onPress: handleGoToRegister,
-      color: colors.PRIMARY,
-      style: actionStyles,
-    },
-    {
       icon: "plus",
       label: "Cadastrar",
       onPress: handleGoToRegister,
@@ -103,8 +96,10 @@ export const useTechniciansController = () => {
     handleGoToDetails,
     handleGoBack,
     fabActions,
+    refetch,
     viewState: {
       loading: isLoading,
+      reloading: isRefetching,
     },
   };
 };
