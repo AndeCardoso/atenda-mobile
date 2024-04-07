@@ -53,11 +53,16 @@ export const TechnicianDetailPage = () => {
             </Row>
             <Spacer />
             <Divider />
-            <DisplayField text="Cpf" value={formatCpf(technicianData?.cpf)} />
+            <DisplayField
+              text="Cpf"
+              value={formatCpf(technicianData?.cpf)}
+              hasCopy
+            />
             <Divider />
             <DisplayField
               text="Celular"
               value={formatCellphoneNumber(technicianData?.phone)}
+              hasCall
             />
             <Divider />
             <Row>
@@ -109,11 +114,11 @@ export const TechnicianDetailPage = () => {
             <Row>
               <DisplayField
                 text="Cidade"
-                value={technicianData?.address.city}
+                value={technicianData?.address.city.toString()}
               />
               <DisplayField
                 text="Estado"
-                value={technicianData?.address.state}
+                value={technicianData?.address.state.toString()}
               />
             </Row>
           </Container>
