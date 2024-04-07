@@ -57,7 +57,7 @@ export const TechnicianUpdateFormPage = () => {
         <Loader />
       ) : (
         <Container>
-          <UpdateTechnicianForm control={control} />
+          <UpdateTechnicianForm control={control} getValues={getValues} />
         </Container>
       )}
     </Layout>

@@ -49,8 +49,8 @@ export const useTechnicianFormController = () => {
           cep: unmask(data.cep),
           position: data.position.value,
           status: data.status?.value,
-          state: data.state.text,
-          city: data.city.text,
+          state: data.state.text ?? data.state,
+          city: data.city.text ?? data.city,
         };
         return await technicianService.update(
           technicianId,

@@ -1,10 +1,8 @@
 import React from "react";
 import { Container } from "./styles";
 import { ControlledInput } from "@components/controlleds/ControlledInput";
-import { Control } from "react-hook-form";
+import { Control, UseFormGetValues } from "react-hook-form";
 import { AddressForm } from "@components/forms/AddressForm";
-import { Text } from "@components/base/Text";
-import { Divider } from "@components/base/Separator";
 import { Spacer } from "@components/base/Spacer";
 import { Masks } from "react-native-mask-input";
 import { ITechnicianForm } from "../../schema";
@@ -15,17 +13,16 @@ import {
 import { ControlledSelect } from "@components/controlleds/ControlledSelect";
 
 interface ITechnicianFormProps {
+  getValues: UseFormGetValues<ITechnicianForm>;
   control: Control<ITechnicianForm>;
 }
 
-export const UpdateTechnicianForm = ({ control }: ITechnicianFormProps) => {
+export const UpdateTechnicianForm = ({
+  getValues,
+  control,
+}: ITechnicianFormProps) => {
   return (
     <Container>
-      <Divider spaceVertical={16} />
-      <Text size={16} color="WHITE">
-        Dados de contato
-      </Text>
-      <Divider spaceVertical={16} />
       <ControlledInput
         label="Nome"
         placeholder="Ex.: João Paulo"
@@ -62,7 +59,7 @@ export const UpdateTechnicianForm = ({ control }: ITechnicianFormProps) => {
         control={control}
       />
       <Spacer />
-      <AddressForm control={control} />
+      <AddressForm control={control} getValues={getValues} />
     </Container>
   );
 };
