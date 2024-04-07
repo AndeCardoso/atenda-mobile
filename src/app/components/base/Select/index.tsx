@@ -105,6 +105,7 @@ export const Select = ({
         placeholderTextColor={theme.colors.secondary}
         style={disabled ? disabledInputStyle : inputStyle}
         error={error}
+        editable={false}
         right={
           <TextInput.Icon
             icon={
