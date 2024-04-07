@@ -71,6 +71,7 @@ export const AddressForm = ({
         control={control}
         loading={citiesLoading}
         onPress={citiesMutateAsync}
+        disabled={getValues && !Boolean(getValues().state)}
         displayValue={getValues && getValues().city}
       />
       <ControlledInput

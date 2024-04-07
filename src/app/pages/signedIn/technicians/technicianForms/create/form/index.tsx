@@ -1,7 +1,7 @@
 import React from "react";
 import { Container } from "./styles";
 import { ControlledInput } from "@components/controlleds/ControlledInput";
-import { Control } from "react-hook-form";
+import { Control, UseFormGetValues } from "react-hook-form";
 import { AddressForm } from "@components/forms/AddressForm";
 import { Spacer } from "@components/base/Spacer";
 import { Masks } from "react-native-mask-input";
@@ -13,10 +13,14 @@ import {
 } from "@pages/signedIn/technicians/constants";
 
 interface ITechnicianFormProps {
+  getValues: UseFormGetValues<ITechnicianForm>;
   control: Control<ITechnicianForm>;
 }
 
-export const RegisterTechnicianForm = ({ control }: ITechnicianFormProps) => {
+export const RegisterTechnicianForm = ({
+  getValues,
+  control,
+}: ITechnicianFormProps) => {
   return (
     <Container>
       <ControlledInput
@@ -54,7 +58,7 @@ export const RegisterTechnicianForm = ({ control }: ITechnicianFormProps) => {
         control={control}
       />
       <Spacer />
-      <AddressForm control={control} />
+      <AddressForm control={control} getValues={getValues} />
     </Container>
   );
 };

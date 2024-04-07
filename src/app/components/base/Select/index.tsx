@@ -83,8 +83,7 @@ export const Select = ({
   };
 
   const disabledInputStyle: StyleProp<TextStyle> = {
-    width: "100%",
-    backgroundColor: "black",
+    ...(inputStyle as Object),
     color: colors.SECONDARY_INACTIVE,
     pointerEvents: "none",
   };
@@ -109,7 +108,9 @@ export const Select = ({
         right={
           <TextInput.Icon
             icon={
-              !disabled && isSelected
+              disabled
+                ? "lock"
+                : isSelected
                 ? "close"
                 : modalVisible
                 ? "chevron-up"

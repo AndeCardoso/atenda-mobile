@@ -16,7 +16,7 @@ export const TechnicianRegisterFormPage = () => {
     viewState: { registerLoading },
   } = useTechnicianFormController();
 
-  const { control, handleSubmit } = useForm<ITechnicianForm>({
+  const { control, handleSubmit, getValues } = useForm<ITechnicianForm>({
     defaultValues: {
       name: "",
       cpf: "",
@@ -53,7 +53,7 @@ export const TechnicianRegisterFormPage = () => {
       hasScroll
     >
       <Container>
-        <RegisterTechnicianForm control={control} />
+        <RegisterTechnicianForm control={control} getValues={getValues} />
       </Container>
     </Layout>
   );
