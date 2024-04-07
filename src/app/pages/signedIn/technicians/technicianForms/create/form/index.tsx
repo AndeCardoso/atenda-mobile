@@ -3,11 +3,14 @@ import { Container } from "./styles";
 import { ControlledInput } from "@components/controlleds/ControlledInput";
 import { Control } from "react-hook-form";
 import { AddressForm } from "@components/forms/AddressForm";
-import { Text } from "@components/base/Text";
-import { Divider } from "@components/base/Separator";
 import { Spacer } from "@components/base/Spacer";
 import { Masks } from "react-native-mask-input";
 import { ITechnicianForm } from "../../schema";
+import { ControlledSelect } from "@components/controlleds/ControlledSelect";
+import {
+  technicianPositionList,
+  technicianStatusList,
+} from "@pages/signedIn/technicians/constants";
 
 interface ITechnicianFormProps {
   control: Control<ITechnicianForm>;
@@ -16,11 +19,6 @@ interface ITechnicianFormProps {
 export const RegisterTechnicianForm = ({ control }: ITechnicianFormProps) => {
   return (
     <Container>
-      <Divider />
-      <Text size={16} color="WHITE">
-        Dados de contato
-      </Text>
-      <Divider />
       <ControlledInput
         label="Nome"
         placeholder="Ex.: João Paulo"
@@ -41,15 +39,17 @@ export const RegisterTechnicianForm = ({ control }: ITechnicianFormProps) => {
         control={control}
         mask={Masks.BRL_PHONE}
       />
-      <ControlledInput
+      <ControlledSelect
         label="Cargo"
-        placeholder="Ex.: Campo"
+        placeholder="Selecione o cargo"
+        options={technicianPositionList}
         name="position"
         control={control}
       />
-      <ControlledInput
+      <ControlledSelect
         label="Status"
-        placeholder="Ex.: Em atendimento"
+        placeholder="Selecione o status"
+        options={technicianStatusList}
         name="status"
         control={control}
       />
