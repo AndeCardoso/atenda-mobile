@@ -27,7 +27,6 @@ interface ISelectProps extends Omit<TextInputProps, "value"> {
   options?: IOption[];
   mask?: Mask;
   value?: IOption;
-  displayValue?: string;
   loading?: boolean;
   onPress?: () => void;
   onSelect: (value?: any) => void;
@@ -36,7 +35,6 @@ interface ISelectProps extends Omit<TextInputProps, "value"> {
 export const Select = ({
   options,
   value,
-  displayValue,
   loading,
   placeholder,
   disabled,
@@ -48,10 +46,12 @@ export const Select = ({
   const theme = useTheme();
   const { colors } = theme;
   const [modalVisible, setModalVisible] = useState(false);
-  const [seletedValue, setSelectedValue] = useState<IOption | undefined>(value);
+  const [seletedValueState, setSelectedValueState] = useState<
+    IOption | string | undefined
+  >(value);
 
   useEffect(() => {
-    if (value) setSelectedValue(value);
+    if (value) setSelectedValueState(value);
   }, [value]);
 
   const onToggleModal = () => {
@@ -59,7 +59,7 @@ export const Select = ({
   };
 
   const onSelectValue = (value: IOption) => {
-    setSelectedValue(value);
+    setSelectedValueState(value);
     onSelect(value);
     onToggleModal();
   };
@@ -73,7 +73,8 @@ export const Select = ({
 
   function handleClear() {
     inputRef.current?.clear();
-    setSelectedValue(undefined);
+    setSelectedValueState(undefined);
+    // setDisplayValueState("");
     onSelect?.("");
   }
 
@@ -89,13 +90,13 @@ export const Select = ({
   };
 
   const isSelected =
-    (seletedValue?.text && seletedValue?.text?.length > 0) ||
-    (displayValue && displayValue?.length > 0);
+    (seletedValueState?.text && seletedValueState?.text?.length > 0) ||
+    (seletedValueState && seletedValueState.length > 0);
 
   return (
     <>
       <TextInput
-        value={seletedValue?.text ?? displayValue}
+        value={seletedValueState?.text ?? seletedValueState}
         mode={"outlined"}
         onPressIn={handlePress}
         placeholder={placeholder}

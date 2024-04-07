@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Layout } from "@components/Layout";
@@ -13,18 +13,27 @@ import { technicianPositionList, technicianStatusList } from "../../constants";
 
 export const TechnicianUpdateFormPage = () => {
   const { goBack } = useNavigation();
+  const stateRef = useRef("");
   const {
     technicianData,
     handleRegister,
     viewState: { dataLoading, registerLoading },
   } = useTechnicianFormController();
 
-  const { control, handleSubmit, reset, getValues } = useForm<ITechnicianForm>({
-    resolver: yupResolver(technicianSchema),
-  });
+  const { control, handleSubmit, reset, getValues, watch, setValue } =
+    useForm<ITechnicianForm>({
+      resolver: yupResolver(technicianSchema),
+    });
+
+  const state = watch("state");
 
   useEffect(() => {
-    reset({
+    if (!Boolean(state) || stateRef.current !== state) setValue("city", {});
+  }, [state, setValue]);
+
+  useEffect(() => {
+    stateRef.current = technicianData?.address.state || "";
+    const fixedData = {
       ...technicianData,
       position: technicianPositionList.find(
         (item) => item.value === technicianData?.position
@@ -33,7 +42,10 @@ export const TechnicianUpdateFormPage = () => {
         (item) => item.value === technicianData?.status
       ),
       ...technicianData?.address,
-    });
+    };
+    const { address, ...fixedTechnicianData } = fixedData;
+
+    reset(fixedTechnicianData);
   }, [technicianData]);
 
   return (

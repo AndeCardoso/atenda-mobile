@@ -12,7 +12,6 @@ interface IControlledSelect extends Omit<ControllerProps, "render"> {
   label?: string;
   labelStyle?: StyleProp<TextStyle>;
   options?: IOption[];
-  displayValue?: string;
   control: Control<any, any>;
   loading?: boolean;
   mode?: "flat" | "outlined";
@@ -27,7 +26,6 @@ export const ControlledSelect = ({
   name,
   label,
   options,
-  displayValue,
   control,
   loading,
   mode,
@@ -63,7 +61,6 @@ export const ControlledSelect = ({
             <Select
               options={options}
               value={value}
-              displayValue={displayValue}
               onSelect={handleSelect}
               placeholder={placeholder}
               error={Boolean(error)}

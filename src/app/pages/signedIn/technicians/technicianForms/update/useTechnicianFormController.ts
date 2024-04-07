@@ -41,7 +41,6 @@ export const useTechnicianFormController = () => {
     useMutation(
       ["updateTechnician"],
       async (data: ITechnicianForm) => {
-        delete data["address"];
         const body = {
           ...data,
           phone: unmask(data.phone),

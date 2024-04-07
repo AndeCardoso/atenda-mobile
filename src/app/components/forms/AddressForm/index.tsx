@@ -61,7 +61,6 @@ export const AddressForm = ({
         loading={statesLoading}
         onPress={stateMutateAsync}
         onSelect={onSelectState}
-        displayValue={getValues && getValues().state}
       />
       <ControlledSelect
         options={citiesList}
@@ -72,7 +71,6 @@ export const AddressForm = ({
         loading={citiesLoading}
         onPress={citiesMutateAsync}
         disabled={getValues && !Boolean(getValues().state)}
-        displayValue={getValues && getValues().city}
       />
       <ControlledInput
         label="Bairro"
