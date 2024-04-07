@@ -27,6 +27,7 @@ interface ISelectProps extends Omit<TextInputProps, "value"> {
   options?: IOption[];
   mask?: Mask;
   value?: IOption;
+  displayValue?: string;
   loading?: boolean;
   onPress?: () => void;
   onSelect: (value?: any) => void;
@@ -35,6 +36,7 @@ interface ISelectProps extends Omit<TextInputProps, "value"> {
 export const Select = ({
   options,
   value,
+  displayValue,
   loading,
   placeholder,
   disabled,
@@ -87,12 +89,14 @@ export const Select = ({
     pointerEvents: "none",
   };
 
-  const isSelected = seletedValue?.text && seletedValue?.text?.length > 0;
+  const isSelected =
+    (seletedValue?.text && seletedValue?.text?.length > 0) ||
+    (displayValue && displayValue?.length > 0);
 
   return (
     <>
       <TextInput
-        value={seletedValue?.text}
+        value={seletedValue?.text ?? displayValue}
         mode={"outlined"}
         onPressIn={handlePress}
         placeholder={placeholder}
