@@ -3,6 +3,7 @@ import { Row } from "../Row";
 
 export const ModalContainer = styled.View`
   flex: auto;
+  max-height: 90%;
   margin: 64px 16px;
   border-radius: 16px;
   background-color: ${({ theme }) => theme.colors.SECONDARY_INACTIVE};
