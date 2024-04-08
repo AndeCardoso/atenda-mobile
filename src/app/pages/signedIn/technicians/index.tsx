@@ -42,7 +42,7 @@ export const TechniciansPage = () => {
         <>
           <FlatList
             data={technicianList}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(item) => item.cpf.toString()}
             ItemSeparatorComponent={() => <Spacer spaceVertical={16} />}
             contentContainerStyle={{ padding: 16 }}
             showsVerticalScrollIndicator={false}
