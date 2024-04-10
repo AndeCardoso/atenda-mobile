@@ -12,8 +12,17 @@ export enum SignedOffScreens {
 }
 
 export enum SignedInScreens {
-  HOME = "home",
-  DISCOVERY = "discovery",
-  FAVORITES = "favorites",
-  EDIT = "edit",
+  HOME = "Home",
+  TECHNICIANS = "Technicians",
+  TECHNICIANS_REGISTER_FORM = "TechnicianRegisterForm",
+  TECHNICIANS_UPDATE_FORM = "TechnicianUpdateForm",
+  TECHNICIANS_DETAILS = "TechnicianDetails",
+  CUSTOMERS = "Customers",
+  EQUIPMENTS = "Equipments",
+}
+
+export enum SignedInNavigators {
+  TECHNICIANS = "TechniciansNavigator",
+  CUSTOMERS = "CustomersNavigator",
+  EQUIPMENTS = "EquipmentsNavigator",
 }

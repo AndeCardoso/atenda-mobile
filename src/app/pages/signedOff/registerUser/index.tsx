@@ -11,7 +11,6 @@ import {
 } from "./registerForm/formSchema";
 import { Button } from "@components/base/Button";
 import { useRegisterUserController } from "./useRegisterUserController";
-import { Loader } from "@components/base/Loader";
 
 export const RegisterUserPage = () => {
   const { goBack } = useNavigation();
@@ -32,7 +31,7 @@ export const RegisterUserPage = () => {
 
   return (
     <Layout
-      header="Cadastro"
+      header="Cadastro de usuário"
       goBack={goBack}
       footer={
         <WrapperButtons>
@@ -41,7 +40,7 @@ export const RegisterUserPage = () => {
             mode="contained"
             loading={loading}
           >
-            Registrar
+            Cadastrar
           </Button>
         </WrapperButtons>
       }

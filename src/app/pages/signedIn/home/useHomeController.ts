@@ -1,6 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
-import { useAuth } from "@hooks/connection/useAuth";
+import { useAuth } from "@hooks/useAuth";
 import { useTheme } from "styled-components";
+import { SignedInNavigators, SignedInScreens } from "@routes/screens";
 
 export const useHomeController = () => {
   const { colors } = useTheme();
@@ -11,6 +12,16 @@ export const useHomeController = () => {
     borderRadius: 50,
     marginRight: 16,
     backgroundColor: colors.SECONDARY,
+  };
+
+  const handleGoToTechnicians = () => {
+    navigate(SignedInNavigators.TECHNICIANS, {
+      screen: SignedInScreens.TECHNICIANS,
+    });
+  };
+
+  const handleGoToCustomers = () => {
+    navigate(SignedInNavigators.CUSTOMERS);
   };
 
   const fabActions = [
@@ -30,7 +41,7 @@ export const useHomeController = () => {
     {
       icon: "tools",
       label: "Técnicos",
-      onPress: () => console.log("Pressed notifications"),
+      onPress: handleGoToTechnicians,
       color: colors.PRIMARY,
       style: actionStyles,
     },

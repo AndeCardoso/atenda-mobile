@@ -1,10 +1,12 @@
 import React, { useRef, useState } from "react";
 import { StyleProp, TextStyle, TextInput as TextInputRN } from "react-native";
+import MaskInput, { Mask } from "react-native-mask-input";
 import { TextInput, TextInputProps } from "react-native-paper";
 import { useTheme } from "styled-components";
 
 interface IInputProps extends TextInputProps {
   password?: boolean;
+  mask?: Mask;
 }
 
 export const Input = ({
@@ -12,9 +14,12 @@ export const Input = ({
   password,
   onChangeText,
   placeholder,
+  disabled,
+  mask,
   error,
 }: IInputProps) => {
   const theme = useTheme();
+  const { colors } = theme;
   const [showPassword, setShowPassword] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
 
@@ -31,12 +36,19 @@ export const Input = ({
 
   const inputStyle: StyleProp<TextStyle> = {
     width: "100%",
+    backgroundColor: "black",
+  };
+
+  const disabledInputStyle: StyleProp<TextStyle> = {
+    ...inputStyle,
+    color: colors.SECONDARY_INACTIVE,
+    pointerEvents: "none",
   };
 
   return password ? (
     <TextInput
       value={value}
-      mode="outlined"
+      mode={"outlined"}
       onChangeText={onChangeText}
       placeholder={placeholder}
       secureTextEntry={!showPassword}
@@ -59,25 +71,26 @@ export const Input = ({
     />
   ) : (
     <TextInput
-      mode="outlined"
       value={value}
+      mode={"outlined"}
       onChangeText={onChangeText}
       placeholder={placeholder}
-      textColor={theme.colors.primary}
-      outlineColor={theme.colors.primary}
+      textColor={disabled ? colors.SECONDARY_INACTIVE : theme.colors.primary}
+      outlineColor={disabled ? "transparent" : theme.colors.primary}
       placeholderTextColor={theme.colors.secondary}
-      style={inputStyle}
+      style={disabled ? disabledInputStyle : inputStyle}
       error={error}
       right={
         value &&
         value.length > 0 && (
           <TextInput.Icon
-            icon={"close"}
+            icon={disabled ? "lock" : "close"}
             color={theme.colors.primary}
             onPress={handleClear}
           />
         )
       }
+      render={(props) => <MaskInput {...props} mask={mask} />}
     />
   );
 };
