@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Control, UseFormGetValues } from "react-hook-form";
 import { Container } from "./styles";
 import { ControlledInput } from "@components/controlleds/ControlledInput";
@@ -21,13 +21,18 @@ export const AddressForm = ({
   hasNickname,
 }: IAddressForm) => {
   const {
-    statesList,
+    stateList,
     citiesList,
     onSelectState,
-    stateMutateAsync,
     citiesMutateAsync,
-    viewState: { statesLoading, citiesLoading },
+    viewState: { citiesLoading },
   } = useAddressFormController();
+
+  useEffect(() => {
+    if (getValues && Boolean(getValues().state)) {
+      onSelectState(getValues().state);
+    }
+  }, [getValues, onSelectState]);
 
   return (
     <Container>
@@ -53,13 +58,11 @@ export const AddressForm = ({
         mask={Masks.ZIP_CODE}
       />
       <ControlledSelect
-        options={statesList}
+        options={stateList}
         label="Estado"
         placeholder="Selecione o estado"
         name="state"
         control={control}
-        loading={statesLoading}
-        onPress={stateMutateAsync}
         onSelect={onSelectState}
       />
       <ControlledSelect
