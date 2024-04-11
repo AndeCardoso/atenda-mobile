@@ -1,4 +1,4 @@
-export interface UserRegisterResponseDTO {
+export interface UserGetResponseDTO {
   id: number;
   name?: string;
   email: string;

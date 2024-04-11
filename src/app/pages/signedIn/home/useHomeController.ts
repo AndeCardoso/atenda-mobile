@@ -6,7 +6,7 @@ import { SignedInNavigators, SignedInScreens } from "@routes/screens";
 export const useHomeController = () => {
   const { colors } = useTheme();
   const { navigate } = useNavigation<any>();
-  const { logout } = useAuth();
+  const { logout, userData } = useAuth();
 
   const actionStyles = {
     borderRadius: 50,
@@ -15,13 +15,15 @@ export const useHomeController = () => {
   };
 
   const handleGoToTechnicians = () => {
-    navigate(SignedInNavigators.TECHNICIANS, {
-      screen: SignedInScreens.TECHNICIANS,
-    });
+    navigate(SignedInNavigators.TECHNICIANS);
   };
 
   const handleGoToCustomers = () => {
     navigate(SignedInNavigators.CUSTOMERS);
+  };
+
+  const handleGoToUsers = () => {
+    navigate(SignedInNavigators.USERS);
   };
 
   const fabActions = [
@@ -34,7 +36,7 @@ export const useHomeController = () => {
     {
       icon: "head",
       label: "Clientes",
-      onPress: () => console.log("Pressed notifications"),
+      onPress: handleGoToCustomers,
       color: colors.PRIMARY,
       style: actionStyles,
     },
@@ -46,6 +48,16 @@ export const useHomeController = () => {
       style: actionStyles,
     },
   ];
+
+  if (userData?.admin) {
+    fabActions.push({
+      icon: "account-key",
+      label: "Usuários",
+      onPress: handleGoToUsers,
+      color: colors.PRIMARY,
+      style: actionStyles,
+    });
+  }
 
   return {
     fabActions,
