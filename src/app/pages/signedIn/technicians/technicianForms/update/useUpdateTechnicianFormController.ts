@@ -7,7 +7,7 @@ import TechnicianService from "@services/technician";
 import { ITechnicianForm } from "../schema";
 import { unmask } from "@utils/formatString";
 
-export const useTechnicianFormController = () => {
+export const useUpdateTechnicianFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
   const { params } = useRoute<any>();
   const { technicianId } = params;

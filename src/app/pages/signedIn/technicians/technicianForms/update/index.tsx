@@ -5,7 +5,10 @@ import { Layout } from "@components/Layout";
 import { Container, WrapperButtons } from "./styles";
 import { useForm } from "react-hook-form";
 import { Button } from "@components/base/Button";
-import { useTechnicianFormController } from "./useTechnicianFormController";
+import {
+  useTechnicianFormController,
+  useUpdateTechnicianFormController,
+} from "./useUpdateTechnicianFormController";
 import { Loader } from "@components/base/Loader";
 import { ITechnicianForm, technicianSchema } from "../schema";
 import { UpdateTechnicianForm } from "./form";
@@ -18,7 +21,7 @@ export const TechnicianUpdateFormPage = () => {
     technicianData,
     handleRegister,
     viewState: { dataLoading, registerLoading },
-  } = useTechnicianFormController();
+  } = useUpdateTechnicianFormController();
 
   const { control, handleSubmit, reset, getValues, watch, setValue } =
     useForm<ITechnicianForm>({

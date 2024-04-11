@@ -5,7 +5,7 @@ import { Layout } from "@components/Layout";
 import { Container, WrapperButtons } from "./styles";
 import { useForm } from "react-hook-form";
 import { Button } from "@components/base/Button";
-import { useTechnicianFormController } from "./useTechnicianFormController";
+import { useRegisterTechnicianFormController } from "./useRegisterTechnicianFormController";
 import { ITechnicianForm, technicianSchema } from "../schema";
 import { RegisterTechnicianForm } from "./form";
 
@@ -15,7 +15,7 @@ export const TechnicianRegisterFormPage = () => {
   const {
     handleRegister,
     viewState: { registerLoading },
-  } = useTechnicianFormController();
+  } = useRegisterTechnicianFormController();
 
   const { control, handleSubmit, getValues, setValue, watch } =
     useForm<ITechnicianForm>({
