@@ -1,7 +1,7 @@
+import { parseJwt } from "@utils/parseJwt";
 import React, {
   createContext,
   PropsWithChildren,
-  ReactNode,
   useContext,
   useState,
 } from "react";
@@ -10,6 +10,7 @@ import { useQueryClient } from "react-query";
 
 interface AuthContextProps {
   user: string | null;
+  userData: IUserData | null;
   token: string | null;
 
   resetAuthStates: () => void;
@@ -17,9 +18,16 @@ interface AuthContextProps {
   changeUserState: (value: string) => void;
 }
 
+export interface IUserData {
+  name: string;
+  email: string;
+  admin: boolean;
+}
+
 export const AuthContext = createContext({} as AuthContextProps);
 
 export function AuthContextProvider({ children }: PropsWithChildren) {
+  const [userDataState, setUserDataState] = useState<IUserData | null>(null);
   const [userState, setUserState] = useState<string | null>(null);
   const [tokenState, setTokenState] = useState<string | null>(null);
 
@@ -35,7 +43,18 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
     });
   };
 
-  const changeTokenState = (value: string) => setTokenState(value);
+  const changeTokenState = (value: string) => {
+    const jwt = parseJwt(value);
+    const user = jwt?.userPayload;
+    if (user) {
+      setUserDataState({
+        name: user.name,
+        email: user.email,
+        admin: user.admin,
+      });
+      setTokenState(value);
+    }
+  };
 
   const changeUserState = (value: string) => setUserState(value);
 
@@ -44,6 +63,7 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
       value={{
         user: userState,
         token: tokenState,
+        userData: userDataState,
 
         resetAuthStates,
         changeTokenState,

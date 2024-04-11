@@ -8,7 +8,7 @@ import { useAuthContext } from "@contexts/auth/useAuthContext";
 
 export const useAuth = () => {
   const { navigate } = useNavigation<any>();
-  const { resetAuthStates } = useAuthContext();
+  const { resetAuthStates, userData } = useAuthContext();
 
   const logout = async () => {
     await AsyncStorage.removeItem(AsyncAuthEnum.TOKEN);
@@ -19,6 +19,7 @@ export const useAuth = () => {
   };
 
   return {
+    userData,
     logout,
   };
 };
