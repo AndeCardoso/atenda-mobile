@@ -2,22 +2,20 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { useMutation, useQuery } from "react-query";
 import { HttpStatusCode } from "axios";
 import { SuperConsole } from "@tools/indentedConsole";
-import { TechnicianRegisterRequestDTO } from "@services/technician/dtos/request/TechnicianRegisterRequestDTO";
-import TechnicianService from "@services/technician";
-import { ITechnicianForm } from "../schema";
-import { unmask } from "@utils/formatString";
+import UserService from "@services/user";
+import { IUserForm } from "../schema";
 
-export const useTechnicianFormController = () => {
+export const useUpdateUserFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
   const { params } = useRoute<any>();
-  const { technicianId } = params;
-  const technicianService = new TechnicianService();
+  const { userId } = params;
+  const userService = new UserService();
 
-  const { data, isLoading: dataLoading } = useQuery(
-    ["getTechnicianUpdate", technicianId],
+  const { data: userData, isLoading: dataLoading } = useQuery(
+    ["getUserUpdate", userId],
     async () => {
-      const { statusCode, body } = await technicianService.get({
-        technicianId,
+      const { statusCode, body } = await userService.get({
+        userId,
       });
       switch (statusCode) {
         case HttpStatusCode.Ok:
@@ -31,7 +29,7 @@ export const useTechnicianFormController = () => {
     },
     {
       onError: async (error) => {
-        console.log("error - technician id", JSON.stringify(error, null, 2));
+        console.log("error - user id", JSON.stringify(error, null, 2));
         return;
       },
     }
@@ -39,22 +37,9 @@ export const useTechnicianFormController = () => {
 
   const { mutateAsync: mutateAsyncRegister, isLoading: registerLoading } =
     useMutation(
-      ["updateTechnician"],
-      async (data: ITechnicianForm) => {
-        const body = {
-          ...data,
-          phone: unmask(data.phone),
-          cpf: unmask(data.cpf),
-          cep: unmask(data.cep),
-          position: data.position.value,
-          status: data.status?.value,
-          state: data.state.text ?? data.state,
-          city: data.city.text ?? data.city,
-        };
-        return await technicianService.update(
-          technicianId,
-          body as TechnicianRegisterRequestDTO
-        );
+      ["updateUser"],
+      async (data: IUserForm) => {
+        return await userService.update(userId, data);
       },
       {
         onSuccess: async ({ statusCode, body }) => {
@@ -68,10 +53,7 @@ export const useTechnicianFormController = () => {
           }
         },
         onError: async (error) => {
-          console.log(
-            "error - technician register",
-            JSON.stringify(error, null, 2)
-          );
+          console.log("error - user update", JSON.stringify(error, null, 2));
           return;
         },
       }
@@ -81,7 +63,7 @@ export const useTechnicianFormController = () => {
     canGoBack && goBack();
   };
 
-  const handleRegister = async (values: ITechnicianForm) => {
+  const handleRegister = async (values: IUserForm) => {
     const res = await mutateAsyncRegister(values);
     if (res.statusCode === HttpStatusCode.Ok) {
       handleGoBack();
@@ -89,7 +71,7 @@ export const useTechnicianFormController = () => {
   };
 
   return {
-    technicianData: data,
+    userData,
     handleRegister,
     handleGoBack,
     viewState: {

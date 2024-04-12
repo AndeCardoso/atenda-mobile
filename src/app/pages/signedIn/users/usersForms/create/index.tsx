@@ -1,51 +1,36 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Layout } from "@components/Layout";
 import { Container, WrapperButtons } from "./styles";
 import { useForm } from "react-hook-form";
 import { Button } from "@components/base/Button";
-import { useRegisterTechnicianFormController } from "./useRegisterTechnicianFormController";
-import { ITechnicianForm, technicianSchema } from "../schema";
-import { RegisterTechnicianForm } from "./form";
+import { RegisterUserForm } from "./form";
+import { IUserForm, userSchema } from "../schema";
+import { useRegisterUserFormController } from "./useRegisterUserFormController";
 
-export const TechnicianRegisterFormPage = () => {
+export const UserRegisterFormPage = () => {
   const { goBack } = useNavigation();
 
   const {
     handleRegister,
     viewState: { registerLoading },
-  } = useRegisterTechnicianFormController();
+  } = useRegisterUserFormController();
 
   const { control, handleSubmit, getValues, setValue, watch } =
-    useForm<ITechnicianForm>({
+    useForm<IUserForm>({
       defaultValues: {
         name: "",
-        cpf: "",
-        phone: "",
-        status: undefined,
-        position: undefined,
-        nickname: "",
-        cep: "",
-        state: "",
-        city: "",
-        district: "",
-        street: "",
-        number: "",
-        complement: "",
+        email: "",
+        password: "",
+        passwordConfirm: "",
       },
-      resolver: yupResolver(technicianSchema),
+      resolver: yupResolver(userSchema),
     });
-
-  const state = watch("state");
-
-  useEffect(() => {
-    setValue("city", {});
-  }, [state, setValue]);
 
   return (
     <Layout
-      header="Cadastrar técnico"
+      header="Cadastrar usuário"
       goBack={goBack}
       footer={
         <WrapperButtons>
@@ -61,7 +46,7 @@ export const TechnicianRegisterFormPage = () => {
       hasScroll
     >
       <Container>
-        <RegisterTechnicianForm control={control} getValues={getValues} />
+        <RegisterUserForm control={control} />
       </Container>
     </Layout>
   );
