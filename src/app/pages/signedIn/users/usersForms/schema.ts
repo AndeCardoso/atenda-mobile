@@ -7,24 +7,25 @@ export interface IUserForm {
   passwordConfirm: string;
 }
 
-export const userSchema: yup.ObjectSchema<IUserForm> = yup.object().shape(
-  {
-    name: yup
-      .string()
-      .required("Campo obrigatório")
-      .min(4, "Nome deve ter no minímo 4 caracteres")
-      .max(32, "Nome deve ter no máximo de 32 caracteres"),
-    email: yup.string().email("E-mail inválido").required("Campo obrigatório"),
-    password: yup
-      .string()
-      .required("Campo obrigatório")
-      .min(6, "Senha deve ter no minímo 6 caracteres")
-      .max(10, "Senha deve ter no máximo de 10 caracteres")
-      .oneOf([yup.ref("passwordConfirm")], "Senhas não coincidem"),
-    passwordConfirm: yup
-      .string()
-      .required("Campo obrigatório")
-      .oneOf([yup.ref("password")], "Senhas não coincidem"),
-  },
-  [["password", "passwordConfirm"]]
-);
+export const userSchemaObject = {
+  name: yup
+    .string()
+    .required("Campo obrigatório")
+    .min(4, "Nome deve ter no minímo 4 caracteres")
+    .max(32, "Nome deve ter no máximo de 32 caracteres"),
+  email: yup.string().email("E-mail inválido").required("Campo obrigatório"),
+  password: yup
+    .string()
+    .required("Campo obrigatório")
+    .min(6, "Senha deve ter no minímo 6 caracteres")
+    .max(10, "Senha deve ter no máximo de 10 caracteres")
+    .oneOf([yup.ref("passwordConfirm")], "Senhas não coincidem"),
+  passwordConfirm: yup
+    .string()
+    .required("Campo obrigatório")
+    .oneOf([yup.ref("password")], "Senhas não coincidem"),
+};
+
+export const userSchema: yup.ObjectSchema<IUserForm> = yup
+  .object()
+  .shape({ ...userSchemaObject }, [["password", "passwordConfirm"]]);
