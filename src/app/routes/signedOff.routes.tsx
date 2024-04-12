@@ -6,7 +6,7 @@ import {
 import { SignedOffScreens } from "./screens";
 import { AuthPage } from "../pages/signedOff/auth";
 import { PasswordRecoverPage } from "../pages/signedOff/passwordRecover";
-import { RegisterUserPage } from "../pages/signedOff/registerUser";
+import { RegisterCompanyPage } from "../pages/signedOff/registerCompany";
 import { SendRecoverTokenPage } from "@pages/signedOff/sendRecoverToken";
 
 const SignedOff = createStackNavigator();
@@ -41,8 +41,8 @@ export const SignedOffNavigator = () => {
           }}
         />
         <SignedOff.Screen
-          name={SignedOffScreens.USER_REGISTER}
-          component={RegisterUserPage}
+          name={SignedOffScreens.COMPANY_REGISTER}
+          component={RegisterCompanyPage}
           options={{
             headerShown: false,
           }}

@@ -47,7 +47,7 @@ export const useAuthController = () => {
   };
 
   const goToUserRegister = () => {
-    navigate(SignedOffScreens.USER_REGISTER);
+    navigate(SignedOffScreens.COMPANY_REGISTER);
   };
 
   const goToRecoverPassword = () => {

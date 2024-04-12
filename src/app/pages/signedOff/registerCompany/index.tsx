@@ -3,35 +3,36 @@ import { useNavigation } from "@react-navigation/native";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Layout } from "@components/Layout";
 import { Container, WrapperButtons } from "./styles";
-import { RegisterUserForm } from "./registerForm";
+import { RegisterCompanyForm } from "./registerForm";
 import { useForm } from "react-hook-form";
 import {
-  IRegisterUserForm,
-  registerUserSchema,
+  IRegisterCompanyForm,
+  registerCompanySchema,
 } from "./registerForm/formSchema";
 import { Button } from "@components/base/Button";
-import { useRegisterUserController } from "./useRegisterUserController";
+import { useRegisterUserController } from "./useRegisterCompanyController";
 
-export const RegisterUserPage = () => {
+export const RegisterCompanyPage = () => {
   const { goBack } = useNavigation();
   const {
     handleRegister,
     viewState: { loading },
   } = useRegisterUserController();
 
-  const { control, handleSubmit } = useForm<IRegisterUserForm>({
+  const { control, handleSubmit } = useForm<IRegisterCompanyForm>({
     defaultValues: {
+      companyName: "",
       name: "",
       email: "",
       password: "",
       passwordConfirm: "",
     },
-    resolver: yupResolver(registerUserSchema),
+    resolver: yupResolver(registerCompanySchema),
   });
 
   return (
     <Layout
-      header="Cadastro de usuário"
+      header="Cadastro de empresa"
       goBack={goBack}
       footer={
         <WrapperButtons>
@@ -44,9 +45,10 @@ export const RegisterUserPage = () => {
           </Button>
         </WrapperButtons>
       }
+      hasScroll
     >
       <Container>
-        <RegisterUserForm control={control} />
+        <RegisterCompanyForm control={control} />
       </Container>
     </Layout>
   );
