@@ -68,10 +68,10 @@ export const TechniciansPage = () => {
               actions={fabActions}
               fabStyle={{
                 borderRadius: 50,
-                backgroundColor: !open ? colors.SECONDARY : colors.PRIMARY,
+                backgroundColor: open ? colors.SECONDARY : colors.PRIMARY,
                 marginRight: 32,
               }}
-              color={!open ? colors.PRIMARY : colors.SECONDARY}
+              color={open ? colors.PRIMARY : colors.SECONDARY}
               onStateChange={onStateChange}
             />
           </Portal>
