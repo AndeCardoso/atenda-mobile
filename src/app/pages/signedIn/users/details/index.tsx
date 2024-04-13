@@ -40,7 +40,7 @@ export const UserDetailPage = () => {
             <Spacer />
             <Row space="space-between">
               <WrapperName>
-                <Icon name="tools" color="WHITE" />
+                <Icon name="account" color="WHITE" />
                 <Text color="WHITE" size={24} weight="600">
                   {userData?.name}
                 </Text>
