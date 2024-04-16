@@ -8,14 +8,16 @@ import { HttpStatusCode } from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AsyncAuthEnum } from "@model/asyncStorage/auth";
 import { useAuthContext } from "@contexts/auth/useAuthContext";
-import { SuperConsole } from "@tools/indentedConsole";
 import { useAuth } from "@hooks/useAuth";
+import { useToast } from "@hooks/useToast";
 
 export const useAuthController = () => {
   const { navigate } = useNavigation<any>();
   const { changeTokenState } = useAuthContext();
   const { logout } = useAuth();
   const authService = new AuthService();
+
+  const { createToast } = useToast();
 
   const { mutateAsync: mutateAsyncAuth, isLoading: loadingAuth } = useMutation(
     ["authentication"],
@@ -28,9 +30,13 @@ export const useAuthController = () => {
             await AsyncStorage.setItem(AsyncAuthEnum.TOKEN, body.token);
             changeTokenState(body.token);
             return body.token;
+          case HttpStatusCode.BadRequest:
           case HttpStatusCode.Unauthorized:
           default:
-            SuperConsole(body);
+            createToast({
+              message: body.message || "Erro inesperado",
+              alertType: "error",
+            });
             return;
         }
       },
