@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { Button } from "@components/base/Button";
 import { Loader } from "@components/base/Loader";
 import { IUserForm, userSchema } from "../schema";
-import { UpdateTechnicianForm } from "./form";
+import { UpdateUserForm } from "./form";
 import { useUpdateUserFormController } from "./useUpdateUserFormController";
 
 export const UserUpdateFormPage = () => {
@@ -24,13 +24,12 @@ export const UserUpdateFormPage = () => {
     });
 
   useEffect(() => {
-    console.log(userData);
     reset(userData);
   }, [userData]);
 
   return (
     <Layout
-      header="Atualizar técnico"
+      header="Atualizar usuário"
       goBack={goBack}
       footer={
         <WrapperButtons>
@@ -49,7 +48,7 @@ export const UserUpdateFormPage = () => {
         <Loader />
       ) : (
         <Container>
-          <UpdateTechnicianForm control={control} />
+          <UpdateUserForm control={control} />
         </Container>
       )}
     </Layout>

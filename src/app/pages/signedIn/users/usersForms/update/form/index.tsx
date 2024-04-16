@@ -8,7 +8,7 @@ interface IUserFormProps {
   control: Control<IUserForm>;
 }
 
-export const UpdateTechnicianForm = ({ control }: IUserFormProps) => {
+export const UpdateUserForm = ({ control }: IUserFormProps) => {
   return (
     <Container>
       <ControlledInput

@@ -2,10 +2,9 @@ import { Row } from "@components/base/Row";
 import styled from "styled-components/native";
 
 export const Layout = styled.View`
-  width: 100%;
-  height: 100%;
-  align-items: center;
+  flex: 1 100%;
   padding: 16px;
+  align-items: center;
   justify-content: space-between;
   background-color: ${({ theme }) => theme.colors.SECONDARY};
 `;

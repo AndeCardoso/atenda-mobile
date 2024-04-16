@@ -4,15 +4,25 @@ import { Text } from "@components/base/Text";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Icon } from "@components/base/Icon";
 import { InputSearch } from "@components/base/InputSearch";
+import { Profile } from "@components/base/Profile";
+import { useAuth } from "@hooks/useAuth";
 
 interface IHeaderProps {
   text?: string;
+  showProfile?: boolean;
   onSearch?: (value?: string) => void;
   goBack?: () => void;
   close?: () => void;
 }
 
-export const Header = ({ text, onSearch, goBack, close }: IHeaderProps) => {
+export const Header = ({
+  text,
+  showProfile,
+  onSearch,
+  goBack,
+  close,
+}: IHeaderProps) => {
+  const { userData } = useAuth();
   return (
     <Container>
       <ContainerTop>
@@ -29,6 +39,7 @@ export const Header = ({ text, onSearch, goBack, close }: IHeaderProps) => {
           )}
         </StyledRow>
 
+        {showProfile && userData ? <Profile data={userData} /> : null}
         {Boolean(close) && (
           <TouchableOpacity onPress={close}>
             <Icon name={"close"} size={30} />

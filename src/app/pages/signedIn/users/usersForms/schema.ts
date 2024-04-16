@@ -10,9 +10,22 @@ export interface IUserForm {
 export const userSchemaObject = {
   name: yup
     .string()
-    .required("Campo obrigatório")
-    .min(4, "Nome deve ter no minímo 4 caracteres")
-    .max(32, "Nome deve ter no máximo de 32 caracteres"),
+    .test({
+      name: "min",
+      test: (value) => {
+        if (!value) return true;
+        return value.length >= 4;
+      },
+      message: "Nome da empresa deve ter no minímo 4 caracteres",
+    })
+    .test({
+      name: "max",
+      test: (value) => {
+        if (!value) return true;
+        return value.length <= 32;
+      },
+      message: "Nome da empresa deve ter no máximo de 32 caracteres",
+    }),
   email: yup.string().email("E-mail inválido").required("Campo obrigatório"),
   password: yup
     .string()

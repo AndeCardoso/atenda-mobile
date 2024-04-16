@@ -9,6 +9,7 @@ interface ILayoutProps extends PropsWithChildren {
   header?: string;
   footer?: ReactNode;
   hasScroll?: boolean;
+  showProfile?: boolean;
   onSearch?: (value?: string) => void;
   goBack?: () => void;
   close?: () => void;
@@ -18,6 +19,7 @@ export const Layout = ({
   header,
   footer,
   hasScroll,
+  showProfile,
   onSearch,
   goBack,
   close,
@@ -44,6 +46,7 @@ export const Layout = ({
           onSearch={onSearch}
           goBack={goBack}
           close={close}
+          showProfile={showProfile}
         />
       )}
 

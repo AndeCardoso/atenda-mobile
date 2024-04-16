@@ -19,6 +19,7 @@ interface AuthContextProps {
 }
 
 export interface IUserData {
+  companyName: string;
   name: string;
   email: string;
   admin: boolean;
@@ -48,6 +49,7 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
     const user = jwt?.userPayload;
     if (user) {
       setUserDataState({
+        companyName: user.companyName,
         name: user.name,
         email: user.email,
         admin: user.admin,

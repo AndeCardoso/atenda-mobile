@@ -1,6 +1,7 @@
 import { StyledThemes, theme } from "@global/theme/theme";
 import { NavigationContainer } from "@react-navigation/native";
 import { AuthContextProvider } from "@contexts/auth/useAuthContext";
+import { ToastProvider } from "@contexts/components/useToastContext";
 import { PropsWithChildren } from "react";
 import { PaperProvider } from "react-native-paper";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -16,7 +17,9 @@ export const Providers = ({ children }: PropsWithChildren) => {
         <QueryClientProvider client={queryClient}>
           <AuthContextProvider>
             <PaperProvider theme={theme}>
-              <SafeAreaProvider>{children}</SafeAreaProvider>
+              <SafeAreaProvider>
+                <ToastProvider>{children}</ToastProvider>
+              </SafeAreaProvider>
             </PaperProvider>
           </AuthContextProvider>
         </QueryClientProvider>

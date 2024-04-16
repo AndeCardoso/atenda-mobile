@@ -16,7 +16,7 @@ export const HomePage = () => {
   const { open } = state;
 
   return (
-    <Layout header="ATENDA" hasScroll>
+    <Layout header="ATENDA" showProfile hasScroll>
       <Portal>
         <FAB.Group
           open={open}

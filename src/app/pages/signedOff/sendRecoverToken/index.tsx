@@ -49,9 +49,8 @@ export const SendRecoverTokenPage = () => {
         <SendRecoverTokenForm control={control} />
         <BaloonCard color="PRIMARY">
           <Text color="SECONDARY">
-            Informe seu e-mail cadastrado para que seja enviado o token de
-            segurança. Demais orientações estarão presentes no e-mail que será
-            enviado.
+            {`Informe seu e-mail cadastrado para que seja enviado o token de segurança.
+            \nDemais orientações estarão presentes no e-mail enviado.`}
           </Text>
         </BaloonCard>
       </Container>
