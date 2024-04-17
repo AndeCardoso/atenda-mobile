@@ -1,4 +1,4 @@
-import { IAdressForm } from "@components/forms/AddressForm/formSchema";
+import { IAddressForm } from "@components/forms/AddressForm/formSchema";
 import {
   technicianPositionEnum,
   technicianStatusEnum,
@@ -11,5 +11,5 @@ export interface TechnicianRegisterResponseDTO {
   cpf: string;
   position: technicianPositionEnum;
   status?: technicianStatusEnum;
-  address: IAdressForm;
+  address: IAddressForm;
 }

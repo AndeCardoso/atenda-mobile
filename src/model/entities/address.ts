@@ -1,4 +1,4 @@
-export interface IAdressModel {
+export interface IAddressModel {
   nickname?: string;
   cep: string;
   street: string;
