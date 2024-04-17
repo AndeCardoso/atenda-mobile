@@ -5,6 +5,7 @@ import { HomePage } from "@pages/signedIn/home";
 import { TransitionPresets } from "@react-navigation/stack";
 import { TechniciansNavigator } from "@pages/signedIn/technicians/navigators";
 import { UsersNavigator } from "@pages/signedIn/users/navigators";
+import { CustomersNavigator } from "@pages/signedIn/customers/navigators";
 
 const SignedIn = createStackNavigator();
 
@@ -29,6 +30,14 @@ export const SignedInNavigator = () => {
       <SignedIn.Screen
         name={SignedInNavigators.TECHNICIANS}
         component={TechniciansNavigator}
+        options={{
+          headerShown: false,
+          ...TransitionPresets.ModalSlideFromBottomIOS,
+        }}
+      />
+      <SignedIn.Screen
+        name={SignedInNavigators.CUSTOMERS}
+        component={CustomersNavigator}
         options={{
           headerShown: false,
           ...TransitionPresets.ModalSlideFromBottomIOS,
