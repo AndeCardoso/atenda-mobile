@@ -7,7 +7,6 @@ import { Spacer } from "@components/base/Spacer";
 import { Loader } from "@components/base/Loader";
 import { useIsFocused } from "@react-navigation/native";
 import { LoaderBox } from "@components/base/Loader/styles";
-import { TechnicianCard } from "@components/cards/TechnicianCard";
 import { useUsersController } from "./useUsersController";
 import { UserCard } from "@components/cards/UserCard";
 
@@ -20,6 +19,7 @@ export const UsersPage = () => {
     handleGoBack,
     onUserSearch,
     handleGoToDetails,
+    fetchNextPage,
     fabActions,
     refetch,
     viewState: { loading, reloading },
@@ -43,6 +43,7 @@ export const UsersPage = () => {
             ItemSeparatorComponent={() => <Spacer spaceVertical={16} />}
             contentContainerStyle={{ padding: 16 }}
             showsVerticalScrollIndicator={false}
+            onTouchEnd={() => fetchNextPage()}
             refreshControl={
               <RefreshControl
                 onRefresh={refetch}

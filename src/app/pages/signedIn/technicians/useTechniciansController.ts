@@ -6,6 +6,7 @@ import TechnicianService from "@services/technician";
 import { HttpStatusCode } from "axios";
 import { SuperConsole } from "@tools/indentedConsole";
 import { useCallback, useState } from "react";
+import { reducePages } from "@utils/reducePages";
 
 export const useTechniciansController = () => {
   const { colors } = useTheme();
@@ -16,39 +17,40 @@ export const useTechniciansController = () => {
 
   const [technicianSearch, setTechnicianSearch] = useState("");
 
-  const { data, refetch, isLoading, isRefetching } = useInfiniteQuery(
-    ["technicians", technicianSearch],
-    async ({ pageParam }) => {
-      const { statusCode, body } = await technicianService.list({
-        limit: 10,
-        page: pageParam ?? 1,
-        column: "name",
-        order: "asc",
-        search: technicianSearch,
-      });
-      switch (statusCode) {
-        case HttpStatusCode.Ok:
-          return body;
-        case HttpStatusCode.NoContent:
-        case HttpStatusCode.BadRequest:
-        default:
-          SuperConsole(body);
+  const { data, refetch, fetchNextPage, isLoading, isRefetching } =
+    useInfiniteQuery(
+      ["technicians", technicianSearch],
+      async ({ pageParam }) => {
+        const { statusCode, body } = await technicianService.list({
+          limit: 10,
+          page: pageParam ?? 1,
+          column: "name",
+          order: "asc",
+          search: technicianSearch,
+        });
+        switch (statusCode) {
+          case HttpStatusCode.Ok:
+            return body;
+          case HttpStatusCode.NoContent:
+          case HttpStatusCode.BadRequest:
+          default:
+            SuperConsole(body);
+            return;
+        }
+      },
+      {
+        getNextPageParam: (lastPage) => {
+          if (lastPage)
+            return lastPage?.currentPage < lastPage?.totalPages
+              ? lastPage?.currentPage + 1
+              : undefined;
+        },
+        onError: async (error) => {
+          console.log("error - technicians", JSON.stringify(error, null, 2));
           return;
+        },
       }
-    },
-    {
-      getNextPageParam: (lastPage) => {
-        if (lastPage)
-          return lastPage?.currentPage < lastPage?.totalPages
-            ? lastPage?.currentPage + 1
-            : undefined;
-      },
-      onError: async (error) => {
-        console.log("error - technicians", JSON.stringify(error, null, 2));
-        return;
-      },
-    }
-  );
+    );
 
   const onTechnicianSearch = (value?: string) => {
     setTechnicianSearch(value ?? "");
@@ -91,10 +93,11 @@ export const useTechniciansController = () => {
   );
 
   return {
-    technicianList: data?.pages[0]?.data,
+    technicianList: reducePages(data?.pages),
     onTechnicianSearch,
     handleGoToDetails,
     handleGoBack,
+    fetchNextPage,
     fabActions,
     refetch,
     viewState: {
