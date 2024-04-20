@@ -49,7 +49,7 @@ export const useCustomerDetailController = () => {
   };
 
   const handleGoToUpdateCustomer = () => {
-    navigate(SignedInScreens.TECHNICIANS_UPDATE_FORM, {
+    navigate(SignedInScreens.CUSTOMERS_UPDATE_FORM, {
       customerId,
     });
   };

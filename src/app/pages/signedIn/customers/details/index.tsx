@@ -38,7 +38,7 @@ export const CustomerDetailPage = () => {
   const { open } = state;
 
   return (
-    <Layout header="Detalhes do técnico" goBack={handleGoBack} hasScroll>
+    <Layout header="Detalhes do cliente" goBack={handleGoBack} hasScroll>
       {loading ? (
         <Loader />
       ) : (

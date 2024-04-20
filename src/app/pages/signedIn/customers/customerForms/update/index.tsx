@@ -1,0 +1,65 @@
+import React, { useEffect } from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Layout } from "@components/Layout";
+import { Container, WrapperButtons } from "./styles";
+import { useForm } from "react-hook-form";
+import { Button } from "@components/base/Button";
+import { useUpdateCustomerFormController } from "./useUpdateCustomerFormController";
+import { Loader } from "@components/base/Loader";
+import { ICustomerForm, customerSchema } from "../schema";
+import { UpdateCustomerForm } from "./form";
+import { customerStatusList } from "../../constants";
+
+export const CustomerUpdateFormPage = () => {
+  const {
+    customerData,
+    handleGoBack,
+    handleRegister,
+    viewState: { dataLoading, registerLoading },
+  } = useUpdateCustomerFormController();
+
+  const { control, handleSubmit, reset, setValue } = useForm<ICustomerForm>({
+    resolver: yupResolver(customerSchema),
+  });
+
+  useEffect(() => {
+    const fixedData = {
+      ...customerData,
+      status: customerStatusList.find(
+        (item) => item.value === customerData?.status
+      ),
+    };
+    reset(fixedData);
+  }, [customerData]);
+
+  return (
+    <Layout
+      header="Atualizar cliente"
+      goBack={handleGoBack}
+      footer={
+        <WrapperButtons>
+          <Button
+            onPress={handleSubmit(handleRegister)}
+            mode="contained"
+            loading={registerLoading}
+          >
+            Atualizar
+          </Button>
+        </WrapperButtons>
+      }
+      hasScroll
+    >
+      {dataLoading ? (
+        <Loader />
+      ) : (
+        <Container>
+          <UpdateCustomerForm
+            controlProp={control}
+            addressList={customerData?.addresses}
+            setValueProp={setValue}
+          />
+        </Container>
+      )}
+    </Layout>
+  );
+};

@@ -4,7 +4,7 @@ import { SignedInScreens } from "@routes/screens";
 import { CustomersPage } from ".";
 import { CustomerDetailPage } from "./details";
 import { CustomerRegisterFormPage } from "./customerForms/create";
-import { TechnicianUpdateFormPage } from "./customerForms/update";
+import { CustomerUpdateFormPage } from "./customerForms/update";
 
 export const CustomersNavigator = () => {
   type RootStackParamList = {
@@ -28,7 +28,7 @@ export const CustomersNavigator = () => {
       />
       <Screen
         name={SignedInScreens.CUSTOMERS_UPDATE_FORM}
-        component={TechnicianUpdateFormPage}
+        component={CustomerUpdateFormPage}
       />
       <Screen
         name={SignedInScreens.CUSTOMERS_DETAILS}
