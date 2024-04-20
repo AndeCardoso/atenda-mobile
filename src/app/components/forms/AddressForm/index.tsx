@@ -3,22 +3,22 @@ import { Control, UseFormGetValues } from "react-hook-form";
 import { Container } from "./styles";
 import { ControlledInput } from "@components/controlleds/ControlledInput";
 import { Row } from "@components/base/Row";
-import { Text } from "@components/base/Text";
-import { Divider } from "@components/base/Separator";
 import { Masks } from "react-native-mask-input";
 import { useAddressFormController } from "./useAddressFormController";
 import { ControlledSelect } from "@components/controlleds/ControlledSelect";
-import { Spacer } from "@components/base/Spacer";
+import { AddressHeader } from "./AddressHeader";
 
 interface IAddressForm {
   control: Control<any, any>;
   getValues?: UseFormGetValues<any>;
+  hasNoHeader?: boolean;
   hasNickname?: boolean;
 }
 
 export const AddressForm = ({
   getValues,
   control,
+  hasNoHeader,
   hasNickname,
 }: IAddressForm) => {
   const {
@@ -37,13 +37,7 @@ export const AddressForm = ({
 
   return (
     <Container>
-      <Divider spaceVertical={16} />
-      <Text size={16} color="WHITE">
-        Endereço
-      </Text>
-      <Divider spaceVertical={16} />
-      <Spacer spaceVertical={16} />
-
+      {!hasNoHeader ? <AddressHeader /> : null}
       {hasNickname ? (
         <ControlledInput
           label="Apelido"
