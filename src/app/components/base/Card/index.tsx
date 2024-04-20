@@ -2,17 +2,24 @@ import React, { PropsWithChildren } from "react";
 import { GestureResponderEvent, StyleProp, ViewStyle } from "react-native";
 import { useTheme } from "styled-components";
 import { Container } from "./styles";
+import { Colors } from "@global/styles/colors";
 
 interface ICardProps extends PropsWithChildren {
+  color?: Colors;
   style?: StyleProp<ViewStyle>;
   onPress?: (e: GestureResponderEvent) => void;
 }
 
-export const Card = ({ children, onPress, style }: ICardProps) => {
+export const Card = ({
+  children,
+  onPress,
+  style,
+  color = "PRIMARY",
+}: ICardProps) => {
   const { colors } = useTheme();
 
   const styles: ViewStyle = {
-    backgroundColor: colors.PRIMARY,
+    backgroundColor: colors[color],
     borderRadius: 8,
     ...(style as object),
   };
