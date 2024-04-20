@@ -26,12 +26,14 @@ interface ICustomerFormProps {
   addressList?: IAddressForm[];
   setValueProp: UseFormSetValue<ICustomerForm>;
   controlProp: Control<ICustomerForm>;
+  onEnabledButton: (value: boolean) => void;
 }
 
 export const UpdateCustomerForm = ({
   addressList,
   controlProp,
   setValueProp,
+  onEnabledButton,
 }: ICustomerFormProps) => {
   const [idToEdit, setIdToEdit] = useState<number | undefined>();
   const stateRef = useRef<IOption | string>({} as IOption);
@@ -47,10 +49,13 @@ export const UpdateCustomerForm = ({
   const stateField = watch("state");
 
   useEffect(() => {
-    if (!Boolean(stateField) || stateRef.current.text !== stateField.text) {
+    if (
+      (!Boolean(stateField) && !idToEdit) ||
+      stateRef.current.text !== stateField.text
+    ) {
       setValue("city", {} as IOption);
     }
-  }, [stateField, setValue]);
+  }, [stateField, setValue, idToEdit]);
 
   useEffect(() => {
     if (addressList) {
@@ -89,6 +94,7 @@ export const UpdateCustomerForm = ({
 
   const handleEditAddressByIndex = (id: number) => {
     setIdToEdit(id);
+    onEnabledButton(false);
     const addressToUpdate = addressListState.find((_, index) => index === id);
     if (addressToUpdate) {
       stateRef.current = addressToUpdate.state;
@@ -106,6 +112,7 @@ export const UpdateCustomerForm = ({
         };
         return newAddressListState;
       });
+      onEnabledButton(true);
       setIdToEdit(undefined);
       resetForm();
     }

@@ -6,12 +6,19 @@ import { CustomerRegisterRequestDTO } from "@services/customer/dtos/request/Cust
 import CustomerService from "@services/customer";
 import { ICustomerForm } from "../schema";
 import { unmask } from "@utils/formatString";
+import { useState } from "react";
 
 export const useUpdateCustomerFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
   const { params } = useRoute<any>();
   const { customerId } = params;
   const customerService = new CustomerService();
+
+  const [buttonEnabledState, setButtonEnabledState] = useState<boolean>(true);
+
+  const handleEnabledButton = (enable: boolean) => {
+    setButtonEnabledState(enable);
+  };
 
   const { data, isLoading: dataLoading } = useQuery(
     ["getCustomerUpdate", customerId],
@@ -97,11 +104,13 @@ export const useUpdateCustomerFormController = () => {
 
   return {
     customerData: data,
+    handleEnabledButton,
     handleRegister,
     handleGoBack,
     viewState: {
       registerLoading,
       dataLoading,
+      buttonEnabledState,
     },
   };
 };

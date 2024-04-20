@@ -13,9 +13,10 @@ import { customerStatusList } from "../../constants";
 export const CustomerUpdateFormPage = () => {
   const {
     customerData,
-    handleGoBack,
+    handleEnabledButton,
     handleRegister,
-    viewState: { dataLoading, registerLoading },
+    handleGoBack,
+    viewState: { dataLoading, registerLoading, buttonEnabledState },
   } = useUpdateCustomerFormController();
 
   const { control, handleSubmit, reset, setValue } = useForm<ICustomerForm>({
@@ -42,6 +43,7 @@ export const CustomerUpdateFormPage = () => {
             onPress={handleSubmit(handleRegister)}
             mode="contained"
             loading={registerLoading}
+            disabled={!buttonEnabledState}
           >
             Atualizar
           </Button>
@@ -57,6 +59,7 @@ export const CustomerUpdateFormPage = () => {
             controlProp={control}
             addressList={customerData?.addresses}
             setValueProp={setValue}
+            onEnabledButton={handleEnabledButton}
           />
         </Container>
       )}
