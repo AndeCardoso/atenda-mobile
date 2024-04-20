@@ -5,18 +5,16 @@ import { Layout } from "@components/Layout";
 import { Container, WrapperButtons } from "./styles";
 import { useForm } from "react-hook-form";
 import { Button } from "@components/base/Button";
-import {
-  useTechnicianFormController,
-  useUpdateTechnicianFormController,
-} from "./useUpdateTechnicianFormController";
+import { useUpdateTechnicianFormController } from "./useUpdateTechnicianFormController";
 import { Loader } from "@components/base/Loader";
 import { ITechnicianForm, technicianSchema } from "../schema";
 import { UpdateTechnicianForm } from "./form";
 import { technicianPositionList, technicianStatusList } from "../../constants";
+import { IOption } from "@components/base/Select";
 
 export const TechnicianUpdateFormPage = () => {
   const { goBack } = useNavigation();
-  const stateRef = useRef("");
+  const stateRef = useRef<IOption | string>({} as IOption);
   const {
     technicianData,
     handleRegister,
@@ -31,7 +29,8 @@ export const TechnicianUpdateFormPage = () => {
   const state = watch("state");
 
   useEffect(() => {
-    if (!Boolean(state) || stateRef.current !== state) setValue("city", {});
+    if (!Boolean(state) || stateRef.current.text !== state.text)
+      setValue("city", {} as IOption);
   }, [state, setValue]);
 
   useEffect(() => {

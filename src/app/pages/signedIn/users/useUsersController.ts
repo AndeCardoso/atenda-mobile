@@ -6,8 +6,7 @@ import { HttpStatusCode } from "axios";
 import { SuperConsole } from "@tools/indentedConsole";
 import { useCallback, useState } from "react";
 import UserService from "@services/user";
-import { IPaginationResponse } from "@model/http/paginationRequest";
-import { UserGetResponseDTO } from "@services/user/dtos/response/UserGetResponseDTO";
+import { reducePages } from "@utils/reducePages";
 
 export const useUsersController = () => {
   const { colors } = useTheme();
@@ -18,39 +17,40 @@ export const useUsersController = () => {
 
   const [userSearch, setUserSearch] = useState("");
 
-  const { data, refetch, isLoading, isRefetching } = useInfiniteQuery(
-    ["users", userSearch],
-    async ({ pageParam }) => {
-      const { statusCode, body } = await userService.list({
-        limit: 10,
-        page: pageParam ?? 1,
-        column: "name",
-        order: "asc",
-        search: userSearch,
-      });
-      switch (statusCode) {
-        case HttpStatusCode.Ok:
-          return body;
-        case HttpStatusCode.NoContent:
-        case HttpStatusCode.BadRequest:
-        default:
-          SuperConsole(body);
+  const { data, refetch, fetchNextPage, isLoading, isRefetching } =
+    useInfiniteQuery(
+      ["users", userSearch],
+      async ({ pageParam }) => {
+        const { statusCode, body } = await userService.list({
+          limit: 10,
+          page: pageParam ?? 1,
+          column: "name",
+          order: "asc",
+          search: userSearch,
+        });
+        switch (statusCode) {
+          case HttpStatusCode.Ok:
+            return body;
+          case HttpStatusCode.NoContent:
+          case HttpStatusCode.BadRequest:
+          default:
+            SuperConsole(body);
+            return;
+        }
+      },
+      {
+        getNextPageParam: (lastPage) => {
+          if (lastPage)
+            return lastPage?.currentPage < lastPage?.totalPages
+              ? lastPage?.currentPage + 1
+              : undefined;
+        },
+        onError: async (error) => {
+          console.log("error - user", JSON.stringify(error, null, 2));
           return;
+        },
       }
-    },
-    {
-      getNextPageParam: (lastPage) => {
-        if (lastPage)
-          return lastPage?.currentPage < lastPage?.totalPages
-            ? lastPage?.currentPage + 1
-            : undefined;
-      },
-      onError: async (error) => {
-        console.log("error - user", JSON.stringify(error, null, 2));
-        return;
-      },
-    }
-  );
+    );
 
   const onUserSearch = (value?: string) => {
     setUserSearch(value ?? "");
@@ -93,13 +93,9 @@ export const useUsersController = () => {
   );
 
   return {
-    userList: data?.pages.reduce((acc: any, cur) => {
-      if (acc.length > 0) {
-        return [...acc?.data.concat(cur?.data)];
-      }
-      return cur?.data;
-    }, []),
+    userList: reducePages(data?.pages),
     onUserSearch,
+    fetchNextPage,
     handleGoToDetails,
     handleGoBack,
     fabActions,

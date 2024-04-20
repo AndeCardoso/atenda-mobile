@@ -22,6 +22,7 @@ export const UpdateUserForm = ({ control }: IUserFormProps) => {
         placeholder="Digite o e-mail"
         name="email"
         control={control}
+        disabled
       />
       <ControlledInput
         label="Senha"

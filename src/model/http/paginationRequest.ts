@@ -14,7 +14,7 @@ export enum orderEnum {
 }
 
 export interface IPaginationResponse<T> {
-  data: T[];
+  dataList: T[];
   totalPages: number;
   currentPage: number;
   totalItems: number;

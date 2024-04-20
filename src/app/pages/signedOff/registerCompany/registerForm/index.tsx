@@ -5,6 +5,7 @@ import { Control } from "react-hook-form";
 import { IRegisterCompanyForm } from "./formSchema";
 import { BaloonCard } from "@components/base/BaloonCard";
 import { Text } from "@components/base/Text";
+import { Masks } from "react-native-mask-input";
 
 interface IRegisterCompanyFormProps {
   control: Control<IRegisterCompanyForm>;
@@ -17,6 +18,13 @@ export const RegisterCompanyForm = ({ control }: IRegisterCompanyFormProps) => {
         label="Nome da empresa"
         placeholder="Digite o nome da empresa"
         name="companyName"
+        control={control}
+      />
+      <ControlledInput
+        label="Documento da empresa"
+        placeholder="Digite o documento da empresa"
+        name="companyDocument"
+        mask={Masks.BRL_CPF_CNPJ}
         control={control}
       />
       <ControlledInput

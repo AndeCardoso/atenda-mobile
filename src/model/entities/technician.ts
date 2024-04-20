@@ -2,9 +2,9 @@ import {
   technicianPositionEnum,
   technicianStatusEnum,
 } from "@pages/signedIn/technicians/constants";
-import { IAdressModel } from "./address";
+import { IAddressModel } from "./address";
 
-export interface ITechnicianModel extends IAdressModel {
+export interface ITechnicianModel extends IAddressModel {
   id?: string | number;
   name: string;
   phone: string;

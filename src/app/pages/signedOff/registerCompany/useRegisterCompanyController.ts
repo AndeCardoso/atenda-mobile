@@ -5,6 +5,8 @@ import { SuperConsole } from "@tools/indentedConsole";
 import { useNavigation } from "@react-navigation/native";
 import { UserRegisterRequestDTO } from "@services/user/dtos/request/UserRegisterRequestDTO";
 import { IRegisterCompanyForm } from "./registerForm/formSchema";
+import { CompanyRegisterRequestDTO } from "@services/company/dtos/request/CompanyRegisterRequestDTO";
+import { unmask } from "@utils/formatString";
 
 export const useRegisterUserController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
@@ -13,8 +15,20 @@ export const useRegisterUserController = () => {
 
   const { mutateAsync: mutateAsyncRegister, isLoading } = useMutation(
     ["companyRegister"],
-    async ({ name, email, password }: UserRegisterRequestDTO) =>
-      await companyService.register({ name, email, password }),
+    async ({
+      companyName,
+      companyDocument,
+      name,
+      email,
+      password,
+    }: CompanyRegisterRequestDTO) =>
+      await companyService.register({
+        companyName,
+        companyDocument,
+        name,
+        email,
+        password,
+      }),
     {
       onSuccess: async ({ statusCode, body }) => {
         switch (statusCode) {
@@ -38,7 +52,11 @@ export const useRegisterUserController = () => {
   };
 
   const handleRegister = async (values: IRegisterCompanyForm) => {
-    const res = await mutateAsyncRegister(values);
+    const fixedValues = {
+      ...values,
+      companyDocument: unmask(values.companyDocument),
+    };
+    const res = await mutateAsyncRegister(fixedValues);
     if (res.statusCode === HttpStatusCode.Ok) {
       handleGoBack();
     }

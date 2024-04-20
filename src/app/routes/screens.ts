@@ -13,6 +13,11 @@ export enum SignedOffScreens {
 export enum SignedInScreens {
   HOME = "Home",
 
+  CUSTOMERS = "Customers",
+  CUSTOMERS_REGISTER_FORM = "CustomerRegisterForm",
+  CUSTOMERS_UPDATE_FORM = "CustomerUpdateForm",
+  CUSTOMERS_DETAILS = "CustomerDetails",
+
   TECHNICIANS = "Technicians",
   TECHNICIANS_REGISTER_FORM = "TechnicianRegisterForm",
   TECHNICIANS_UPDATE_FORM = "TechnicianUpdateForm",
@@ -23,7 +28,6 @@ export enum SignedInScreens {
   USERS_UPDATE_FORM = "UserUpdateForm",
   USERS_DETAILS = "UserDetails",
 
-  CUSTOMERS = "Customers",
   EQUIPMENTS = "Equipments",
 }
 

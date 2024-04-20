@@ -20,13 +20,6 @@ export const RegisterCompanyPage = () => {
   } = useRegisterUserController();
 
   const { control, handleSubmit } = useForm<IRegisterCompanyForm>({
-    defaultValues: {
-      companyName: "",
-      name: "",
-      email: "",
-      password: "",
-      passwordConfirm: "",
-    },
     resolver: yupResolver(registerCompanySchema),
   });
 

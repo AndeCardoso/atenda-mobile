@@ -1,11 +1,11 @@
 import * as yup from "yup";
 import {
-  IAdressForm,
+  IAddressForm,
   addressObjectSchema,
 } from "@components/forms/AddressForm/formSchema";
 import { IOption } from "@components/base/Select";
 
-export interface ITechnicianForm extends IAdressForm {
+export interface ITechnicianForm extends IAddressForm {
   name: string;
   phone: string;
   cpf: string;

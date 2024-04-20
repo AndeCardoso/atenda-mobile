@@ -2,4 +2,5 @@ import { UserRegisterRequestDTO } from "@services/user/dtos/request/UserRegister
 
 export interface CompanyRegisterRequestDTO extends UserRegisterRequestDTO {
   companyName?: string;
+  companyDocument: string;
 }

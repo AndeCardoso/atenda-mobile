@@ -1,4 +1,5 @@
 import React from "react";
+import { Image } from "react-native";
 import { Container, ContainerTop, StyledRow } from "./styles";
 import { Text } from "@components/base/Text";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -10,6 +11,7 @@ import { useAuth } from "@hooks/useAuth";
 interface IHeaderProps {
   text?: string;
   showProfile?: boolean;
+  hasBrand?: boolean;
   onSearch?: (value?: string) => void;
   goBack?: () => void;
   close?: () => void;
@@ -18,6 +20,7 @@ interface IHeaderProps {
 export const Header = ({
   text,
   showProfile,
+  hasBrand,
   onSearch,
   goBack,
   close,
@@ -32,19 +35,26 @@ export const Header = ({
               <Icon name={"chevron-left"} size={28} />
             </TouchableOpacity>
           )}
-          {Boolean(text) && (
-            <Text weight="700" size={24} style={{ flex: 0 }}>
+          {hasBrand ? (
+            <Image
+              resizeMode="center"
+              style={{ width: 155, height: 70 }}
+              source={require("../../../assets/brand/brand-space.png")}
+            />
+          ) : null}
+          {Boolean(text) ? (
+            <Text weight="700" size={24}>
               {text}
             </Text>
-          )}
+          ) : null}
         </StyledRow>
 
         {showProfile && userData ? <Profile data={userData} /> : null}
-        {Boolean(close) && (
+        {Boolean(close) ? (
           <TouchableOpacity onPress={close}>
             <Icon name={"close"} size={30} />
           </TouchableOpacity>
-        )}
+        ) : null}
       </ContainerTop>
       {onSearch ? <InputSearch onChangeText={onSearch} /> : null}
     </Container>

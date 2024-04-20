@@ -6,6 +6,7 @@ import { HttpResponse } from "@model/http/httpClient";
 export default class CompanyService {
   public async register({
     companyName,
+    companyDocument,
     name,
     email,
     password,
@@ -15,7 +16,7 @@ export default class CompanyService {
     return await new AxiosHttpClient().request({
       method: "post",
       url: "company/",
-      body: { companyName, name, email, password },
+      body: { companyName, companyDocument, name, email, password },
     });
   }
 }

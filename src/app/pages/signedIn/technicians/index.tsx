@@ -19,6 +19,7 @@ export const TechniciansPage = () => {
     handleGoBack,
     onTechnicianSearch,
     handleGoToDetails,
+    fetchNextPage,
     fabActions,
     refetch,
     viewState: { loading, reloading },
@@ -46,6 +47,7 @@ export const TechniciansPage = () => {
             ItemSeparatorComponent={() => <Spacer spaceVertical={16} />}
             contentContainerStyle={{ padding: 16 }}
             showsVerticalScrollIndicator={false}
+            onTouchEnd={() => fetchNextPage()}
             refreshControl={
               <RefreshControl
                 onRefresh={refetch}
