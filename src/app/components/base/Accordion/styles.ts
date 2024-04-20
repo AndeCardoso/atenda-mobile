@@ -7,4 +7,5 @@ export const Content = styled.View`
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
   background-color: ${({ theme }) => theme.colors.SECONDARY_INACTIVE};
+  z-index: -1;
 `;
