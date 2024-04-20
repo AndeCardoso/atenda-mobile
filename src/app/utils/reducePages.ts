@@ -9,5 +9,5 @@ export const reducePages = (pages: any) => {
     );
   }
 
-  return pages[0].dataList;
+  return pages[0]?.dataList ?? [];
 };
