@@ -77,7 +77,7 @@ export const CustomerDetailPage = () => {
             {customerData?.secondPhone ? (
               <>
                 <DisplayField
-                  text="Celular"
+                  text="Celular secundário"
                   value={formatCellphoneNumber(customerData?.secondPhone)}
                   hasCall
                 />
