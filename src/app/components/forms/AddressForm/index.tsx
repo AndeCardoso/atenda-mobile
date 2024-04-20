@@ -8,6 +8,7 @@ import { Divider } from "@components/base/Separator";
 import { Masks } from "react-native-mask-input";
 import { useAddressFormController } from "./useAddressFormController";
 import { ControlledSelect } from "@components/controlleds/ControlledSelect";
+import { Spacer } from "@components/base/Spacer";
 
 interface IAddressForm {
   control: Control<any, any>;
@@ -41,6 +42,8 @@ export const AddressForm = ({
         Endereço
       </Text>
       <Divider spaceVertical={16} />
+      <Spacer spaceVertical={16} />
+
       {hasNickname ? (
         <ControlledInput
           label="Apelido"

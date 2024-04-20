@@ -1,7 +1,7 @@
 import { IOption } from "@components/base/Select";
 import * as yup from "yup";
 
-export interface IAdressForm {
+export interface IAddressForm {
   nickname?: string;
   cep: string;
   street: string;
@@ -43,6 +43,6 @@ export const addressObjectSchema = {
     .required("Campo obrigatório"),
 };
 
-export const adressSchema: yup.ObjectSchema<IAdressForm> = yup
+export const addressSchema: yup.ObjectSchema<IAddressForm> = yup
   .object()
   .shape(addressObjectSchema);
