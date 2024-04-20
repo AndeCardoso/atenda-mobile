@@ -10,26 +10,20 @@ import { ICustomerForm, customerSchema } from "../schema";
 import { RegisterCustomerForm } from "./form";
 
 export const CustomerRegisterFormPage = () => {
-  const { goBack } = useNavigation();
-
   const {
     handleRegister,
+    handleGoBack,
     viewState: { registerLoading },
   } = useRegisterCustomerFormController();
 
-  const {
-    control,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm<ICustomerForm>({
+  const { control, handleSubmit, setValue } = useForm<ICustomerForm>({
     resolver: yupResolver(customerSchema),
   });
 
   return (
     <Layout
       header="Cadastrar cliente"
-      goBack={goBack}
+      goBack={handleGoBack}
       footer={
         <WrapperButtons>
           <Button

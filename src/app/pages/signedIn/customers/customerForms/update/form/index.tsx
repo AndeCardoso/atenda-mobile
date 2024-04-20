@@ -10,9 +10,6 @@ import { ControlledSelect } from "@components/controlleds/ControlledSelect";
 import { Button } from "@components/base/Button";
 import { Divider } from "@components/base/Separator";
 import { Text } from "@components/base/Text";
-import { Card } from "@components/base/Card";
-import { Row } from "@components/base/Row";
-import { IconButton } from "@components/base/IconButton";
 import {
   IAddressForm,
   addressSchema,
@@ -20,7 +17,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { IOption } from "@components/base/Select";
 import { customerStatusList } from "@pages/signedIn/customers/constants";
-import { SuperConsole } from "@tools/indentedConsole";
+import { AddressListItem } from "@pages/signedIn/customers/components/AddressListItem";
 
 interface ICustomerFormProps {
   addressList?: IAddressForm[];
@@ -35,8 +32,8 @@ export const UpdateCustomerForm = ({
   setValueProp,
   onEnabledButton,
 }: ICustomerFormProps) => {
-  const [idToEdit, setIdToEdit] = useState<number | undefined>();
   const stateRef = useRef<IOption | string>({} as IOption);
+  const [idToEdit, setIdToEdit] = useState<number | undefined>();
   const [addressListState, setAddressListState] = useState<IAddressForm[]>(
     addressList ?? []
   );
@@ -170,34 +167,26 @@ export const UpdateCustomerForm = ({
           <Spacer />
           {addressListState.map((address, index) => (
             <Fragment key={`${address.nickname}-${index}`}>
-              <Card>
-                <Row space="space-between">
-                  <Text color="BLACK" size={16} weight="600">
-                    {address.nickname}
-                  </Text>
-                  <Row widthType="auto" gap={4}>
-                    <IconButton
-                      name="file-edit"
-                      onPress={() => handleEditAddressByIndex(index)}
-                    />
-                    {idToEdit !== index ? (
-                      <>
-                        <Text size={18}>|</Text>
-                        <IconButton
-                          name="close-box"
-                          onPress={() => handleDecreaseAddressByIndex(index)}
-                        />
-                      </>
-                    ) : null}
-                  </Row>
-                </Row>
-              </Card>
+              <AddressListItem
+                data={address}
+                index={index}
+                isEditing={idToEdit !== index}
+                handleEditAddressByIndex={handleEditAddressByIndex}
+                handleDecreaseAddressByIndex={handleDecreaseAddressByIndex}
+              />
               <Spacer spaceVertical={8} />
             </Fragment>
           ))}
+          <Spacer spaceVertical={24} />
         </>
       ) : null}
-      <AddressForm control={control} getValues={getValues} hasNickname />
+
+      <AddressForm
+        control={control}
+        getValues={getValues}
+        hasNoHeader={addressListState.length > 0}
+        hasNickname
+      />
       <Button
         onPress={handleSubmit(
           isEditing ? handleUpdateAddressList : handleIncreaseAddressList

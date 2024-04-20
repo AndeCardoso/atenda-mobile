@@ -35,5 +35,8 @@ export const customerSchema: yup.ObjectSchema<ICustomerForm> = yup
         );
       })
       .notRequired(),
-    addresses: yup.array().of(yup.object(addressObjectSchema)),
+    addresses: yup
+      .array()
+      .of(yup.object(addressObjectSchema))
+      .required("Endereço é obrigatório"),
   });

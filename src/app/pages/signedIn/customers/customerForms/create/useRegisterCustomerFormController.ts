@@ -6,9 +6,11 @@ import { HttpStatusCode } from "axios";
 import { ICustomerForm } from "../schema";
 import { unmask } from "@utils/formatString";
 import { IAddressForm } from "@components/forms/AddressForm/formSchema";
+import { useToast } from "@hooks/useToast";
 
 export const useRegisterCustomerFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
+  const { createToast } = useToast();
 
   const customerService = new CustomerService();
 
@@ -60,6 +62,15 @@ export const useRegisterCustomerFormController = () => {
   };
 
   const handleRegister = async (values: ICustomerForm) => {
+    const addressesForm = values.addresses;
+    if (addressesForm.length === 0) {
+      createToast({
+        duration: 5000,
+        alertType: "alert",
+        message: "É obrigatório informar ao menos um endereço",
+      });
+      return;
+    }
     const res = await mutateAsyncRegister(values);
     if (res.statusCode === HttpStatusCode.Created) {
       handleGoBack();

@@ -8,7 +8,6 @@ import React from "react";
 interface IAddressListItem {
   index: number;
   data: Partial<IAddressForm>;
-  isLast: boolean;
   isEditing: boolean;
   handleEditAddressByIndex: (value: number) => void;
   handleDecreaseAddressByIndex: (value: number) => void;
@@ -17,7 +16,6 @@ interface IAddressListItem {
 export const AddressListItem = ({
   data,
   index,
-  isLast,
   isEditing,
   handleEditAddressByIndex,
   handleDecreaseAddressByIndex,
@@ -33,7 +31,7 @@ export const AddressListItem = ({
             name="file-edit"
             onPress={() => handleEditAddressByIndex(index)}
           />
-          {isEditing && !isLast ? (
+          {isEditing ? (
             <>
               <Text size={18}>|</Text>
               <IconButton

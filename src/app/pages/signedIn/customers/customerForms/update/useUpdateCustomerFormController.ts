@@ -7,9 +7,11 @@ import CustomerService from "@services/customer";
 import { ICustomerForm } from "../schema";
 import { unmask } from "@utils/formatString";
 import { useState } from "react";
+import { useToast } from "@hooks/useToast";
 
 export const useUpdateCustomerFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
+  const { createToast } = useToast();
   const { params } = useRoute<any>();
   const { customerId } = params;
   const customerService = new CustomerService();
@@ -95,7 +97,15 @@ export const useUpdateCustomerFormController = () => {
   };
 
   const handleRegister = async (values: ICustomerForm) => {
-    // SuperConsole(values);
+    const addressesForm = values.addresses;
+    if (addressesForm.length === 0) {
+      createToast({
+        duration: 5000,
+        alertType: "alert",
+        message: "É obrigatório informar ao menos um endereço",
+      });
+      return;
+    }
     const res = await mutateAsyncRegister(values);
     if (res.statusCode === HttpStatusCode.Ok) {
       handleGoBack();
