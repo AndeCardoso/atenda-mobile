@@ -8,6 +8,7 @@ import { ScrollView } from "react-native-gesture-handler";
 interface ILayoutProps extends PropsWithChildren {
   header?: string;
   footer?: ReactNode;
+  hasBrand?: boolean;
   hasScroll?: boolean;
   showProfile?: boolean;
   onSearch?: (value?: string) => void;
@@ -18,6 +19,7 @@ interface ILayoutProps extends PropsWithChildren {
 export const Layout = ({
   header,
   footer,
+  hasBrand,
   hasScroll,
   showProfile,
   onSearch,
@@ -40,15 +42,14 @@ export const Layout = ({
 
   return (
     <SafeAreaView style={style}>
-      {header && (
-        <Header
-          text={header}
-          onSearch={onSearch}
-          goBack={goBack}
-          close={close}
-          showProfile={showProfile}
-        />
-      )}
+      <Header
+        text={header}
+        onSearch={onSearch}
+        goBack={goBack}
+        close={close}
+        hasBrand={hasBrand}
+        showProfile={showProfile}
+      />
 
       {hasScroll ? (
         <ScrollView style={containerStyle} showsVerticalScrollIndicator={false}>
