@@ -4,7 +4,7 @@ import { StyledRow } from "./styles";
 
 interface IRowProps extends ViewProps {
   gap?: number;
-  space?: "space-between" | "space-around" | "space-evenly";
+  space?: "space-between" | "space-around" | "space-evenly" | "flex-start";
   widthType?: "auto" | "half" | "full";
 }
 

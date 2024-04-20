@@ -33,7 +33,7 @@ export const Header = ({
             </TouchableOpacity>
           )}
           {Boolean(text) && (
-            <Text weight="700" size={24} style={{ flex: 0 }}>
+            <Text weight="700" size={32}>
               {text}
             </Text>
           )}

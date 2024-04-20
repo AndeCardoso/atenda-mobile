@@ -79,7 +79,7 @@ export const Select = ({
 
   const inputStyle: StyleProp<TextStyle> = {
     width: "100%",
-    backgroundColor: "black",
+    backgroundColor: colors.INPUT_BACKGROUND,
   };
 
   const disabledInputStyle: StyleProp<TextStyle> = {
