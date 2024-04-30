@@ -9,13 +9,13 @@ import MaskInput, { Mask } from "react-native-mask-input";
 import { Modal, Portal, TextInput, TextInputProps } from "react-native-paper";
 import { useTheme } from "styled-components";
 import { Text } from "../Text";
-import { Card } from "../Card";
 import { Spacer } from "../Spacer";
 import { IconButton } from "../IconButton";
 import { Loader } from "../Loader";
 import { Content, Header, ModalContainer, Search } from "./styles";
 import { InputSearch } from "../InputSearch";
 import { LoaderBox } from "../Loader/styles";
+import { ListItem } from "../ListItem";
 
 export interface IOption {
   id: number | string;
@@ -150,11 +150,11 @@ export const Select = ({
                   showsVerticalScrollIndicator={false}
                   renderItem={({ item }) => {
                     return (
-                      <Card onPress={() => onSelectValue(item)}>
+                      <ListItem onPress={() => onSelectValue(item)}>
                         <Text color="BLACK" size={16} weight="600">
                           {item.text}
                         </Text>
-                      </Card>
+                      </ListItem>
                     );
                   }}
                 />
