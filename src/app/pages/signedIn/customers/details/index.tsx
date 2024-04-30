@@ -93,35 +93,35 @@ export const CustomerDetailPage = () => {
             <Spacer />
             {customerData?.addresses.map((address, index) => (
               <Accordion
-                title={address.nickname || ""}
-                key={`${address.nickname}-${index}`}
+                title={address?.nickname || ""}
+                key={`${address?.nickname}-${index}`}
               >
                 <AddressContent>
-                  <DisplayField text="Logradouro" value={address.street} />
+                  <DisplayField text="Logradouro" value={address?.street} />
                   <Divider />
                   <Row>
-                    <DisplayField text="Numero" value={address.number} />
-                    {address.complement ? (
+                    <DisplayField text="Numero" value={address?.number} />
+                    {address?.complement ? (
                       <DisplayField
                         text="Complemento"
-                        value={address.complement}
+                        value={address?.complement}
                       />
                     ) : null}
                   </Row>
                   <Divider />
                   <Row>
-                    <DisplayField text="Bairro" value={address.district} />
-                    <DisplayField text="Cep" value={formatCep(address.cep)} />
+                    <DisplayField text="Bairro" value={address?.district} />
+                    <DisplayField text="Cep" value={formatCep(address?.cep)} />
                   </Row>
                   <Divider />
                   <Row>
                     <DisplayField
                       text="Cidade"
-                      value={address.city.toString()}
+                      value={address?.city.toString()}
                     />
                     <DisplayField
                       text="Estado"
-                      value={address.state.toString()}
+                      value={address?.state.toString()}
                     />
                   </Row>
                   <Spacer spaceVertical={32} />

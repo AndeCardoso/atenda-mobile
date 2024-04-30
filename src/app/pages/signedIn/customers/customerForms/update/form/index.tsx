@@ -166,7 +166,7 @@ export const UpdateCustomerForm = ({
           <Divider spaceVertical={16} />
           <Spacer />
           {addressListState.map((address, index) => (
-            <Fragment key={`${address.nickname}-${index}`}>
+            <Fragment key={`${address?.nickname}-${index}`}>
               <AddressListItem
                 data={address}
                 index={index}

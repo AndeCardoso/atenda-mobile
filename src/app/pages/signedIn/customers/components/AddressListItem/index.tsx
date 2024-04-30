@@ -24,7 +24,7 @@ export const AddressListItem = ({
     <Card>
       <Row space="space-between">
         <Text color="BLACK" size={16} weight="600">
-          {data.nickname}
+          {data?.nickname}
         </Text>
         <Row widthType="auto" gap={4}>
           <IconButton
