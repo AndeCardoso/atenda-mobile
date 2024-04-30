@@ -1,7 +1,7 @@
 import { Linking } from "react-native";
 import { Row } from "../Row";
 import { Text } from "../Text";
-import { Container } from "./styles";
+import { Container, TextValue } from "./styles";
 import { IconButton } from "../IconButton";
 import { Colors } from "@global/styles/colors";
 import Clipboard from "@react-native-clipboard/clipboard";
@@ -35,11 +35,9 @@ export const DisplayField = ({
         {text}:
       </Text>
       <Row>
-        {value ? (
-          <Text color={color} size={18} weight="700">
-            {value}
-          </Text>
-        ) : null}
+        <TextValue color={color} size={18} weight="700" isEmpty={!value}>
+          {value || "--"}
+        </TextValue>
         {hasCopy ? (
           <IconButton
             name="content-copy"
