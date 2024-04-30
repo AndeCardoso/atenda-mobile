@@ -3,7 +3,7 @@ import { Text } from "@components/base/Text";
 import React from "react";
 import { Control, Controller, ControllerProps } from "react-hook-form";
 import { Container } from "./styles";
-import { StyleProp, TextStyle } from "react-native";
+import { StyleProp, TextStyle, ViewStyle } from "react-native";
 import { HelperText } from "react-native-paper";
 import { useTheme } from "styled-components";
 import { Mask } from "react-native-mask-input";
@@ -15,7 +15,7 @@ interface IControlledSelect extends Omit<ControllerProps, "render"> {
   control: Control<any, any>;
   loading?: boolean;
   mode?: "flat" | "outlined";
-  width?: number;
+  widthType?: "auto" | "half" | "full";
   placeholder?: string;
   mask?: Mask;
   onPress?: () => void;
@@ -29,7 +29,7 @@ export const ControlledSelect = ({
   control,
   loading,
   mode,
-  width,
+  widthType,
   disabled,
   labelStyle,
   placeholder,
@@ -44,6 +44,11 @@ export const ControlledSelect = ({
     fontSize: 16,
   };
 
+  const containerStyles: ViewStyle = {
+    width:
+      widthType === "half" ? "50%" : widthType === "auto" ? "auto" : "100%",
+  };
+
   return (
     <Controller
       name={name}
@@ -54,7 +59,7 @@ export const ControlledSelect = ({
           onSelect && onSelect(value);
         };
         return (
-          <Container width={width}>
+          <Container style={containerStyles}>
             {label ? (
               <Text style={labelStyle ?? labelStylesDefault}>{label}</Text>
             ) : undefined}

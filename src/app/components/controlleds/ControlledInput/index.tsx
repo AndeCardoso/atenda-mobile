@@ -3,7 +3,7 @@ import { Text } from "@components/base/Text";
 import React from "react";
 import { Control, Controller, ControllerProps } from "react-hook-form";
 import { Container } from "./styles";
-import { StyleProp, TextStyle } from "react-native";
+import { StyleProp, TextStyle, ViewStyle } from "react-native";
 import { HelperText } from "react-native-paper";
 import { useTheme } from "styled-components";
 import { Mask } from "react-native-mask-input";
@@ -13,7 +13,7 @@ interface IControlledInput extends Omit<ControllerProps, "render"> {
   labelStyle?: StyleProp<TextStyle>;
   control: Control<any, any>;
   mode?: "flat" | "outlined";
-  width?: number;
+  widthType?: "auto" | "half" | "full";
   fullwidth?: boolean;
   placeholder?: string;
   password?: boolean;
@@ -25,7 +25,7 @@ export const ControlledInput = ({
   label,
   control,
   mode,
-  width,
+  widthType,
   fullwidth,
   disabled,
   password,
@@ -41,13 +41,18 @@ export const ControlledInput = ({
     fontWeight: "600",
     fontSize: 16,
   };
+
+  const containerStyles: ViewStyle = {
+    width:
+      widthType === "half" ? "47%" : widthType === "auto" ? "auto" : "100%",
+  };
   return (
     <Controller
       name={name}
       control={control}
       defaultValue={defaultValue}
       render={({ field: { value, onChange }, fieldState: { error } }) => (
-        <Container width={width} fullwidth={fullwidth}>
+        <Container style={containerStyles} fullwidth={fullwidth}>
           {label ? (
             <Text style={labelStyle ?? labelStylesDefault}>{label}</Text>
           ) : undefined}
