@@ -1,6 +1,5 @@
 import { StatusBar as ExpoStatusBar } from "expo-status-bar";
 import React from "react";
-import { SafeAreaView } from "react-native";
 
 interface IStatusBarProps {
   textColor?: "dark" | "light" | "auto";
@@ -20,7 +19,6 @@ export const StatusBar = ({
         backgroundColor={backgroundColor}
         networkActivityIndicatorVisible
       />
-      <SafeAreaView style={{ flex: 0, backgroundColor: backgroundColor }} />
     </>
   ) : null;
 };
