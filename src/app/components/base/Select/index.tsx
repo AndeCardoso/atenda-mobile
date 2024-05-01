@@ -43,8 +43,7 @@ export const Select = ({
   onPress,
   onSelect,
 }: ISelectProps) => {
-  const theme = useTheme();
-  const { colors } = theme;
+  const { colors } = useTheme();
   const [modalVisible, setModalVisible] = useState(false);
   const [seletedValueState, setSelectedValueState] = useState<
     IOption | string | undefined
@@ -99,10 +98,10 @@ export const Select = ({
         mode={"outlined"}
         onPressIn={handlePress}
         placeholder={placeholder}
-        textColor={disabled ? colors.SECONDARY_INACTIVE : theme.colors.primary}
-        outlineColor={disabled ? "transparent" : theme.colors.primary}
+        textColor={disabled ? colors.SECONDARY_INACTIVE : colors.WHITE}
+        outlineColor={disabled ? "transparent" : colors.SECONDARY_INACTIVE}
         placeholderTextColor={
-          disabled ? colors.SECONDARY_INACTIVE : theme.colors.secondary
+          disabled ? colors.SECONDARY : colors.SECONDARY_INACTIVE
         }
         style={disabled ? disabledInputStyle : inputStyle}
         error={error}
@@ -118,7 +117,7 @@ export const Select = ({
                 ? "chevron-up"
                 : "chevron-down"
             }
-            color={theme.colors.primary}
+            color={colors.WHITE}
             onPress={isSelected ? handleClear : handlePress}
           />
         }
@@ -151,7 +150,7 @@ export const Select = ({
                   renderItem={({ item }) => {
                     return (
                       <ListItem onPress={() => onSelectValue(item)}>
-                        <Text color="BLACK" size={16} weight="600">
+                        <Text color="WHITE" size={16} weight="600">
                           {item.text}
                         </Text>
                       </ListItem>
