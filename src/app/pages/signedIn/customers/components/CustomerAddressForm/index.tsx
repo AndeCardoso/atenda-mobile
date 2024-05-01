@@ -21,14 +21,14 @@ export const CustomerAddressForm = ({
   const { control, handleSubmit, getValues, setValue, watch, reset } =
     useForm<IAddressForm>({
       defaultValues: {
-        nickname: "Loja 011",
-        cep: "88058310",
-        street: "Rua teste",
-        number: "123",
-        complement: "Casa teste",
-        district: "Centro",
-        city: "Capão da canoa",
-        state: "Rio Grande do sul",
+        nickname: "",
+        cep: "",
+        street: "",
+        number: "",
+        complement: "",
+        district: "",
+        city: "",
+        state: "",
       },
       resolver: yupResolver(addressSchema),
     });
