@@ -1,5 +1,5 @@
 import React from "react";
-import { Image } from "react-native";
+import { Image, Platform } from "react-native";
 import { Container, ContainerTop, StyledRow } from "./styles";
 import { Text } from "@components/base/Text";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -7,6 +7,7 @@ import { Icon } from "@components/base/Icon";
 import { InputSearch } from "@components/base/InputSearch";
 import { Profile } from "@components/base/Profile";
 import { useAuth } from "@hooks/useAuth";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface IHeaderProps {
   text?: string;
@@ -17,6 +18,8 @@ interface IHeaderProps {
   close?: () => void;
 }
 
+const android = Platform.OS === "android";
+
 export const Header = ({
   text,
   showProfile,
@@ -26,8 +29,10 @@ export const Header = ({
   close,
 }: IHeaderProps) => {
   const { userData } = useAuth();
+  const { top } = useSafeAreaInsets();
+
   return (
-    <Container>
+    <Container paddingTop={android ? top + 16 : top}>
       <ContainerTop>
         <StyledRow>
           {Boolean(goBack) && (
@@ -39,7 +44,7 @@ export const Header = ({
             <Image
               resizeMode="center"
               style={{ width: 155, height: 70 }}
-              source={require("../../../assets/brand/brand-space.png")}
+              source={require("../../../assets/brand/brand-dark.png")}
             />
           ) : null}
           {Boolean(text) ? (

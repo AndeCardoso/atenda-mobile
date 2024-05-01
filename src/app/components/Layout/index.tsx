@@ -1,9 +1,11 @@
 import React, { PropsWithChildren, ReactNode } from "react";
-import { SafeAreaView, View, ViewStyle } from "react-native";
-import { useTheme } from "react-native-paper";
+import { KeyboardAvoidingView, Platform, View, ViewStyle } from "react-native";
 import { Header } from "./Header";
 import { StatusBar } from "../base/StatusBar";
 import { ScrollView } from "react-native-gesture-handler";
+import { useTheme } from "styled-components";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { FooterContainer } from "./styles";
 
 interface ILayoutProps extends PropsWithChildren {
   header?: string;
@@ -15,6 +17,8 @@ interface ILayoutProps extends PropsWithChildren {
   goBack?: () => void;
   close?: () => void;
 }
+
+const ios = Platform.OS === "ios";
 
 export const Layout = ({
   header,
@@ -28,11 +32,13 @@ export const Layout = ({
   children,
 }: ILayoutProps) => {
   const { colors } = useTheme();
+  const { bottom } = useSafeAreaInsets();
+
   const style: ViewStyle = {
     flex: 1,
     alignItems: "center",
     justifyContent: "space-between",
-    backgroundColor: colors.secondary,
+    backgroundColor: colors.SECONDARY,
   };
 
   const containerStyle: ViewStyle = {
@@ -41,7 +47,7 @@ export const Layout = ({
   };
 
   return (
-    <SafeAreaView style={style}>
+    <KeyboardAvoidingView behavior={ios ? "padding" : "height"} style={style}>
       <Header
         text={header}
         onSearch={onSearch}
@@ -59,8 +65,10 @@ export const Layout = ({
         <View style={containerStyle}>{children}</View>
       )}
 
-      {footer && footer}
+      {footer && (
+        <FooterContainer paddingBottom={bottom || 16}>{footer}</FooterContainer>
+      )}
       <StatusBar textColor="dark" backgroundColor={colors.primary} />
-    </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
