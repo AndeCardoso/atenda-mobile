@@ -19,7 +19,6 @@ interface ITextProps extends PropsWithChildren, TextInputProps {
 
 export const Text = ({
   children,
-  brandFont,
   size = 16,
   color,
   fullwidth,
@@ -32,7 +31,6 @@ export const Text = ({
   const fontStyle: TextStyle = {
     flex: fullwidth ? 1 : undefined,
     fontSize: size,
-    fontFamily: brandFont ? "Anton" : "Arial",
     color: colors[color || "BLACK"],
     fontWeight: weight || "400",
     ...(style as object),
