@@ -49,11 +49,13 @@ export const TechniciansPage = () => {
             showsVerticalScrollIndicator={false}
             onTouchEnd={() => fetchNextPage()}
             refreshControl={
-              <RefreshControl
-                onRefresh={refetch}
-                refreshing={reloading}
-                tintColor={colors.PRIMARY}
-              />
+              !reloading ? (
+                <RefreshControl
+                  onRefresh={refetch}
+                  refreshing={reloading}
+                  tintColor={colors.PRIMARY}
+                />
+              ) : undefined
             }
             renderItem={({ item }) => (
               <TechnicianCard

@@ -43,11 +43,13 @@ export const CustomersPage = () => {
             contentContainerStyle={{ padding: 16 }}
             showsVerticalScrollIndicator={false}
             refreshControl={
-              <RefreshControl
-                onRefresh={refetch}
-                refreshing={reloading}
-                tintColor={colors.PRIMARY}
-              />
+              !reloading ? (
+                <RefreshControl
+                  onRefresh={refetch}
+                  refreshing={reloading}
+                  tintColor={colors.PRIMARY}
+                />
+              ) : undefined
             }
             renderItem={({ item }) => (
               <CustomerCard
