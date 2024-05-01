@@ -4,28 +4,26 @@ import {
   useRoute,
 } from "@react-navigation/native";
 import { useTheme } from "styled-components";
-import { SignedInNavigators, SignedInScreens } from "@routes/screens";
+import { SignedInScreens } from "@routes/screens";
 import { useQuery, useQueryClient } from "react-query";
-import CustomerService from "@services/customer";
 import { HttpStatusCode } from "axios";
+import EquipmentService from "@services/equipment";
 import { SuperConsole } from "@tools/indentedConsole";
 import { useCallback } from "react";
 
-export const useCustomerDetailController = () => {
+export const useEquipmentDetailController = () => {
   const { colors } = useTheme();
   const { navigate, canGoBack, goBack } = useNavigation<any>();
   const { params } = useRoute<any>();
-  const { customerId } = params;
+  const { equipmentId, customerId } = params;
   const queryClient = useQueryClient();
 
-  const customerService = new CustomerService();
+  const equipmentService = new EquipmentService();
 
   const { data, isLoading } = useQuery(
-    ["customerDetail", customerId],
+    ["equipmentDetail", equipmentId],
     async () => {
-      const { statusCode, body } = await customerService.get({
-        customerId,
-      });
+      const { statusCode, body } = await equipmentService.get(equipmentId);
       switch (statusCode) {
         case HttpStatusCode.Ok:
           return body;
@@ -38,7 +36,7 @@ export const useCustomerDetailController = () => {
     },
     {
       onError: async (error) => {
-        console.log("error - customers", JSON.stringify(error, null, 2));
+        console.log("error - equipments", JSON.stringify(error, null, 2));
         return;
       },
     }
@@ -48,21 +46,11 @@ export const useCustomerDetailController = () => {
     canGoBack && goBack();
   };
 
-  const handleGoToUpdateCustomer = () => {
-    navigate(SignedInScreens.CUSTOMERS_UPDATE_FORM, {
+  const handleGoToUpdateEquipment = () => {
+    navigate(SignedInScreens.EQUIPMENTS_UPDATE_FORM, {
+      equipmentId,
       customerId,
     });
-  };
-
-  const handleGoToEquipments = () => {
-    navigate(SignedInNavigators.EQUIPMENTS, {
-      screen: SignedInScreens.EQUIPMENTS,
-      params: { customerId },
-    });
-  };
-
-  const handleServiceOrderReport = () => {
-    console.log("report");
   };
 
   const actionStyles = {
@@ -73,23 +61,9 @@ export const useCustomerDetailController = () => {
 
   const fabActions = [
     {
-      icon: "laptop",
-      label: "Equipamentos",
-      onPress: handleGoToEquipments,
-      color: colors.PRIMARY,
-      style: actionStyles,
-    },
-    {
       icon: "file-edit",
       label: "Editar cadastro",
-      onPress: handleGoToUpdateCustomer,
-      color: colors.PRIMARY,
-      style: actionStyles,
-    },
-    {
-      icon: "file-table",
-      label: "Relatorio de ordens de serviço",
-      onPress: handleServiceOrderReport,
+      onPress: handleGoToUpdateEquipment,
       color: colors.PRIMARY,
       style: actionStyles,
     },
@@ -97,12 +71,12 @@ export const useCustomerDetailController = () => {
 
   useFocusEffect(
     useCallback(() => {
-      queryClient.invalidateQueries("customerDetail");
+      queryClient.invalidateQueries("equipmentDetail");
     }, [])
   );
 
   return {
-    customerData: data,
+    equipmentData: data,
     handleGoBack,
     fabActions,
     viewState: {
