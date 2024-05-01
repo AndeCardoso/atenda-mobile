@@ -1,8 +1,7 @@
 import React, { PropsWithChildren } from "react";
-import { Container } from "./styles";
+import { Container, StyledButton } from "./styles";
 import { Text } from "@components/base/Text";
 import { Row } from "@components/base/Row";
-import { Button } from "@components/base/Button";
 
 interface ISectionProps extends PropsWithChildren {
   title?: string;
@@ -20,11 +19,11 @@ export const Section = ({ title, action, children }: ISectionProps) => {
       <Row space="space-between">
         {title ? <Text color="WHITE">{title}</Text> : null}
         {action ? (
-          <Button onPress={action.onPress} mode="text">
+          <StyledButton onPress={action.onPress} mode="text">
             <Text color="WHITE" size={14}>
               {action.text}
             </Text>
-          </Button>
+          </StyledButton>
         ) : null}
       </Row>
       {children}
