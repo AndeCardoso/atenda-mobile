@@ -6,7 +6,7 @@ export const Container = styled.View`
   padding: 24px;
   margin: 16px 0;
   border-radius: 16px;
-  background-color: ${({ theme }) => theme.colors.SECONDARY_INACTIVE};
+  background-color: ${({ theme }) => theme.colors.SECONDARY_INACTIVE_OPACITY};
 `;
 
 export const PasswordWrapper = styled.View`
