@@ -27,6 +27,7 @@ export const Button = ({
     borderColor: colors.primary,
     borderWidth: 2,
     justifyContent: "center",
+    borderRadius: 50,
   };
 
   const loadingColors = {
