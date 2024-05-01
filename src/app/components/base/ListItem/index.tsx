@@ -14,13 +14,16 @@ export const ListItem = ({
   children,
   onPress,
   style,
-  color = "PRIMARY",
+  color = "SECONDARY",
 }: IListItemProps) => {
   const { colors } = useTheme();
 
   const styles: ViewStyle = {
     backgroundColor: colors[color],
     borderRadius: 8,
+    padding: 16,
+    borderLeftWidth: 6,
+    borderLeftColor: colors.PRIMARY,
     ...(style as object),
   };
 
