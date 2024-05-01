@@ -4,7 +4,8 @@ import { Text } from "../Text";
 import { Container, TextValue } from "./styles";
 import { IconButton } from "../IconButton";
 import { Colors } from "@global/styles/colors";
-import Clipboard from "@react-native-clipboard/clipboard";
+import * as Clipboard from "expo-clipboard";
+import { useToast } from "@hooks/useToast";
 
 interface IDisplayFieldProps {
   text: string;
@@ -21,8 +22,24 @@ export const DisplayField = ({
   hasCopy,
   hasCall,
 }: IDisplayFieldProps) => {
-  const onCopyValue = () => {
-    if (value) Clipboard.setString(value?.toString());
+  const { createToast } = useToast();
+
+  const onCopyValue = async () => {
+    if (value) {
+      const res = await Clipboard.setStringAsync(value?.toString());
+
+      if (res) {
+        createToast({
+          message: `${text} copiado com sucesso`,
+          alertType: "success",
+        });
+      } else {
+        createToast({
+          message: `Aconteceu algo errado ao copiar ${text}`,
+          alertType: "error",
+        });
+      }
+    }
   };
 
   const onCallValue = () => {
