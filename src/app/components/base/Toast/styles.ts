@@ -3,6 +3,7 @@ import { Snackbar } from "react-native-paper";
 
 import { Text } from "@components/base/Text";
 import { toastPositionEnum } from "@contexts/components/useToastContext";
+import { DefaultTheme } from "styled-components";
 
 interface IContainerProps {
   position?: toastPositionEnum;
@@ -10,6 +11,7 @@ interface IContainerProps {
 
 interface IContentProps {
   borderColor?: string;
+  theme: DefaultTheme;
 }
 
 export const Container = styled.View<IContainerProps>`
