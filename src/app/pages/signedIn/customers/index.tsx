@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { Layout } from "@components/Layout";
 import { useTheme } from "styled-components";
-import { FAB, Portal } from "react-native-paper";
 import { FlatList, RefreshControl } from "react-native";
 import { Spacer } from "@components/base/Spacer";
 import { Loader } from "@components/base/Loader";
@@ -10,6 +9,7 @@ import { LoaderBox } from "@components/base/Loader/styles";
 import { useCustomersController } from "./useCustomersController";
 import { CustomerCard } from "@components/cards/CustomerCard";
 import { ICustomerModel } from "@model/entities/customer";
+import { FabButton } from "@components/base/FAB";
 
 export const CustomersPage = () => {
   const { colors } = useTheme();
@@ -25,9 +25,6 @@ export const CustomersPage = () => {
     viewState: { loading, reloading },
   } = useCustomersController();
 
-  const [state, setState] = useState({ open: false });
-  const onStateChange = ({ open }: { open: boolean }) => setState({ open });
-  const { open } = state;
   return (
     <Layout header="Clientes" onSearch={onCustomerSearch} close={handleGoBack}>
       {loading ? (
@@ -58,21 +55,12 @@ export const CustomersPage = () => {
               />
             )}
           />
-          <Portal>
-            <FAB.Group
-              open={open}
-              visible={isFocused}
-              icon={open ? "head-cog" : "head"}
-              actions={fabActions}
-              fabStyle={{
-                borderRadius: 50,
-                backgroundColor: open ? colors.SECONDARY : colors.PRIMARY,
-                marginRight: 32,
-              }}
-              color={open ? colors.PRIMARY : colors.SECONDARY}
-              onStateChange={onStateChange}
-            />
-          </Portal>
+          <FabButton
+            isFocused={isFocused}
+            fabActions={fabActions}
+            openedIcon="head-cog"
+            closedIcon="head"
+          />
         </>
       )}
     </Layout>

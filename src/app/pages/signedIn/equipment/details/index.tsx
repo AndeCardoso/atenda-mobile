@@ -1,7 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { Layout } from "@components/Layout";
-import { useTheme } from "styled-components";
-import { FAB, Portal } from "react-native-paper";
 import { useEquipmentDetailController } from "./useEquipmentDetailController";
 import { Text } from "@components/base/Text";
 import { equipmentStatusDisplay } from "../constants";
@@ -14,9 +12,9 @@ import { Loader } from "@components/base/Loader";
 import { useIsFocused } from "@react-navigation/native";
 import { Chip } from "@components/base/Chip";
 import { Divider } from "@components/base/Separator";
+import { FabButton } from "@components/base/FAB";
 
 export const EquipmentDetailPage = () => {
-  const { colors } = useTheme();
   const isFocused = useIsFocused();
 
   const {
@@ -25,10 +23,6 @@ export const EquipmentDetailPage = () => {
     fabActions,
     viewState: { loading },
   } = useEquipmentDetailController();
-
-  const [state, setState] = useState({ open: false });
-  const onStateChange = ({ open }: { open: boolean }) => setState({ open });
-  const { open } = state;
 
   return (
     <Layout header="Detalhes do equipamento" goBack={handleGoBack} hasScroll>
@@ -76,22 +70,12 @@ export const EquipmentDetailPage = () => {
             <Divider />
             <DisplayField text="Descrição" value={equipmentData?.description} />
           </Container>
-
-          <Portal>
-            <FAB.Group
-              open={open}
-              visible={isFocused}
-              icon={open ? "file-document-multiple" : "file-document"}
-              actions={fabActions}
-              fabStyle={{
-                borderRadius: 50,
-                backgroundColor: colors.PRIMARY,
-                marginRight: 32,
-              }}
-              color={colors.SECONDARY}
-              onStateChange={onStateChange}
-            />
-          </Portal>
+          <FabButton
+            isFocused={isFocused}
+            fabActions={fabActions}
+            openedIcon="file-document-multiple"
+            closedIcon="file-document"
+          />
         </>
       )}
     </Layout>

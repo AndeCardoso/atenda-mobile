@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { Layout } from "@components/Layout";
 import { useTheme } from "styled-components";
-import { FAB, Portal } from "react-native-paper";
 import { useTechniciansController } from "./useTechniciansController";
 import { FlatList, RefreshControl } from "react-native";
 import { Spacer } from "@components/base/Spacer";
@@ -9,6 +8,7 @@ import { Loader } from "@components/base/Loader";
 import { useIsFocused } from "@react-navigation/native";
 import { LoaderBox } from "@components/base/Loader/styles";
 import { TechnicianCard } from "@components/cards/TechnicianCard";
+import { FabButton } from "@components/base/FAB";
 
 export const TechniciansPage = () => {
   const { colors } = useTheme();
@@ -24,10 +24,6 @@ export const TechniciansPage = () => {
     refetch,
     viewState: { loading, reloading },
   } = useTechniciansController();
-
-  const [state, setState] = useState({ open: false });
-  const onStateChange = ({ open }: { open: boolean }) => setState({ open });
-  const { open } = state;
 
   return (
     <Layout
@@ -64,21 +60,12 @@ export const TechniciansPage = () => {
               />
             )}
           />
-          <Portal>
-            <FAB.Group
-              open={open}
-              visible={isFocused}
-              icon={open ? "tools" : "toolbox"}
-              actions={fabActions}
-              fabStyle={{
-                borderRadius: 50,
-                backgroundColor: open ? colors.SECONDARY : colors.PRIMARY,
-                marginRight: 32,
-              }}
-              color={open ? colors.PRIMARY : colors.SECONDARY}
-              onStateChange={onStateChange}
-            />
-          </Portal>
+          <FabButton
+            isFocused={isFocused}
+            fabActions={fabActions}
+            openedIcon="tools"
+            closedIcon="toolbox"
+          />
         </>
       )}
     </Layout>

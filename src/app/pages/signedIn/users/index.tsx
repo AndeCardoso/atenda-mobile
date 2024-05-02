@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { Layout } from "@components/Layout";
 import { useTheme } from "styled-components";
-import { FAB, Portal } from "react-native-paper";
 import { FlatList, RefreshControl } from "react-native";
 import { Spacer } from "@components/base/Spacer";
 import { Loader } from "@components/base/Loader";
@@ -9,6 +8,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { LoaderBox } from "@components/base/Loader/styles";
 import { useUsersController } from "./useUsersController";
 import { UserCard } from "@components/cards/UserCard";
+import { FabButton } from "@components/base/FAB";
 
 export const UsersPage = () => {
   const { colors } = useTheme();
@@ -24,10 +24,6 @@ export const UsersPage = () => {
     refetch,
     viewState: { loading, reloading },
   } = useUsersController();
-
-  const [state, setState] = useState({ open: false });
-  const onStateChange = ({ open }: { open: boolean }) => setState({ open });
-  const { open } = state;
 
   return (
     <Layout header="Usuários" onSearch={onUserSearch} close={handleGoBack}>
@@ -60,21 +56,12 @@ export const UsersPage = () => {
               />
             )}
           />
-          <Portal>
-            <FAB.Group
-              open={open}
-              visible={isFocused}
-              icon={open ? "key" : "account-key"}
-              actions={fabActions}
-              fabStyle={{
-                borderRadius: 50,
-                backgroundColor: open ? colors.SECONDARY : colors.PRIMARY,
-                marginRight: 32,
-              }}
-              color={open ? colors.PRIMARY : colors.SECONDARY}
-              onStateChange={onStateChange}
-            />
-          </Portal>
+          <FabButton
+            isFocused={isFocused}
+            fabActions={fabActions}
+            openedIcon="key"
+            closedIcon="account-key"
+          />
         </>
       )}
     </Layout>

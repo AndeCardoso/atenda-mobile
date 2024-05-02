@@ -1,16 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import { Layout } from "@components/Layout";
 import { useTheme } from "styled-components";
-import { FAB, Portal } from "react-native-paper";
 import { useEquipmentsController } from "./useEquipmentsController";
 import { FlatList, RefreshControl } from "react-native";
 import { Spacer } from "@components/base/Spacer";
 import { Loader } from "@components/base/Loader";
 import { useIsFocused } from "@react-navigation/native";
 import { LoaderBox } from "@components/base/Loader/styles";
-import { TechnicianCard } from "@components/cards/TechnicianCard";
 import { EquipmentCard } from "@components/cards/EquipmentCard";
-import { Icon } from "@components/base/Icon";
+import { FabButton } from "@components/base/FAB";
 
 export const EquipmentsPage = () => {
   const { colors } = useTheme();
@@ -26,10 +24,6 @@ export const EquipmentsPage = () => {
     refetch,
     viewState: { loading, reloading },
   } = useEquipmentsController();
-
-  const [state, setState] = useState({ open: false });
-  const onStateChange = ({ open }: { open: boolean }) => setState({ open });
-  const { open } = state;
 
   return (
     <Layout
@@ -66,21 +60,12 @@ export const EquipmentsPage = () => {
               />
             )}
           />
-          <Portal>
-            <FAB.Group
-              open={open}
-              visible={isFocused}
-              icon={open ? "laptop" : "monitor-cellphone"}
-              actions={fabActions}
-              fabStyle={{
-                borderRadius: 50,
-                backgroundColor: open ? colors.SECONDARY : colors.PRIMARY,
-                marginRight: 32,
-              }}
-              color={open ? colors.PRIMARY : colors.SECONDARY}
-              onStateChange={onStateChange}
-            />
-          </Portal>
+          <FabButton
+            isFocused={isFocused}
+            fabActions={fabActions}
+            openedIcon="laptop"
+            closedIcon="monitor-cellphone"
+          />
         </>
       )}
     </Layout>

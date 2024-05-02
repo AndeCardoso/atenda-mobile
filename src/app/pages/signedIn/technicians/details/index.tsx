@@ -1,7 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { Layout } from "@components/Layout";
-import { useTheme } from "styled-components";
-import { FAB, Portal } from "react-native-paper";
 import { useTechnicianDetailController } from "./useTechnicianDetailController";
 import { Text } from "@components/base/Text";
 import {
@@ -21,9 +19,9 @@ import { Icon } from "@components/base/Icon";
 import { Divider } from "@components/base/Separator";
 import { Loader } from "@components/base/Loader";
 import { useIsFocused } from "@react-navigation/native";
+import { FabButton } from "@components/base/FAB";
 
 export const TechnicianDetailPage = () => {
-  const { colors } = useTheme();
   const isFocused = useIsFocused();
 
   const {
@@ -32,10 +30,6 @@ export const TechnicianDetailPage = () => {
     fabActions,
     viewState: { loading },
   } = useTechnicianDetailController();
-
-  const [state, setState] = useState({ open: false });
-  const onStateChange = ({ open }: { open: boolean }) => setState({ open });
-  const { open } = state;
 
   return (
     <Layout header="Detalhes do técnico" goBack={handleGoBack} hasScroll>
@@ -122,22 +116,12 @@ export const TechnicianDetailPage = () => {
               />
             </Row>
           </Container>
-
-          <Portal>
-            <FAB.Group
-              open={open}
-              visible={isFocused}
-              icon={open ? "file-document-multiple" : "file-document"}
-              actions={fabActions}
-              fabStyle={{
-                borderRadius: 50,
-                backgroundColor: colors.PRIMARY,
-                marginRight: 32,
-              }}
-              color={colors.SECONDARY}
-              onStateChange={onStateChange}
-            />
-          </Portal>
+          <FabButton
+            isFocused={isFocused}
+            fabActions={fabActions}
+            openedIcon="file-document-multiple"
+            closedIcon="file-document"
+          />
         </>
       )}
     </Layout>

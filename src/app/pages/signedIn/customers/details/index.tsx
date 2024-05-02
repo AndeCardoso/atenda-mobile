@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { Layout } from "@components/Layout";
 import { useTheme } from "styled-components";
-import { FAB, Portal } from "react-native-paper";
 import { useCustomerDetailController } from "./useCustomerDetailController";
 import { Text } from "@components/base/Text";
 import {
@@ -20,10 +19,9 @@ import { useIsFocused } from "@react-navigation/native";
 import { customerStatusDisplay } from "../constants";
 import { Accordion } from "@components/base/Accordion";
 import { Chip } from "@components/base/Chip";
-import { View } from "react-native";
+import { FabButton } from "@components/base/FAB";
 
 export const CustomerDetailPage = () => {
-  const { colors } = useTheme();
   const isFocused = useIsFocused();
 
   const {
@@ -32,10 +30,6 @@ export const CustomerDetailPage = () => {
     fabActions,
     viewState: { loading },
   } = useCustomerDetailController();
-
-  const [state, setState] = useState({ open: false });
-  const onStateChange = ({ open }: { open: boolean }) => setState({ open });
-  const { open } = state;
 
   return (
     <Layout header="Detalhes do cliente" goBack={handleGoBack} hasScroll>
@@ -129,22 +123,12 @@ export const CustomerDetailPage = () => {
               </Accordion>
             ))}
           </Container>
-
-          <Portal>
-            <FAB.Group
-              open={open}
-              visible={isFocused}
-              icon={open ? "file-document-multiple" : "file-document"}
-              actions={fabActions}
-              fabStyle={{
-                borderRadius: 50,
-                backgroundColor: colors.PRIMARY,
-                marginRight: 32,
-              }}
-              color={colors.SECONDARY}
-              onStateChange={onStateChange}
-            />
-          </Portal>
+          <FabButton
+            isFocused={isFocused}
+            fabActions={fabActions}
+            openedIcon="file-document-multiple"
+            closedIcon="file-document"
+          />
         </>
       )}
     </Layout>
