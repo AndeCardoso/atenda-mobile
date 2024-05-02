@@ -5,7 +5,7 @@ import { Row } from "@components/base/Row";
 import { Chip } from "@components/base/Chip";
 import { Divider } from "@components/base/Separator";
 import { DisplayField } from "@components/base/DisplayField";
-import { equipmentStatusDisplay } from "@pages/signedIn/equipment/constants";
+import { equipmentStatusDisplay } from "@pages/signedIn/equipments/constants";
 import { BottomContainer, CardContainer } from "./styles";
 import { GestureResponderEvent } from "react-native";
 import { useTheme } from "styled-components";

@@ -7,7 +7,7 @@ import { ControlledSelect } from "@components/controlleds/ControlledSelect";
 import {
   equipmentStatusList,
   equipmentVoltageList,
-} from "@pages/signedIn/equipment/constants";
+} from "@pages/signedIn/equipments/constants";
 import { Row } from "@components/base/Row";
 
 interface IEquipmentFormProps {

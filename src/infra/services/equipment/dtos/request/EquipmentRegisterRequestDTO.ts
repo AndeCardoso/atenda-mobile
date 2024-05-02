@@ -1,4 +1,4 @@
-import { equipmentStatusEnum } from "@pages/signedIn/equipment/constants";
+import { equipmentStatusEnum } from "@pages/signedIn/equipments/constants";
 
 export interface EquipmentRegisterRequestDTO {
   customerId: number;

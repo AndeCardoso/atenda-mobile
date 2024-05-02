@@ -6,7 +6,7 @@ import { TransitionPresets } from "@react-navigation/stack";
 import { TechniciansNavigator } from "@pages/signedIn/technicians/navigators";
 import { UsersNavigator } from "@pages/signedIn/users/navigators";
 import { CustomersNavigator } from "@pages/signedIn/customers/navigators";
-import { EquipmentsNavigator } from "@pages/signedIn/equipment/navigators";
+import { EquipmentsNavigator } from "@pages/signedIn/equipments/navigators";
 
 const SignedIn = createStackNavigator();
 
