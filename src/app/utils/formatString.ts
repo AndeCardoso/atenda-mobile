@@ -36,3 +36,11 @@ export const unmask = (value?: string) => {
 
   return value.replace(/[^\d]/g, "");
 };
+
+export const removeAccentMarks = (value?: string) => {
+  if (!value) {
+    return "";
+  }
+
+  return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+};

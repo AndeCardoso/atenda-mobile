@@ -30,6 +30,7 @@ interface ISelectProps extends Omit<TextInputProps, "value"> {
   loading?: boolean;
   onPress?: () => void;
   onSelect: (value?: any) => void;
+  onSearch?: (value?: any) => void;
 }
 
 export const Select = ({
@@ -42,6 +43,7 @@ export const Select = ({
   error,
   onPress,
   onSelect,
+  onSearch,
 }: ISelectProps) => {
   const { colors } = useTheme();
   const [modalVisible, setModalVisible] = useState(false);
@@ -132,9 +134,11 @@ export const Select = ({
               </Text>
               <IconButton name="close" size={26} onPress={onToggleModal} />
             </Header>
-            <Search>
-              <InputSearch placeholder="Busca" onChangeText={() => {}} />
-            </Search>
+            {onSearch ? (
+              <Search>
+                <InputSearch placeholder="Busca" onChangeText={onSearch} />
+              </Search>
+            ) : null}
             <Content>
               {loading ? (
                 <LoaderBox>

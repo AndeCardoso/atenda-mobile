@@ -5,9 +5,14 @@ import { SuperConsole } from "@tools/indentedConsole";
 import { IOption } from "@components/base/Select";
 import { useState } from "react";
 import { stateList } from "app/constants/stateList";
+import { removeAccentMarks } from "@utils/formatString";
 
 export const useAddressFormController = () => {
   const [selectedState, setSelectedState] = useState<IOption | string>();
+
+  const [searchedState, setSearchedState] = useState<string>("");
+  const [searchedCityState, setSearchedCityState] = useState<string>("");
+
   const locationService = new LocationService();
 
   const onSelectState = (value?: IOption | string) => {
@@ -19,7 +24,7 @@ export const useAddressFormController = () => {
     mutateAsync: citiesMutateAsync,
     isLoading: citiesLoading,
   } = useMutation(
-    ["cities", selectedState],
+    ["cities", selectedState, searchedCityState],
     async (): Promise<IOption[] | undefined> => {
       const stateUf = stateList.find(
         (item) =>
@@ -55,9 +60,40 @@ export const useAddressFormController = () => {
     }
   );
 
+  const onSearchState = (value?: string) => {
+    setSearchedState(value || "");
+  };
+
+  const onSearchCity = (value?: string) => {
+    setSearchedCityState(value || "");
+  };
+
+  const searchedStateList =
+    stateList &&
+    stateList?.filter((item) => {
+      return (
+        item.text
+          .toLowerCase()
+          .includes(removeAccentMarks(searchedState?.toLowerCase())) ||
+        item.value
+          .toLowerCase()
+          .includes(removeAccentMarks(searchedState?.toLowerCase()))
+      );
+    });
+
+  const searchedCityList =
+    citiesList &&
+    citiesList?.filter((item) => {
+      return item.text
+        .toLowerCase()
+        .includes(removeAccentMarks(searchedCityState?.toLowerCase()));
+    });
+
   return {
-    stateList,
-    citiesList,
+    stateList: searchedStateList || stateList,
+    citiesList: searchedCityList || citiesList,
+    onSearchCity,
+    onSearchState,
     onSelectState,
     citiesMutateAsync,
     viewState: { citiesLoading },

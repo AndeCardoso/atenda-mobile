@@ -20,6 +20,7 @@ interface IControlledSelect extends Omit<ControllerProps, "render"> {
   mask?: Mask;
   onPress?: () => void;
   onSelect?: (value?: any) => void;
+  onSearch?: (value?: any) => void;
 }
 
 export const ControlledSelect = ({
@@ -36,6 +37,7 @@ export const ControlledSelect = ({
   mask,
   onPress,
   onSelect,
+  onSearch,
 }: IControlledSelect) => {
   const { colors } = useTheme();
   const labelStylesDefault: StyleProp<TextStyle> = {
@@ -74,6 +76,7 @@ export const ControlledSelect = ({
               mode={mode}
               mask={mask}
               onPress={onPress}
+              onSearch={onSearch}
             />
             <HelperText
               type="error"
