@@ -1,6 +1,4 @@
-import React, { useState } from "react";
-import { useTheme } from "styled-components";
-import { FAB, Portal } from "react-native-paper";
+import React from "react";
 import { useIsFocused } from "@react-navigation/native";
 import { useUserDetailController } from "./useUserDetailController";
 import { DisplayField } from "@components/base/DisplayField";
@@ -13,10 +11,9 @@ import { Text } from "@components/base/Text";
 import { Layout } from "@components/Layout";
 import { Row } from "@components/base/Row";
 import { Container, WrapperName } from "./styles";
-import { View } from "react-native";
+import { FabButton } from "@components/base/FAB";
 
 export const UserDetailPage = () => {
-  const { colors } = useTheme();
   const isFocused = useIsFocused();
 
   const {
@@ -25,10 +22,6 @@ export const UserDetailPage = () => {
     fabActions,
     viewState: { loading },
   } = useUserDetailController();
-
-  const [state, setState] = useState({ open: false });
-  const onStateChange = ({ open }: { open: boolean }) => setState({ open });
-  const { open } = state;
 
   return (
     <Layout header="Detalhes do usuário" goBack={handleGoBack} hasScroll>
@@ -57,22 +50,12 @@ export const UserDetailPage = () => {
             <Divider />
             <DisplayField text="E-mail" value={userData?.email} hasCopy />
           </Container>
-
-          <Portal>
-            <FAB.Group
-              open={open}
-              visible={isFocused}
-              icon={open ? "file-document-multiple" : "file-document"}
-              actions={fabActions}
-              fabStyle={{
-                borderRadius: 50,
-                backgroundColor: colors.PRIMARY,
-                marginRight: 32,
-              }}
-              color={colors.SECONDARY}
-              onStateChange={onStateChange}
-            />
-          </Portal>
+          <FabButton
+            isFocused={isFocused}
+            fabActions={fabActions}
+            openedIcon="file-document-multiple"
+            closedIcon="file-document"
+          />
         </>
       )}
     </Layout>

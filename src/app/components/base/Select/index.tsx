@@ -9,13 +9,13 @@ import MaskInput, { Mask } from "react-native-mask-input";
 import { Modal, Portal, TextInput, TextInputProps } from "react-native-paper";
 import { useTheme } from "styled-components";
 import { Text } from "../Text";
-import { Card } from "../Card";
 import { Spacer } from "../Spacer";
 import { IconButton } from "../IconButton";
 import { Loader } from "../Loader";
 import { Content, Header, ModalContainer, Search } from "./styles";
 import { InputSearch } from "../InputSearch";
 import { LoaderBox } from "../Loader/styles";
+import { ListItem } from "../ListItem";
 
 export interface IOption {
   id: number | string;
@@ -30,6 +30,7 @@ interface ISelectProps extends Omit<TextInputProps, "value"> {
   loading?: boolean;
   onPress?: () => void;
   onSelect: (value?: any) => void;
+  onSearch?: (value?: any) => void;
 }
 
 export const Select = ({
@@ -42,9 +43,9 @@ export const Select = ({
   error,
   onPress,
   onSelect,
+  onSearch,
 }: ISelectProps) => {
-  const theme = useTheme();
-  const { colors } = theme;
+  const { colors } = useTheme();
   const [modalVisible, setModalVisible] = useState(false);
   const [seletedValueState, setSelectedValueState] = useState<
     IOption | string | undefined
@@ -99,10 +100,10 @@ export const Select = ({
         mode={"outlined"}
         onPressIn={handlePress}
         placeholder={placeholder}
-        textColor={disabled ? colors.SECONDARY_INACTIVE : theme.colors.primary}
-        outlineColor={disabled ? "transparent" : theme.colors.primary}
+        textColor={disabled ? colors.SECONDARY_INACTIVE : colors.WHITE}
+        outlineColor={disabled ? "transparent" : colors.SECONDARY_INACTIVE}
         placeholderTextColor={
-          disabled ? colors.SECONDARY_INACTIVE : theme.colors.secondary
+          disabled ? colors.SECONDARY : colors.SECONDARY_INACTIVE
         }
         style={disabled ? disabledInputStyle : inputStyle}
         error={error}
@@ -118,7 +119,7 @@ export const Select = ({
                 ? "chevron-up"
                 : "chevron-down"
             }
-            color={theme.colors.primary}
+            color={colors.WHITE}
             onPress={isSelected ? handleClear : handlePress}
           />
         }
@@ -133,9 +134,11 @@ export const Select = ({
               </Text>
               <IconButton name="close" size={26} onPress={onToggleModal} />
             </Header>
-            <Search>
-              <InputSearch placeholder="Busca" onChangeText={() => {}} />
-            </Search>
+            {onSearch ? (
+              <Search>
+                <InputSearch placeholder="Busca" onChangeText={onSearch} />
+              </Search>
+            ) : null}
             <Content>
               {loading ? (
                 <LoaderBox>
@@ -150,11 +153,11 @@ export const Select = ({
                   showsVerticalScrollIndicator={false}
                   renderItem={({ item }) => {
                     return (
-                      <Card onPress={() => onSelectValue(item)}>
-                        <Text color="BLACK" size={16} weight="600">
+                      <ListItem onPress={() => onSelectValue(item)}>
+                        <Text color="WHITE" size={16} weight="600">
                           {item.text}
                         </Text>
-                      </Card>
+                      </ListItem>
                     );
                   }}
                 />

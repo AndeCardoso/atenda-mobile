@@ -18,8 +18,7 @@ export const Input = ({
   mask,
   error,
 }: IInputProps) => {
-  const theme = useTheme();
-  const { colors } = theme;
+  const { colors } = useTheme();
   const [showPassword, setShowPassword] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
 
@@ -52,9 +51,9 @@ export const Input = ({
       onChangeText={onChangeText}
       placeholder={placeholder}
       secureTextEntry={!showPassword}
-      textColor={theme.colors.primary}
-      outlineColor={theme.colors.primary}
-      placeholderTextColor={theme.colors.secondary}
+      textColor={colors.WHITE}
+      outlineColor={colors.SECONDARY_INACTIVE}
+      placeholderTextColor={colors.SECONDARY_INACTIVE}
       onFocus={() => setIsFocused(true)}
       onBlur={() => setIsFocused(false)}
       style={inputStyle}
@@ -63,7 +62,7 @@ export const Input = ({
         (isFocused || (value && value.length > 0)) && (
           <TextInput.Icon
             icon={showPassword ? "eye-off" : "eye"}
-            color={theme.colors.primary}
+            color={colors.WHITE}
             onPress={handleToogleShowPassword}
           />
         )
@@ -75,9 +74,9 @@ export const Input = ({
       mode={"outlined"}
       onChangeText={onChangeText}
       placeholder={placeholder}
-      textColor={disabled ? colors.SECONDARY_INACTIVE : theme.colors.primary}
-      outlineColor={disabled ? "transparent" : theme.colors.primary}
-      placeholderTextColor={theme.colors.secondary}
+      textColor={disabled ? colors.SECONDARY_INACTIVE : colors.WHITE}
+      outlineColor={disabled ? "transparent" : colors.SECONDARY_INACTIVE}
+      placeholderTextColor={colors.SECONDARY_INACTIVE}
       style={disabled ? disabledInputStyle : inputStyle}
       error={error}
       right={
@@ -85,7 +84,7 @@ export const Input = ({
         value.length > 0 && (
           <TextInput.Icon
             icon={disabled ? "lock" : "close"}
-            color={theme.colors.primary}
+            color={colors.WHITE}
             onPress={handleClear}
           />
         )

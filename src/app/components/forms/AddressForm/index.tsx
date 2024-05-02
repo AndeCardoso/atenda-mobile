@@ -24,6 +24,8 @@ export const AddressForm = ({
   const {
     stateList,
     citiesList,
+    onSearchCity,
+    onSearchState,
     onSelectState,
     citiesMutateAsync,
     viewState: { citiesLoading },
@@ -48,7 +50,7 @@ export const AddressForm = ({
       ) : null}
       <ControlledInput
         label="Cep"
-        width={160}
+        widthType="half"
         placeholder="Ex.: 99999-999"
         name="cep"
         control={control}
@@ -61,6 +63,7 @@ export const AddressForm = ({
         name="state"
         control={control}
         onSelect={onSelectState}
+        onSearch={onSearchState}
       />
       <ControlledSelect
         options={citiesList}
@@ -70,6 +73,7 @@ export const AddressForm = ({
         control={control}
         loading={citiesLoading}
         onPress={citiesMutateAsync}
+        onSearch={onSearchCity}
         disabled={getValues && !Boolean(getValues().state)}
       />
       <ControlledInput
@@ -87,7 +91,7 @@ export const AddressForm = ({
       <Row gap={16}>
         <ControlledInput
           label="Número"
-          width={100}
+          widthType="half"
           placeholder="Ex.: 123"
           name="number"
           control={control}

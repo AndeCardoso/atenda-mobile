@@ -19,8 +19,10 @@ export const Card = ({
   const { colors } = useTheme();
 
   const styles: ViewStyle = {
-    backgroundColor: colors[color],
+    backgroundColor: colors.SECONDARY_INACTIVE,
     borderRadius: 8,
+    borderLeftWidth: 6,
+    borderLeftColor: colors[color],
     ...(style as object),
   };
 

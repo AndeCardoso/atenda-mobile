@@ -6,8 +6,14 @@ import { LoginForm } from "./loginForm";
 import { IAuthForm } from "./loginForm/formSchema";
 import { useAuthController } from "./useAuthController";
 import { Image } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { StatusBar } from "@components/base/StatusBar";
+import { useTheme } from "styled-components";
 
 export const AuthPage = () => {
+  const { colors } = useTheme();
+  const { top } = useSafeAreaInsets();
+
   const {
     handleLogin,
     goToUserRegister,
@@ -22,12 +28,12 @@ export const AuthPage = () => {
   });
 
   return (
-    <Layout>
+    <Layout paddingTop={top} source={require("../../../assets/background.png")}>
       <WrapperTop>
         <Image
           resizeMode="center"
           style={{ width: 355, height: 200 }}
-          source={require("../../../assets/brand/brand-space.png")}
+          source={require("../../../assets/brand/brand-ligth.png")}
         />
         <LoginForm control={control} />
       </WrapperTop>
@@ -44,6 +50,7 @@ export const AuthPage = () => {
           Entrar
         </Button>
       </WrapperButtons>
+      <StatusBar textColor="light" backgroundColor={colors.primary} />
     </Layout>
   );
 };

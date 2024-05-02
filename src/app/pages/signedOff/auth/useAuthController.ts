@@ -34,7 +34,7 @@ export const useAuthController = () => {
           case HttpStatusCode.Unauthorized:
           default:
             createToast({
-              message: body.message || "Erro inesperado",
+              message: body?.message || "Erro inesperado",
               alertType: "error",
             });
             return;

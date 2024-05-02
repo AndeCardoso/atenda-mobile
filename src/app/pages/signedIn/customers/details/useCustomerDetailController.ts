@@ -4,7 +4,7 @@ import {
   useRoute,
 } from "@react-navigation/native";
 import { useTheme } from "styled-components";
-import { SignedInScreens } from "@routes/screens";
+import { SignedInNavigators, SignedInScreens } from "@routes/screens";
 import { useQuery, useQueryClient } from "react-query";
 import CustomerService from "@services/customer";
 import { HttpStatusCode } from "axios";
@@ -54,6 +54,13 @@ export const useCustomerDetailController = () => {
     });
   };
 
+  const handleGoToEquipments = () => {
+    navigate(SignedInNavigators.EQUIPMENTS, {
+      screen: SignedInScreens.EQUIPMENTS,
+      params: { customerId },
+    });
+  };
+
   const handleServiceOrderReport = () => {
     console.log("report");
   };
@@ -65,6 +72,13 @@ export const useCustomerDetailController = () => {
   };
 
   const fabActions = [
+    {
+      icon: "laptop",
+      label: "Equipamentos",
+      onPress: handleGoToEquipments,
+      color: colors.PRIMARY,
+      style: actionStyles,
+    },
     {
       icon: "file-edit",
       label: "Editar cadastro",
