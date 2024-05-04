@@ -10,6 +10,7 @@ import { useCustomersController } from "./useCustomersController";
 import { CustomerCard } from "@components/cards/CustomerCard";
 import { ICustomerModel } from "@model/entities/customer";
 import { FabButton } from "@components/base/FAB";
+import { EmptyState } from "@components/EmptyState";
 
 export const CustomersPage = () => {
   const { colors } = useTheme();
@@ -20,6 +21,7 @@ export const CustomersPage = () => {
     handleGoBack,
     onCustomerSearch,
     handleGoToDetails,
+    emptyStateTexts,
     fabActions,
     refetch,
     viewState: { loading, reloading },
@@ -39,6 +41,13 @@ export const CustomersPage = () => {
             ItemSeparatorComponent={() => <Spacer spaceVertical={16} />}
             contentContainerStyle={{ padding: 16 }}
             showsVerticalScrollIndicator={false}
+            ListEmptyComponent={() => (
+              <EmptyState
+                title={emptyStateTexts.title}
+                subtitle={emptyStateTexts.subtitle}
+                action={emptyStateTexts.action}
+              />
+            )}
             refreshControl={
               !reloading ? (
                 <RefreshControl

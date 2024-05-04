@@ -92,12 +92,29 @@ export const useTechniciansController = () => {
     }, [])
   );
 
+  const emptyStateTexts = {
+    title: technicianSearch
+      ? "Nenhum técnico encontrado"
+      : "Ainda não há clientes",
+    subtitle: !technicianSearch ? "Cadastre novos clientes" : undefined,
+    action: technicianSearch
+      ? {
+          text: "Limpar busca",
+          onPress: () => onTechnicianSearch(""),
+        }
+      : {
+          text: "Cadastrar técnico",
+          onPress: handleGoToRegister,
+        },
+  };
+
   return {
     technicianList: reducePages(data?.pages),
     onTechnicianSearch,
     handleGoToDetails,
-    handleGoBack,
+    emptyStateTexts,
     fetchNextPage,
+    handleGoBack,
     fabActions,
     refetch,
     viewState: {

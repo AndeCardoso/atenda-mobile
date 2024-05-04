@@ -102,12 +102,29 @@ export const useEquipmentsController = () => {
     }, [])
   );
 
+  const emptyStateTexts = {
+    title: equipmentSearch
+      ? "Nenhum equipamento encontrado"
+      : "Ainda não há equipamentos para este cliente",
+    subtitle: !equipmentSearch ? "Cadastre novos equipamentos" : undefined,
+    action: equipmentSearch
+      ? {
+          text: "Limpar busca",
+          onPress: () => onEquipmentSearch(""),
+        }
+      : {
+          text: "Cadastrar equipamento",
+          onPress: handleGoToRegister,
+        },
+  };
+
   return {
     equipmentList: reducePages(data?.pages),
     onEquipmentSearch,
     handleGoToDetails,
-    handleGoBack,
+    emptyStateTexts,
     fetchNextPage,
+    handleGoBack,
     fabActions,
     refetch,
     viewState: {

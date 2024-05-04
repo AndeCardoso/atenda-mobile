@@ -91,10 +91,27 @@ export const useCustomersController = () => {
     }, [])
   );
 
+  const emptyStateTexts = {
+    title: customersSearch
+      ? "Nenhum cliente encontrado"
+      : "Ainda não há clientes",
+    subtitle: !customersSearch ? "Cadastre novos clientes" : undefined,
+    action: customersSearch
+      ? {
+          text: "Limpar busca",
+          onPress: () => onCustomerSearch(""),
+        }
+      : {
+          text: "Cadastrar cliente",
+          onPress: handleGoToRegister,
+        },
+  };
+
   return {
     customerList: reducePages(data?.pages),
     onCustomerSearch,
     handleGoToDetails,
+    emptyStateTexts,
     handleGoBack,
     fabActions,
     refetch,
