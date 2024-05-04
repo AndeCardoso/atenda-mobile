@@ -14,11 +14,13 @@ export const Profile = ({
   return (
     <Conatiner>
       <IconWrapper>
-        <Icon name={admin ? "account-cog" : "account"} />
+        <Icon name={admin ? "account-cog" : "account"} color="SECONDARY" />
       </IconWrapper>
       <NamesWrapper>
-        <Text>{companyName}</Text>
-        <Text size={12}>{name}</Text>
+        <Text color="SECONDARY">{companyName}</Text>
+        <Text size={12} color="SECONDARY">
+          {name}
+        </Text>
       </NamesWrapper>
     </Conatiner>
   );

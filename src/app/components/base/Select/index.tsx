@@ -129,10 +129,15 @@ export const Select = ({
         <Modal visible={modalVisible} onDismiss={onToggleModal} dismissable>
           <ModalContainer>
             <Header>
-              <Text size={24} weight="700">
+              <Text size={24} weight="700" color="SECONDARY">
                 {placeholder}
               </Text>
-              <IconButton name="close" size={26} onPress={onToggleModal} />
+              <IconButton
+                name="close"
+                size={26}
+                onPress={onToggleModal}
+                color="SECONDARY"
+              />
             </Header>
             {onSearch ? (
               <Search>
