@@ -9,6 +9,7 @@ import { LoaderBox } from "@components/base/Loader/styles";
 import { useUsersController } from "./useUsersController";
 import { UserCard } from "@components/cards/UserCard";
 import { FabButton } from "@components/base/FAB";
+import { EmptyState } from "@components/EmptyState";
 
 export const UsersPage = () => {
   const { colors } = useTheme();
@@ -39,6 +40,9 @@ export const UsersPage = () => {
             ItemSeparatorComponent={() => <Spacer spaceVertical={16} />}
             contentContainerStyle={{ padding: 16 }}
             showsVerticalScrollIndicator={false}
+            ListEmptyComponent={() => (
+              <EmptyState title="Nenhum Usuário encontrado" />
+            )}
             onTouchEnd={() => fetchNextPage()}
             refreshControl={
               !reloading ? (
