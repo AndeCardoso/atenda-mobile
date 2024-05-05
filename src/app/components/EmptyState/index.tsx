@@ -10,15 +10,29 @@ interface IEmptyStateProps {
     text: string;
     onPress: (value?: string) => void;
   };
+  secondary?: boolean;
 }
-export const EmptyState = ({ title, subtitle, action }: IEmptyStateProps) => {
+export const EmptyState = ({
+  title,
+  subtitle,
+  action,
+  secondary,
+}: IEmptyStateProps) => {
   return (
     <Container>
-      <Image
-        source={require("../../assets/empty-state.png")}
-        resizeMode="contain"
-        style={{ width: 250, height: 250 }}
-      />
+      {secondary ? (
+        <Image
+          source={require("../../assets/empty-state-secondary.png")}
+          resizeMode="contain"
+          style={{ width: 150, height: 150 }}
+        />
+      ) : (
+        <Image
+          source={require("../../assets/empty-state.png")}
+          resizeMode="contain"
+          style={{ width: 250, height: 250 }}
+        />
+      )}
       <Text size={20} weight="600" color="WHITE" textAlign="center">
         {title}
       </Text>

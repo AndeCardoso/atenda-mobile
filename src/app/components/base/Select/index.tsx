@@ -16,6 +16,7 @@ import { Content, Header, ModalContainer, Search } from "./styles";
 import { InputSearch } from "../InputSearch";
 import { LoaderBox } from "../Loader/styles";
 import { ListItem } from "../ListItem";
+import { EmptyState } from "@components/EmptyState";
 
 export interface IOption {
   id: number | string;
@@ -47,9 +48,12 @@ export const Select = ({
 }: ISelectProps) => {
   const { colors } = useTheme();
   const [modalVisible, setModalVisible] = useState(false);
+  const [searchValue, setSearchValue] = useState<string | undefined>("");
   const [seletedValueState, setSelectedValueState] = useState<
     IOption | string | undefined
   >(value);
+
+  const inputRef = useRef<TextInputRN>(null);
 
   useEffect(() => {
     if (value) setSelectedValueState(value);
@@ -57,6 +61,17 @@ export const Select = ({
 
   const onToggleModal = () => {
     setModalVisible(!modalVisible);
+    onCleanSearch();
+  };
+
+  const handleSearch = (value?: string) => {
+    onSearch && onSearch(value);
+    setSearchValue(value);
+  };
+
+  const onCleanSearch = () => {
+    onSearch && onSearch("");
+    setSearchValue("");
   };
 
   const onSelectValue = (value: IOption) => {
@@ -69,8 +84,6 @@ export const Select = ({
     onPress && onPress();
     onToggleModal();
   };
-
-  const inputRef = useRef<TextInputRN>(null);
 
   function handleClear() {
     inputRef.current?.clear();
@@ -141,7 +154,11 @@ export const Select = ({
             </Header>
             {onSearch ? (
               <Search>
-                <InputSearch placeholder="Busca" onChangeText={onSearch} />
+                <InputSearch
+                  placeholder="Busca"
+                  onChangeText={handleSearch}
+                  text={searchValue}
+                />
               </Search>
             ) : null}
             <Content>
@@ -155,6 +172,16 @@ export const Select = ({
                   keyExtractor={(item) => item.id.toString()}
                   ItemSeparatorComponent={() => <Spacer spaceVertical={16} />}
                   contentContainerStyle={{ padding: 16 }}
+                  ListEmptyComponent={() => (
+                    <EmptyState
+                      title="Nenhum resultado encontrado"
+                      action={{
+                        text: "Limpar busca",
+                        onPress: onCleanSearch,
+                      }}
+                      secondary
+                    />
+                  )}
                   showsVerticalScrollIndicator={false}
                   renderItem={({ item }) => {
                     return (
