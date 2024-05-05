@@ -109,8 +109,9 @@ export const useCustomersController = () => {
 
   return {
     customerList: reducePages(data?.pages),
-    onCustomerSearch,
+    textSearch: customersSearch,
     handleGoToDetails,
+    onCustomerSearch,
     emptyStateTexts,
     handleGoBack,
     fabActions,

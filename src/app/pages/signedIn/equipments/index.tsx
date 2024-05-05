@@ -23,6 +23,7 @@ export const EquipmentsPage = () => {
     emptyStateTexts,
     fetchNextPage,
     fabActions,
+    textSearch,
     refetch,
     viewState: { loading, reloading },
   } = useEquipmentsController();
@@ -31,6 +32,7 @@ export const EquipmentsPage = () => {
     <Layout
       header="Equipamentos"
       onSearch={onEquipmentSearch}
+      textSearch={textSearch}
       close={handleGoBack}
     >
       {loading ? (

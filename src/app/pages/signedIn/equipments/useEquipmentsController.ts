@@ -120,6 +120,7 @@ export const useEquipmentsController = () => {
 
   return {
     equipmentList: reducePages(data?.pages),
+    textSearch: equipmentSearch,
     onEquipmentSearch,
     handleGoToDetails,
     emptyStateTexts,

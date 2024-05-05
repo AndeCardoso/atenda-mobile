@@ -11,6 +11,7 @@ interface ILayoutProps extends PropsWithChildren {
   header?: string;
   footer?: ReactNode;
   hasBrand?: boolean;
+  textSearch?: string;
   hasScroll?: boolean;
   showProfile?: boolean;
   onSearch?: (value?: string) => void;
@@ -26,6 +27,7 @@ export const Layout = ({
   hasBrand,
   hasScroll,
   showProfile,
+  textSearch,
   onSearch,
   goBack,
   close,
@@ -51,6 +53,7 @@ export const Layout = ({
       <Header
         text={header}
         onSearch={onSearch}
+        textSearch={textSearch}
         goBack={goBack}
         close={close}
         hasBrand={hasBrand}

@@ -11,6 +11,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface IHeaderProps {
   text?: string;
+  textSearch?: string;
   showProfile?: boolean;
   hasBrand?: boolean;
   onSearch?: (value?: string) => void;
@@ -22,6 +23,7 @@ const android = Platform.OS === "android";
 
 export const Header = ({
   text,
+  textSearch,
   showProfile,
   hasBrand,
   onSearch,
@@ -61,7 +63,9 @@ export const Header = ({
           </TouchableOpacity>
         ) : null}
       </ContainerTop>
-      {onSearch ? <InputSearch onChangeText={onSearch} /> : null}
+      {onSearch ? (
+        <InputSearch onChangeText={onSearch} text={textSearch} />
+      ) : null}
     </Container>
   );
 };

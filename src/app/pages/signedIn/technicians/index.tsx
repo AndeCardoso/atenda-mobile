@@ -23,6 +23,7 @@ export const TechniciansPage = () => {
     emptyStateTexts,
     fetchNextPage,
     fabActions,
+    textSearch,
     refetch,
     viewState: { loading, reloading },
   } = useTechniciansController();
@@ -31,6 +32,7 @@ export const TechniciansPage = () => {
     <Layout
       header="Técnicos"
       onSearch={onTechnicianSearch}
+      textSearch={textSearch}
       close={handleGoBack}
     >
       {loading ? (

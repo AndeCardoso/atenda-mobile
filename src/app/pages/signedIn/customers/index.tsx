@@ -22,13 +22,19 @@ export const CustomersPage = () => {
     onCustomerSearch,
     handleGoToDetails,
     emptyStateTexts,
+    textSearch,
     fabActions,
     refetch,
     viewState: { loading, reloading },
   } = useCustomersController();
 
   return (
-    <Layout header="Clientes" onSearch={onCustomerSearch} close={handleGoBack}>
+    <Layout
+      header="Clientes"
+      onSearch={onCustomerSearch}
+      textSearch={textSearch}
+      close={handleGoBack}
+    >
       {loading ? (
         <LoaderBox>
           <Loader size={64} />

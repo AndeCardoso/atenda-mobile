@@ -110,6 +110,7 @@ export const useTechniciansController = () => {
 
   return {
     technicianList: reducePages(data?.pages),
+    textSearch: technicianSearch,
     onTechnicianSearch,
     handleGoToDetails,
     emptyStateTexts,
