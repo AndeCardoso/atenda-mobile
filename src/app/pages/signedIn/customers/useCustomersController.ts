@@ -4,18 +4,21 @@ import { SignedInScreens } from "@routes/screens";
 import { useInfiniteQuery, useQueryClient } from "react-query";
 import CustomerService from "@services/customer";
 import { HttpStatusCode } from "axios";
-import { SuperConsole } from "@tools/indentedConsole";
 import { useCallback, useState } from "react";
 import { reducePages } from "@utils/reducePages";
+import { useToast } from "@hooks/useToast";
+import { requestStateEnum } from "app/constants/requestStates";
 
 export const useCustomersController = () => {
   const { colors } = useTheme();
+  const { createToast } = useToast();
   const { navigate, canGoBack, goBack } = useNavigation<any>();
   const queryClient = useQueryClient();
 
   const customerService = new CustomerService();
 
   const [customersSearch, setCustomerSearch] = useState("");
+  const [listState, setListState] = useState<requestStateEnum | undefined>();
 
   const { data, refetch, isLoading, isRefetching } = useInfiniteQuery(
     ["customers", customersSearch],
@@ -31,9 +34,11 @@ export const useCustomersController = () => {
         case HttpStatusCode.Ok:
           return body;
         case HttpStatusCode.NoContent:
+          setListState(requestStateEnum.EMPTY);
+          return;
         case HttpStatusCode.BadRequest:
         default:
-          SuperConsole(body);
+          setListState(requestStateEnum.ERROR);
           return;
       }
     },
@@ -45,7 +50,10 @@ export const useCustomersController = () => {
             : undefined;
       },
       onError: async (error) => {
-        console.log("error - customers", JSON.stringify(error, null, 2));
+        createToast({
+          message: "Erro inesperado, tente novamente",
+          alertType: "error",
+        });
         return;
       },
     }
@@ -119,6 +127,7 @@ export const useCustomersController = () => {
     viewState: {
       loading: isLoading,
       reloading: isRefetching,
+      listState,
     },
   };
 };

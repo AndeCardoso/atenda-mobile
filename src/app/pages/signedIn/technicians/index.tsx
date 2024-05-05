@@ -10,6 +10,7 @@ import { LoaderBox } from "@components/base/Loader/styles";
 import { TechnicianCard } from "@components/cards/TechnicianCard";
 import { FabButton } from "@components/base/FAB";
 import { EmptyState } from "@components/EmptyState";
+import { requestStateEnum } from "app/constants/requestStates";
 
 export const TechniciansPage = () => {
   const { colors } = useTheme();
@@ -25,7 +26,7 @@ export const TechniciansPage = () => {
     fabActions,
     textSearch,
     refetch,
-    viewState: { loading, reloading },
+    viewState: { loading, reloading, listState },
   } = useTechniciansController();
 
   return (
@@ -52,6 +53,7 @@ export const TechniciansPage = () => {
                 title={emptyStateTexts.title}
                 subtitle={emptyStateTexts.subtitle}
                 action={emptyStateTexts.action}
+                error={listState === requestStateEnum.ERROR}
               />
             )}
             onTouchEnd={() => fetchNextPage()}

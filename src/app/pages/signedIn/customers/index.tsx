@@ -11,6 +11,7 @@ import { CustomerCard } from "@components/cards/CustomerCard";
 import { ICustomerModel } from "@model/entities/customer";
 import { FabButton } from "@components/base/FAB";
 import { EmptyState } from "@components/EmptyState";
+import { requestStateEnum } from "app/constants/requestStates";
 
 export const CustomersPage = () => {
   const { colors } = useTheme();
@@ -25,7 +26,7 @@ export const CustomersPage = () => {
     textSearch,
     fabActions,
     refetch,
-    viewState: { loading, reloading },
+    viewState: { loading, reloading, listState },
   } = useCustomersController();
 
   return (
@@ -52,6 +53,7 @@ export const CustomersPage = () => {
                 title={emptyStateTexts.title}
                 subtitle={emptyStateTexts.subtitle}
                 action={emptyStateTexts.action}
+                error={listState === requestStateEnum.ERROR}
               />
             )}
             refreshControl={

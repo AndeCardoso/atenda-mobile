@@ -10,6 +10,7 @@ import { LoaderBox } from "@components/base/Loader/styles";
 import { EquipmentCard } from "@components/cards/EquipmentCard";
 import { FabButton } from "@components/base/FAB";
 import { EmptyState } from "@components/EmptyState";
+import { requestStateEnum } from "app/constants/requestStates";
 
 export const EquipmentsPage = () => {
   const { colors } = useTheme();
@@ -25,7 +26,7 @@ export const EquipmentsPage = () => {
     fabActions,
     textSearch,
     refetch,
-    viewState: { loading, reloading },
+    viewState: { loading, reloading, listState },
   } = useEquipmentsController();
 
   return (
@@ -53,6 +54,7 @@ export const EquipmentsPage = () => {
                 title={emptyStateTexts.title}
                 subtitle={emptyStateTexts.subtitle}
                 action={emptyStateTexts.action}
+                error={listState === requestStateEnum.ERROR}
               />
             )}
             refreshControl={
