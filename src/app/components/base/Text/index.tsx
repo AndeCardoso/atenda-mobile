@@ -24,6 +24,7 @@ export const Text = ({
   fullwidth,
   weight,
   style,
+  textAlign,
   ...rest
 }: ITextProps) => {
   const { colors } = useTheme();
@@ -33,6 +34,7 @@ export const Text = ({
     fontSize: size,
     color: colors[color || "BLACK"],
     fontWeight: weight || "400",
+    textAlign: textAlign,
     ...(style as object),
   };
 

@@ -9,6 +9,8 @@ import { useIsFocused } from "@react-navigation/native";
 import { LoaderBox } from "@components/base/Loader/styles";
 import { TechnicianCard } from "@components/cards/TechnicianCard";
 import { FabButton } from "@components/base/FAB";
+import { EmptyState } from "@components/EmptyState";
+import { requestStateEnum } from "app/constants/requestStates";
 
 export const TechniciansPage = () => {
   const { colors } = useTheme();
@@ -19,16 +21,19 @@ export const TechniciansPage = () => {
     handleGoBack,
     onTechnicianSearch,
     handleGoToDetails,
+    emptyStateTexts,
     fetchNextPage,
     fabActions,
+    textSearch,
     refetch,
-    viewState: { loading, reloading },
+    viewState: { loading, reloading, listState },
   } = useTechniciansController();
 
   return (
     <Layout
       header="Técnicos"
       onSearch={onTechnicianSearch}
+      textSearch={textSearch}
       close={handleGoBack}
     >
       {loading ? (
@@ -43,6 +48,14 @@ export const TechniciansPage = () => {
             ItemSeparatorComponent={() => <Spacer spaceVertical={16} />}
             contentContainerStyle={{ padding: 16 }}
             showsVerticalScrollIndicator={false}
+            ListEmptyComponent={() => (
+              <EmptyState
+                title={emptyStateTexts.title}
+                subtitle={emptyStateTexts.subtitle}
+                action={emptyStateTexts.action}
+                error={listState === requestStateEnum.ERROR}
+              />
+            )}
             onTouchEnd={() => fetchNextPage()}
             refreshControl={
               !reloading ? (

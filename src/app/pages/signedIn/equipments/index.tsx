@@ -9,6 +9,8 @@ import { useIsFocused } from "@react-navigation/native";
 import { LoaderBox } from "@components/base/Loader/styles";
 import { EquipmentCard } from "@components/cards/EquipmentCard";
 import { FabButton } from "@components/base/FAB";
+import { EmptyState } from "@components/EmptyState";
+import { requestStateEnum } from "app/constants/requestStates";
 
 export const EquipmentsPage = () => {
   const { colors } = useTheme();
@@ -19,16 +21,19 @@ export const EquipmentsPage = () => {
     handleGoBack,
     onEquipmentSearch,
     handleGoToDetails,
+    emptyStateTexts,
     fetchNextPage,
     fabActions,
+    textSearch,
     refetch,
-    viewState: { loading, reloading },
+    viewState: { loading, reloading, listState },
   } = useEquipmentsController();
 
   return (
     <Layout
       header="Equipamentos"
       onSearch={onEquipmentSearch}
+      textSearch={textSearch}
       close={handleGoBack}
     >
       {loading ? (
@@ -44,6 +49,14 @@ export const EquipmentsPage = () => {
             contentContainerStyle={{ padding: 16 }}
             showsVerticalScrollIndicator={false}
             onTouchEnd={() => fetchNextPage()}
+            ListEmptyComponent={() => (
+              <EmptyState
+                title={emptyStateTexts.title}
+                subtitle={emptyStateTexts.subtitle}
+                action={emptyStateTexts.action}
+                error={listState === requestStateEnum.ERROR}
+              />
+            )}
             refreshControl={
               !reloading ? (
                 <RefreshControl

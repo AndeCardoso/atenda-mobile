@@ -9,6 +9,8 @@ import { LoaderBox } from "@components/base/Loader/styles";
 import { useUsersController } from "./useUsersController";
 import { UserCard } from "@components/cards/UserCard";
 import { FabButton } from "@components/base/FAB";
+import { EmptyState } from "@components/EmptyState";
+import { requestStateEnum } from "app/constants/requestStates";
 
 export const UsersPage = () => {
   const { colors } = useTheme();
@@ -22,7 +24,7 @@ export const UsersPage = () => {
     fetchNextPage,
     fabActions,
     refetch,
-    viewState: { loading, reloading },
+    viewState: { loading, reloading, listState },
   } = useUsersController();
 
   return (
@@ -39,6 +41,12 @@ export const UsersPage = () => {
             ItemSeparatorComponent={() => <Spacer spaceVertical={16} />}
             contentContainerStyle={{ padding: 16 }}
             showsVerticalScrollIndicator={false}
+            ListEmptyComponent={() => (
+              <EmptyState
+                title="Nenhum Usuário encontrado"
+                error={listState === requestStateEnum.ERROR}
+              />
+            )}
             onTouchEnd={() => fetchNextPage()}
             refreshControl={
               !reloading ? (

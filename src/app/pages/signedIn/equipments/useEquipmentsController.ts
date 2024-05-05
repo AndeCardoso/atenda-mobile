@@ -11,9 +11,12 @@ import { HttpStatusCode } from "axios";
 import { SuperConsole } from "@tools/indentedConsole";
 import { useCallback, useState } from "react";
 import { reducePages } from "@utils/reducePages";
+import { requestStateEnum } from "app/constants/requestStates";
+import { useToast } from "@hooks/useToast";
 
 export const useEquipmentsController = () => {
   const { colors } = useTheme();
+  const { createToast } = useToast();
   const { navigate, canGoBack, goBack } = useNavigation<any>();
   const queryClient = useQueryClient();
   const { params } = useRoute<any>();
@@ -22,6 +25,7 @@ export const useEquipmentsController = () => {
   const equipmentService = new EquipmentService();
 
   const [equipmentSearch, setEquipmentSearch] = useState("");
+  const [listState, setListState] = useState<requestStateEnum | undefined>();
 
   const { data, refetch, fetchNextPage, isLoading, isRefetching } =
     useInfiniteQuery(
@@ -39,9 +43,11 @@ export const useEquipmentsController = () => {
           case HttpStatusCode.Ok:
             return body;
           case HttpStatusCode.NoContent:
+            setListState(requestStateEnum.EMPTY);
+            return;
           case HttpStatusCode.BadRequest:
           default:
-            SuperConsole(body);
+            setListState(requestStateEnum.ERROR);
             return;
         }
       },
@@ -53,7 +59,10 @@ export const useEquipmentsController = () => {
               : undefined;
         },
         onError: async (error) => {
-          console.log("error - equipments", JSON.stringify(error, null, 2));
+          createToast({
+            message: "Erro inesperado, tente novamente",
+            alertType: "error",
+          });
           return;
         },
       }
@@ -102,17 +111,36 @@ export const useEquipmentsController = () => {
     }, [])
   );
 
+  const emptyStateTexts = {
+    title: equipmentSearch
+      ? "Nenhum equipamento encontrado"
+      : "Ainda não há equipamentos para este cliente",
+    subtitle: !equipmentSearch ? "Cadastre novos equipamentos" : undefined,
+    action: equipmentSearch
+      ? {
+          text: "Limpar busca",
+          onPress: () => onEquipmentSearch(""),
+        }
+      : {
+          text: "Cadastrar equipamento",
+          onPress: handleGoToRegister,
+        },
+  };
+
   return {
     equipmentList: reducePages(data?.pages),
+    textSearch: equipmentSearch,
     onEquipmentSearch,
     handleGoToDetails,
-    handleGoBack,
+    emptyStateTexts,
     fetchNextPage,
+    handleGoBack,
     fabActions,
     refetch,
     viewState: {
       loading: isLoading,
       reloading: isRefetching,
+      listState,
     },
   };
 };

@@ -11,9 +11,10 @@ import {
   technicianPositionDisplay,
   technicianStatusDisplay,
 } from "@pages/signedIn/technicians/constants";
-import { BottomContainer, CardContainer } from "./styles";
+import { BottomContainer, ButtonLabel, CardContainer } from "./styles";
 import { GestureResponderEvent } from "react-native";
 import { useTheme } from "styled-components";
+import { Icon } from "@components/base/Icon";
 
 interface ITechnicianCardProps {
   data: Partial<ITechnicianModel>;
@@ -66,6 +67,12 @@ export const TechnicianCard = ({
             />
           </Row>
         </BottomContainer>
+        <ButtonLabel>
+          <Text color="WHITE" weight="600">
+            Detalhes
+          </Text>
+          <Icon color="WHITE" name="arrow-right" />
+        </ButtonLabel>
       </CardContainer>
     </Card>
   );

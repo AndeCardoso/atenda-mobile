@@ -4,18 +4,21 @@ import { SignedInScreens } from "@routes/screens";
 import { useInfiniteQuery, useQueryClient } from "react-query";
 import TechnicianService from "@services/technician";
 import { HttpStatusCode } from "axios";
-import { SuperConsole } from "@tools/indentedConsole";
 import { useCallback, useState } from "react";
 import { reducePages } from "@utils/reducePages";
+import { requestStateEnum } from "app/constants/requestStates";
+import { useToast } from "@hooks/useToast";
 
 export const useTechniciansController = () => {
   const { colors } = useTheme();
+  const { createToast } = useToast();
   const { navigate, canGoBack, goBack } = useNavigation<any>();
   const queryClient = useQueryClient();
 
   const technicianService = new TechnicianService();
 
   const [technicianSearch, setTechnicianSearch] = useState("");
+  const [listState, setListState] = useState<requestStateEnum | undefined>();
 
   const { data, refetch, fetchNextPage, isLoading, isRefetching } =
     useInfiniteQuery(
@@ -32,9 +35,11 @@ export const useTechniciansController = () => {
           case HttpStatusCode.Ok:
             return body;
           case HttpStatusCode.NoContent:
+            setListState(requestStateEnum.EMPTY);
+            return;
           case HttpStatusCode.BadRequest:
           default:
-            SuperConsole(body);
+            setListState(requestStateEnum.ERROR);
             return;
         }
       },
@@ -46,7 +51,10 @@ export const useTechniciansController = () => {
               : undefined;
         },
         onError: async (error) => {
-          console.log("error - technicians", JSON.stringify(error, null, 2));
+          createToast({
+            message: "Erro inesperado, tente novamente",
+            alertType: "error",
+          });
           return;
         },
       }
@@ -92,17 +100,36 @@ export const useTechniciansController = () => {
     }, [])
   );
 
+  const emptyStateTexts = {
+    title: technicianSearch
+      ? "Nenhum técnico encontrado"
+      : "Ainda não há clientes",
+    subtitle: !technicianSearch ? "Cadastre novos clientes" : undefined,
+    action: technicianSearch
+      ? {
+          text: "Limpar busca",
+          onPress: () => onTechnicianSearch(""),
+        }
+      : {
+          text: "Cadastrar técnico",
+          onPress: handleGoToRegister,
+        },
+  };
+
   return {
     technicianList: reducePages(data?.pages),
+    textSearch: technicianSearch,
     onTechnicianSearch,
     handleGoToDetails,
-    handleGoBack,
+    emptyStateTexts,
     fetchNextPage,
+    handleGoBack,
     fabActions,
     refetch,
     viewState: {
       loading: isLoading,
       reloading: isRefetching,
+      listState,
     },
   };
 };

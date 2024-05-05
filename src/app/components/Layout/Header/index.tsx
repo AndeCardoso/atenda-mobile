@@ -11,6 +11,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface IHeaderProps {
   text?: string;
+  textSearch?: string;
   showProfile?: boolean;
   hasBrand?: boolean;
   onSearch?: (value?: string) => void;
@@ -22,6 +23,7 @@ const android = Platform.OS === "android";
 
 export const Header = ({
   text,
+  textSearch,
   showProfile,
   hasBrand,
   onSearch,
@@ -37,18 +39,18 @@ export const Header = ({
         <StyledRow>
           {Boolean(goBack) && (
             <TouchableOpacity onPress={goBack}>
-              <Icon name={"chevron-left"} size={28} />
+              <Icon name={"chevron-left"} size={32} color="SECONDARY" />
             </TouchableOpacity>
           )}
           {hasBrand ? (
             <Image
-              resizeMode="center"
-              style={{ width: 155, height: 70 }}
+              resizeMode="contain"
+              style={{ width: 150, height: 70 }}
               source={require("../../../assets/brand/brand-dark.png")}
             />
           ) : null}
           {Boolean(text) ? (
-            <Text weight="700" size={24}>
+            <Text weight="700" size={24} color="SECONDARY">
               {text}
             </Text>
           ) : null}
@@ -57,11 +59,13 @@ export const Header = ({
         {showProfile && userData ? <Profile data={userData} /> : null}
         {Boolean(close) ? (
           <TouchableOpacity onPress={close}>
-            <Icon name={"close"} size={30} />
+            <Icon name={"close"} size={28} color="SECONDARY" />
           </TouchableOpacity>
         ) : null}
       </ContainerTop>
-      {onSearch ? <InputSearch onChangeText={onSearch} /> : null}
+      {onSearch ? (
+        <InputSearch onChangeText={onSearch} text={textSearch} />
+      ) : null}
     </Container>
   );
 };

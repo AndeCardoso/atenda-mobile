@@ -5,7 +5,7 @@ export const Conatiner = styled(Row)`
   width: auto;
   padding: 4px 16px 4px 4px;
   border-radius: 30px;
-  border: 2px solid ${({ theme }) => theme.colors.SECONDARY};
+  border: 2.5px solid ${({ theme }) => theme.colors.SECONDARY};
 `;
 
 export const IconWrapper = styled.View`

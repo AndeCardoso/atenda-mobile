@@ -7,6 +7,7 @@ import { SuperConsole } from "@tools/indentedConsole";
 import { useCallback, useState } from "react";
 import UserService from "@services/user";
 import { reducePages } from "@utils/reducePages";
+import { requestStateEnum } from "app/constants/requestStates";
 
 export const useUsersController = () => {
   const { colors } = useTheme();
@@ -16,6 +17,7 @@ export const useUsersController = () => {
   const userService = new UserService();
 
   const [userSearch, setUserSearch] = useState("");
+  const [listState, setListState] = useState<requestStateEnum | undefined>();
 
   const { data, refetch, fetchNextPage, isLoading, isRefetching } =
     useInfiniteQuery(
@@ -32,9 +34,11 @@ export const useUsersController = () => {
           case HttpStatusCode.Ok:
             return body;
           case HttpStatusCode.NoContent:
+            setListState(requestStateEnum.EMPTY);
+            return;
           case HttpStatusCode.BadRequest:
           default:
-            SuperConsole(body);
+            setListState(requestStateEnum.ERROR);
             return;
         }
       },
@@ -103,6 +107,7 @@ export const useUsersController = () => {
     viewState: {
       loading: isLoading,
       reloading: isRefetching,
+      listState,
     },
   };
 };

@@ -1,10 +1,7 @@
 import React from "react";
-import { ViewStyle } from "react-native";
-import {
-  ButtonProps,
-  Button as PaperButton,
-  useTheme,
-} from "react-native-paper";
+import { TextStyle, ViewStyle } from "react-native";
+import { ButtonProps, Button as PaperButton } from "react-native-paper";
+import { useTheme } from "styled-components";
 import { StyledLoader } from "./styles";
 
 interface IButtonProps extends ButtonProps {
@@ -24,14 +21,19 @@ export const Button = ({
 
   const style: ViewStyle = {
     flex: fullwidth ? 1 : 0,
-    borderColor: colors.primary,
-    borderWidth: 2,
+    borderColor: colors.PRIMARY,
+    borderWidth: mode === "text" ? 0 : 2,
     justifyContent: "center",
     borderRadius: 50,
   };
 
+  const labelStyle: TextStyle = {
+    fontSize: 16,
+    fontWeight: "600",
+  };
+
   const loadingColors = {
-    text: "PRIMARY",
+    text: "WHITE",
     outlined: "PRIMARY",
     contained: "SECONDARY",
   };
@@ -40,13 +42,12 @@ export const Button = ({
     <PaperButton
       textColor={colors[loadingColors[mode]]}
       style={style}
-      labelStyle={{ fontSize: 16, fontWeight: "600" }}
+      labelStyle={labelStyle}
       mode={mode}
       {...rest}
     >
       {children}
-
-      {loading && <StyledLoader size={16} color={loadingColors[mode]} />}
+      {loading ? <StyledLoader size={16} color={loadingColors[mode]} /> : null}
     </PaperButton>
   );
 };

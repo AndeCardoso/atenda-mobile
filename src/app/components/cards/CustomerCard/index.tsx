@@ -7,10 +7,11 @@ import { Divider } from "@components/base/Separator";
 import { DisplayField } from "@components/base/DisplayField";
 import { formatCellphoneNumber, formatCpf } from "@utils/formatString";
 import { customerStatusDisplay } from "@pages/signedIn/customers/constants";
-import { BottomContainer, CardContainer } from "./styles";
+import { BottomContainer, ButtonLabel, CardContainer } from "./styles";
 import { GestureResponderEvent } from "react-native";
 import { useTheme } from "styled-components";
 import { ICustomerModel } from "@model/entities/customer";
+import { Icon } from "@components/base/Icon";
 
 interface ICustomerCardProps {
   data: Partial<ICustomerModel>;
@@ -63,6 +64,12 @@ export const CustomerCard = ({
             />
           </Row>
         </BottomContainer>
+        <ButtonLabel>
+          <Text color="WHITE" weight="600">
+            Detalhes
+          </Text>
+          <Icon color="WHITE" name="arrow-right" />
+        </ButtonLabel>
       </CardContainer>
     </Card>
   );
