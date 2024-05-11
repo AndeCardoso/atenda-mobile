@@ -6,24 +6,26 @@ import { Chip } from "@components/base/Chip";
 import { Divider } from "@components/base/Separator";
 import { DisplayField } from "@components/base/DisplayField";
 import { equipmentStatusDisplay } from "@pages/signedIn/equipments/constants";
-import { BottomContainer, ButtonLabel, CardContainer } from "./styles";
+import { BottomContainer, CardContainer } from "./styles";
 import { GestureResponderEvent } from "react-native";
 import { useTheme } from "styled-components";
 import { IEquipmentModel } from "@model/entities/equipment";
-import { Icon } from "@components/base/Icon";
 
 interface IEquipmentCardProps {
   data: Partial<IEquipmentModel>;
+  footerLabel?: string;
   onPress?: (e: GestureResponderEvent) => void;
 }
 
 export const EquipmentCard = ({
   data: { nickname, brand, model, voltage, accessories, status },
+  footerLabel,
   onPress,
 }: IEquipmentCardProps) => {
   const { colors } = useTheme();
   return (
     <Card
+      footerLabel={footerLabel}
       onPress={onPress && onPress}
       style={{ backgroundColor: colors.SECONDARY_INACTIVE }}
     >
@@ -58,12 +60,6 @@ export const EquipmentCard = ({
             <DisplayField text="Voltagem" value={voltage} color="WHITE" />
           </Row>
         </BottomContainer>
-        <ButtonLabel>
-          <Text color="WHITE" weight="600">
-            Detalhes
-          </Text>
-          <Icon color="WHITE" name="arrow-right" />
-        </ButtonLabel>
       </CardContainer>
     </Card>
   );

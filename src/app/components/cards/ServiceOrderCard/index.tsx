@@ -5,24 +5,24 @@ import { Row } from "@components/base/Row";
 import { Chip } from "@components/base/Chip";
 import { Divider } from "@components/base/Separator";
 import { DisplayField } from "@components/base/DisplayField";
-import { formatCellphoneNumber, formatCpf } from "@utils/formatString";
-import { customerStatusDisplay } from "@pages/signedIn/customers/constants";
+import { serviceOrderStatusDisplay } from "@pages/signedIn/serviceOrders/constants";
 import { BottomContainer, CardContainer } from "./styles";
 import { GestureResponderEvent } from "react-native";
 import { useTheme } from "styled-components";
-import { ICustomerModel } from "@model/entities/customer";
+import { IServiceOrderModel } from "@model/entities/serviceOrder";
+import { formatDateToBrazilian } from "@utils/formatDate";
 
-interface ICustomerCardProps {
-  data: Partial<ICustomerModel>;
+interface IServiceOrderCardProps {
+  data: Partial<IServiceOrderModel>;
   footerLabel?: string;
   onPress?: (e: GestureResponderEvent) => void;
 }
 
-export const CustomerCard = ({
-  data: { name, document, phone, email, status },
+export const ServiceOrderCard = ({
+  data: { id, created_at, customer, technician, equipment, status },
   footerLabel,
   onPress,
-}: ICustomerCardProps) => {
+}: IServiceOrderCardProps) => {
   const { colors } = useTheme();
   return (
     <Card
@@ -39,12 +39,12 @@ export const CustomerCard = ({
             numberOfLines={1}
             fullwidth
           >
-            {name}
+            Nº: {id}
           </Text>
 
           {status ? (
             <Chip
-              text={customerStatusDisplay[status]}
+              text={serviceOrderStatusDisplay[status]}
               color="PRIMARY"
               textColor="SECONDARY"
             />
@@ -52,16 +52,25 @@ export const CustomerCard = ({
         </Row>
         <Divider color="WHITE" />
         <BottomContainer>
+          <Row>
+            <DisplayField text="Cliente" value={customer?.name} color="WHITE" />
+            <DisplayField
+              text="Aberto em"
+              value={formatDateToBrazilian(created_at!!)}
+              color="WHITE"
+            />
+          </Row>
+          <Divider color="WHITE" />
           <DisplayField
-            text="Documento"
-            value={formatCpf(document)}
+            text="Equipamento"
+            value={equipment?.nickname}
             color="WHITE"
           />
           <Row>
-            <DisplayField text="E-mail" value={email} color="WHITE" />
+            <DisplayField text="Marca" value={equipment?.brand} color="WHITE" />
             <DisplayField
-              text="Celular"
-              value={formatCellphoneNumber(phone)}
+              text="Modelo"
+              value={equipment?.model}
               color="WHITE"
             />
           </Row>
