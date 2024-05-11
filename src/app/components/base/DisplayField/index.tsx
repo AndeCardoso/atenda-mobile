@@ -13,6 +13,7 @@ interface IDisplayFieldProps {
   color?: Colors;
   hasCopy?: boolean;
   hasCall?: boolean;
+  goToButton?: () => void;
 }
 
 export const DisplayField = ({
@@ -21,6 +22,7 @@ export const DisplayField = ({
   color = "WHITE",
   hasCopy,
   hasCall,
+  goToButton,
 }: IDisplayFieldProps) => {
   const { createToast } = useToast();
 
@@ -48,13 +50,21 @@ export const DisplayField = ({
 
   return (
     <Container>
-      <Text color={color} size={14}>
+      <Text color="WHITE_TEXT" size={14}>
         {text}:
       </Text>
       <Row>
         <TextValue color={color} size={18} weight="700" isEmpty={!value}>
           {value || "--"}
         </TextValue>
+        {goToButton ? (
+          <IconButton
+            name="file-move"
+            size={20}
+            color={color}
+            onPress={goToButton}
+          />
+        ) : null}
         {hasCopy ? (
           <IconButton
             name="content-copy"
