@@ -20,6 +20,7 @@ import { customerStatusDisplay } from "../constants";
 import { Accordion } from "@components/base/Accordion";
 import { Chip } from "@components/base/Chip";
 import { FabButton } from "@components/base/FAB";
+import { AddressAccordion } from "@components/accordions/AddressAccordion";
 
 export const CustomerDetailPage = () => {
   const isFocused = useIsFocused();
@@ -86,41 +87,10 @@ export const CustomerDetailPage = () => {
             </Text>
             <Spacer />
             {customerData?.addresses.map((address, index) => (
-              <Accordion
-                title={address?.nickname || ""}
+              <AddressAccordion
+                data={address}
                 key={`${address?.nickname}-${index}`}
-              >
-                <AddressContent>
-                  <DisplayField text="Logradouro" value={address?.street} />
-                  <Divider />
-                  <Row>
-                    <DisplayField text="Numero" value={address?.number} />
-                    {address?.complement ? (
-                      <DisplayField
-                        text="Complemento"
-                        value={address?.complement}
-                      />
-                    ) : null}
-                  </Row>
-                  <Divider />
-                  <Row>
-                    <DisplayField text="Bairro" value={address?.district} />
-                    <DisplayField text="Cep" value={formatCep(address?.cep)} />
-                  </Row>
-                  <Divider />
-                  <Row>
-                    <DisplayField
-                      text="Cidade"
-                      value={address?.city.toString()}
-                    />
-                    <DisplayField
-                      text="Estado"
-                      value={address?.state.toString()}
-                    />
-                  </Row>
-                  <Spacer spaceVertical={32} />
-                </AddressContent>
-              </Accordion>
+              />
             ))}
           </Container>
           <FabButton
