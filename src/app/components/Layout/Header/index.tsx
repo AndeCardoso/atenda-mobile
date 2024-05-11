@@ -8,12 +8,17 @@ import { InputSearch } from "@components/base/InputSearch";
 import { Profile } from "@components/base/Profile";
 import { useAuth } from "@hooks/useAuth";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { IconButton } from "@components/base/IconButton";
+import { Row } from "@components/base/Row";
+import { IStepperProps, Stepper } from "@components/base/Stepper";
 
 interface IHeaderProps {
   text?: string;
   textSearch?: string;
   showProfile?: boolean;
   hasBrand?: boolean;
+  steps?: IStepperProps;
+  onRegister?: () => void;
   onSearch?: (value?: string) => void;
   goBack?: () => void;
   close?: () => void;
@@ -25,10 +30,12 @@ export const Header = ({
   text,
   textSearch,
   showProfile,
+  onRegister,
   hasBrand,
   onSearch,
   goBack,
   close,
+  steps,
 }: IHeaderProps) => {
   const { userData } = useAuth();
   const { top } = useSafeAreaInsets();
@@ -63,8 +70,19 @@ export const Header = ({
           </TouchableOpacity>
         ) : null}
       </ContainerTop>
+      {steps ? <Stepper current={steps.current} total={steps.total} /> : null}
       {onSearch ? (
-        <InputSearch onChangeText={onSearch} text={textSearch} />
+        <Row>
+          <InputSearch onChangeText={onSearch} text={textSearch} />
+          {onRegister ? (
+            <IconButton
+              name="plus"
+              onPress={onRegister}
+              size={68}
+              color="SECONDARY"
+            />
+          ) : null}
+        </Row>
       ) : null}
     </Container>
   );
