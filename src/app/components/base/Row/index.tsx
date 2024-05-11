@@ -17,6 +17,7 @@ export const Row = ({
 }: IRowProps) => {
   const styles: ViewStyle = {
     justifyContent: space,
+    alignItems: "center",
     width:
       widthType === "half" ? "50%" : widthType === "auto" ? "auto" : "100%",
   };

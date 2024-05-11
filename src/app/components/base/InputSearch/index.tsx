@@ -20,6 +20,7 @@ export const InputSearch = ({
   const [searchValue, setSearchValue] = useState(text || "");
 
   const defaultStyle: ViewStyle = {
+    flex: 1,
     width: "100%",
     backgroundColor: colors.SECONDARY,
   };
