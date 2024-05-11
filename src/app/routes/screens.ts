@@ -13,6 +13,11 @@ export enum SignedOffScreens {
 export enum SignedInScreens {
   HOME = "Home",
 
+  SERVICE_ORDERS = "ServiceOrders",
+  SERVICE_ORDERS_REGISTER_FLOW = "ServiceOrderRegisterFlow",
+  SERVICE_ORDERS_UPDATE_FORM = "ServiceOrderUpdateForm",
+  SERVICE_ORDERS_DETAILS = "ServiceOrderDetails",
+
   CUSTOMERS = "Customers",
   CUSTOMERS_REGISTER_FORM = "CustomerRegisterForm",
   CUSTOMERS_UPDATE_FORM = "CustomerUpdateForm",
@@ -39,4 +44,5 @@ export enum SignedInNavigators {
   TECHNICIANS = "TechniciansNavigator",
   CUSTOMERS = "CustomersNavigator",
   EQUIPMENTS = "EquipmentsNavigator",
+  SERVICE_ORDERS = "ServiceOrdersNavigator",
 }
