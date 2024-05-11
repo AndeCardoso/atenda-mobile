@@ -69,6 +69,7 @@ export const TechniciansPage = () => {
             renderItem={({ item }) => (
               <TechnicianCard
                 data={item}
+                footerLabel="Detalhes"
                 onPress={() => handleGoToDetails(item.id)}
               />
             )}

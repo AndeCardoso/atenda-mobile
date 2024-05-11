@@ -69,6 +69,7 @@ export const EquipmentsPage = () => {
             renderItem={({ item }) => (
               <EquipmentCard
                 data={item}
+                footerLabel="Detalhes"
                 onPress={() => handleGoToDetails(item.id)}
               />
             )}
