@@ -1,12 +1,16 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { useMutation, useQuery } from "react-query";
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { HttpStatusCode } from "axios";
 import { SuperConsole } from "@tools/indentedConsole";
 import { CustomerRegisterRequestDTO } from "@services/customer/dtos/request/CustomerRegisterRequestDTO";
 import CustomerService from "@services/customer";
 import { ICustomerForm } from "../schema";
 import { unmask } from "@utils/formatString";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useToast } from "@hooks/useToast";
 
 export const useUpdateCustomerFormController = () => {
@@ -14,6 +18,8 @@ export const useUpdateCustomerFormController = () => {
   const { createToast } = useToast();
   const { params } = useRoute<any>();
   const { customerId } = params;
+  const queryClient = useQueryClient();
+
   const customerService = new CustomerService();
 
   const [buttonEnabledState, setButtonEnabledState] = useState<boolean>(true);
@@ -111,6 +117,12 @@ export const useUpdateCustomerFormController = () => {
       handleGoBack();
     }
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      queryClient.invalidateQueries("getCustomerUpdate");
+    }, [])
+  );
 
   return {
     customerData: data,
