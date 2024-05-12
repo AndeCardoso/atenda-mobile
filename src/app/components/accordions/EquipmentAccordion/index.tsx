@@ -45,7 +45,7 @@ export const EquipmentAccordion = ({
         <DisplayField text="Acessórios" value={accessories} />
         <Divider />
         <DisplayField text="Descrição" value={description} />
-        <Spacer spaceVertical={32} />
+        <Spacer spaceVertical={8} />
       </Content>
     </Accordion>
   );
