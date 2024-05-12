@@ -5,12 +5,14 @@ import { TextInput, TextInputProps } from "react-native-paper";
 import { useTheme } from "styled-components";
 
 interface IInputProps extends TextInputProps {
+  longText?: boolean;
   password?: boolean;
   mask?: Mask;
 }
 
 export const Input = ({
   value,
+  longText,
   password,
   onChangeText,
   placeholder,
@@ -35,6 +37,7 @@ export const Input = ({
 
   const inputStyle: StyleProp<TextStyle> = {
     width: "100%",
+    height: longText ? 200 : undefined,
     backgroundColor: colors.INPUT_BACKGROUND,
   };
 
@@ -43,6 +46,35 @@ export const Input = ({
     color: colors.SECONDARY_INACTIVE,
     pointerEvents: "none",
   };
+
+  if (longText) {
+    return (
+      <TextInput
+        value={value}
+        mode={"outlined"}
+        onChangeText={onChangeText}
+        placeholder={placeholder}
+        textColor={disabled ? colors.SECONDARY_INACTIVE : colors.WHITE}
+        outlineColor={disabled ? "transparent" : colors.SECONDARY_INACTIVE}
+        placeholderTextColor={colors.SECONDARY_INACTIVE}
+        style={disabled ? disabledInputStyle : inputStyle}
+        numberOfLines={5}
+        multiline
+        error={error}
+        right={
+          value &&
+          value.length > 0 && (
+            <TextInput.Icon
+              icon={disabled ? "lock" : "close"}
+              color={colors.WHITE}
+              onPress={handleClear}
+            />
+          )
+        }
+        render={(props) => <MaskInput {...props} mask={mask} />}
+      />
+    );
+  }
 
   return password ? (
     <TextInput
