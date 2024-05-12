@@ -40,11 +40,13 @@ export const equipmentStatusList: IOption[] = [
 export enum equipmentVoltageEnum {
   ONE_HUNDRED_TEN = 1,
   TWO_HUNDRED_TWENTY = 2,
+  NOR_APPLICABLE = 3,
 }
 
 export const equipmentVoltageDisplay = {
   [equipmentVoltageEnum.ONE_HUNDRED_TEN]: "110v",
   [equipmentVoltageEnum.TWO_HUNDRED_TWENTY]: "220v",
+  [equipmentVoltageEnum.NOR_APPLICABLE]: "Não se aplica",
 };
 
 export const equipmentVoltageList: IOption[] = [
@@ -57,5 +59,10 @@ export const equipmentVoltageList: IOption[] = [
     id: 1,
     text: equipmentVoltageDisplay[equipmentVoltageEnum.TWO_HUNDRED_TWENTY],
     value: equipmentVoltageEnum.TWO_HUNDRED_TWENTY,
+  },
+  {
+    id: 3,
+    text: equipmentVoltageDisplay[equipmentVoltageEnum.NOR_APPLICABLE],
+    value: equipmentVoltageEnum.NOR_APPLICABLE,
   },
 ];

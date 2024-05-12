@@ -4,7 +4,11 @@ import {
   useRoute,
 } from "@react-navigation/native";
 import { useTheme } from "styled-components";
-import { Navigators, SignedInScreens } from "@routes/screens";
+import {
+  Navigators,
+  SignedInNavigators,
+  SignedInScreens,
+} from "@routes/screens";
 import { useQuery, useQueryClient } from "react-query";
 import { HttpStatusCode } from "axios";
 import { SuperConsole } from "@tools/indentedConsole";
@@ -45,16 +49,16 @@ export const useServiceOrderDetailController = () => {
   );
 
   const handleGoToTechnicianDetail = (technicianId: number) => {
-    navigate(Navigators.SIGNED_IN_NAVIGATOR, {
+    navigate(SignedInNavigators.TECHNICIANS, {
       screen: SignedInScreens.TECHNICIANS_DETAILS,
-      technicianId,
+      params: { technicianId },
     });
   };
 
   const handleGoToCustomerDetail = (customerId: number) => {
-    navigate(Navigators.SIGNED_IN_NAVIGATOR, {
+    navigate(SignedInNavigators.CUSTOMERS, {
       screen: SignedInScreens.CUSTOMERS_DETAILS,
-      customerId,
+      params: { customerId },
     });
   };
 

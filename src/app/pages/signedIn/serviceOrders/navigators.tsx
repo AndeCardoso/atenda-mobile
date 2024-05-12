@@ -3,7 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { SignedInScreens } from "@routes/screens";
 import { ServiceOrdersPage } from ".";
 import { ServiceOrderDetailPage } from "./details";
-import { ServiceOrderUpdateFormPage } from "./serviceOrderForms/update";
+import { ServiceOrderUpdateFormPage } from "./update";
 import { ServiceOrderRegisterFlowNavigator } from "./register/navigators";
 
 export enum RegisterServiceOrderScreens {
@@ -12,6 +12,8 @@ export enum RegisterServiceOrderScreens {
   SERVICE_FORM = "ServiceForm",
   SELECT_ADDRESS = "SelectAddress",
   SELECT_TECHNICIAN = "SelectTechnician",
+  REVIEW = "Review",
+  CUSTOMER_VALIDATION = "CustomerValidation",
 }
 
 export const ServiceOrdersNavigator = () => {

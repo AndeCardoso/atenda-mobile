@@ -45,10 +45,11 @@ export const ServiceOrdersPage = () => {
         <>
           <FlatList
             data={serviceOrderList}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ padding: 16 }}
             keyExtractor={(item) => item.id.toString()}
             ItemSeparatorComponent={() => <Spacer spaceVertical={16} />}
-            contentContainerStyle={{ padding: 16 }}
-            showsVerticalScrollIndicator={false}
+            ListFooterComponent={() => <Spacer spaceVertical={64} />}
             ListEmptyComponent={() => (
               <EmptyState
                 title={emptyStateTexts.title}

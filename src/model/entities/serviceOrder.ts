@@ -3,21 +3,16 @@ import { IAddressModel } from "./address";
 import { IEquipmentModel } from "./equipment";
 import { ICustomerModel } from "./customer";
 import { ITechnicianModel } from "./technician";
+import { IServiceForm } from "@pages/signedIn/serviceOrders/register/serviceForm/schema";
 
 export interface IServiceOrderModel {
-  id: number;
-  selectedVoltage: string;
-  reportedDefect: string;
-  foundDefect?: string;
-  orderedServices: string;
-  executedServices?: string;
-  observations?: string;
-  closed_at?: Date;
-  status?: serviceOrderStatusEnum;
+  id?: number | string;
+  serviceForm: IServiceForm;
   address: IAddressModel;
   equipment: IEquipmentModel;
   customer: ICustomerModel;
   technician: ITechnicianModel;
-  created_at: Date;
-  updated_at: Date;
+  closed_at?: Date;
+  created_at?: Date;
+  updated_at?: Date;
 }
