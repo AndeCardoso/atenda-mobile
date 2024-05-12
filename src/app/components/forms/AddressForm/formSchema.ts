@@ -13,11 +13,11 @@ export interface IAddressForm {
 }
 
 export const addressObjectSchema = {
-  nickname: yup.string(),
+  nickname: yup.string().notRequired(),
   cep: yup.string().required("Campo obrigatório"),
   street: yup.string().required("Campo obrigatório"),
   number: yup.string().required("Campo obrigatório"),
-  complement: yup.string(),
+  complement: yup.string().notRequired(),
   district: yup.string().required("Campo obrigatório"),
   state: yup
     .mixed()

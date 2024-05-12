@@ -83,7 +83,7 @@ export const TechnicianDetailPage = () => {
             <Divider />
             <Row>
               <DisplayField
-                text="Numero"
+                text="Número"
                 value={technicianData?.address.number}
               />
               {technicianData?.address.complement ? (
