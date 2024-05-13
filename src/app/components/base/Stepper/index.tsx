@@ -33,7 +33,7 @@ export const Stepper = ({ total, current }: IStepperProps) => {
         size={14}
         color="SECONDARY"
         style={counterStyle}
-      >{`${current}/${total}`}</Text>
+      >{`Etapa ${current} de ${total}`}</Text>
     </View>
   );
 };
