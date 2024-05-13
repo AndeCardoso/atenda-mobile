@@ -19,7 +19,7 @@ interface IServiceOrderCardProps {
 }
 
 export const ServiceOrderCard = ({
-  data: { id, created_at, customer, technician, equipment, status },
+  data: { id, created_at, customer, equipment, status },
   footerLabel,
   onPress,
 }: IServiceOrderCardProps) => {
@@ -60,7 +60,6 @@ export const ServiceOrderCard = ({
               color="WHITE"
             />
           </Row>
-          <Divider color="WHITE" />
           <DisplayField
             text="Equipamento"
             value={equipment?.nickname}
