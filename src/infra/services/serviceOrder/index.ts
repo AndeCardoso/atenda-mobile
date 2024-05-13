@@ -48,7 +48,7 @@ export default class ServiceOrderService {
     column,
     order,
     search,
-  }: IPaginationParams<"id" | "status">): Promise<
+  }: IPaginationParams<"id" | "status" | "created_at">): Promise<
     HttpResponse<IPaginationResponse<ServiceOrderRegisterResponseDTO>>
   > {
     return await new AxiosHttpClient().request({

@@ -28,8 +28,8 @@ export const useServiceOrderController = () => {
         const { statusCode, body } = await serviceOrderService.list({
           limit: 10,
           page: pageParam ?? 1,
-          column: "id",
-          order: "asc",
+          column: "created_at",
+          order: "desc",
           search: serviceOrderSearch,
         });
         switch (statusCode) {
