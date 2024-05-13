@@ -33,6 +33,7 @@ export const ServiceOrdersPage = () => {
   return (
     <Layout
       header="Ordens de serviço"
+      searchPlaceholder="Buscar por cliente"
       onSearch={onServiceOrderSearch}
       textSearch={textSearch}
       close={handleGoBack}

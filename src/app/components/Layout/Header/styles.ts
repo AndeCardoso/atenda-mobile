@@ -14,11 +14,11 @@ export const Container = styled(ImageBackground)<{ paddingTop: number }>`
 export const ContainerTop = styled(Row)`
   align-items: center;
   justify-content: space-between;
-  padding: 0 8px;
+  padding: 0 4px;
   gap: 24px;
 `;
 
 export const StyledRow = styled(Row)`
   width: auto;
-  gap: 16px;
+  gap: 8px;
 `;

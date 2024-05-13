@@ -16,6 +16,7 @@ interface ILayoutProps extends PropsWithChildren {
   hasScroll?: boolean;
   showProfile?: boolean;
   steps?: IStepperProps;
+  searchPlaceholder?: string;
   onRegister?: () => void;
   onSearch?: (value?: string) => void;
   goBack?: () => void;
@@ -30,6 +31,7 @@ export const Layout = ({
   hasBrand,
   hasScroll,
   showProfile,
+  searchPlaceholder,
   textSearch,
   onRegister,
   onSearch,
@@ -60,6 +62,7 @@ export const Layout = ({
         onSearch={onSearch}
         onRegister={onRegister}
         textSearch={textSearch}
+        searchPlaceholder={searchPlaceholder}
         goBack={goBack}
         steps={steps}
         close={close}

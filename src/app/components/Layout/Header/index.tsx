@@ -18,6 +18,7 @@ interface IHeaderProps {
   showProfile?: boolean;
   hasBrand?: boolean;
   steps?: IStepperProps;
+  searchPlaceholder?: string;
   onRegister?: () => void;
   onSearch?: (value?: string) => void;
   goBack?: () => void;
@@ -29,6 +30,7 @@ const android = Platform.OS === "android";
 export const Header = ({
   text,
   textSearch,
+  searchPlaceholder = "Buscar",
   showProfile,
   onRegister,
   hasBrand,
@@ -45,9 +47,12 @@ export const Header = ({
       <ContainerTop>
         <StyledRow>
           {Boolean(goBack) && (
-            <TouchableOpacity onPress={goBack}>
-              <Icon name={"chevron-left"} size={32} color="SECONDARY" />
-            </TouchableOpacity>
+            <IconButton
+              name="chevron-left"
+              onPress={() => goBack && goBack()}
+              size={30}
+              color="SECONDARY"
+            />
           )}
           {hasBrand ? (
             <Image
@@ -57,7 +62,7 @@ export const Header = ({
             />
           ) : null}
           {Boolean(text) ? (
-            <Text weight="700" size={24} color="SECONDARY">
+            <Text weight="700" size={22} color="SECONDARY">
               {text}
             </Text>
           ) : null}
@@ -65,15 +70,22 @@ export const Header = ({
 
         {showProfile && userData ? <Profile data={userData} /> : null}
         {Boolean(close) ? (
-          <TouchableOpacity onPress={close}>
-            <Icon name={"close"} size={28} color="SECONDARY" />
-          </TouchableOpacity>
+          <IconButton
+            name="close"
+            onPress={() => close && close()}
+            size={28}
+            color="SECONDARY"
+          />
         ) : null}
       </ContainerTop>
       {steps ? <Stepper current={steps.current} total={steps.total} /> : null}
       {onSearch ? (
         <Row>
-          <InputSearch onChangeText={onSearch} text={textSearch} />
+          <InputSearch
+            onChangeText={onSearch}
+            text={textSearch}
+            placeholder={searchPlaceholder}
+          />
           {onRegister ? (
             <IconButton
               name="plus"
