@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { Platform } from "react-native";
 import { Portal, FAB } from "react-native-paper";
 import { useTheme } from "styled-components";
+import { TIconNames } from "../Icon/types";
 
 interface IFabButtonProps {
   isFocused: boolean;
-  closedIcon: string;
-  openedIcon: string;
+  closedIcon: TIconNames;
+  openedIcon: TIconNames;
   fabActions: IFabAction[];
 }
 

@@ -80,8 +80,8 @@ export const ServiceOrdersPage = () => {
           <FabButton
             isFocused={isFocused}
             fabActions={fabActions}
-            openedIcon="tools"
-            closedIcon="toolbox"
+            openedIcon="file-document"
+            closedIcon="file-document-multiple"
           />
         </>
       )}

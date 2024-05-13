@@ -96,7 +96,7 @@ export const CustomerDetailPage = () => {
           <FabButton
             isFocused={isFocused}
             fabActions={fabActions}
-            openedIcon="file-document-multiple"
+            openedIcon="file-document-edit"
             closedIcon="file-document"
           />
         </>
