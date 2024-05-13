@@ -3,7 +3,7 @@ import { Control, useForm } from "react-hook-form";
 import { ControlledInput } from "@components/controlleds/ControlledInput";
 import { ControlledSelect } from "@components/controlleds/ControlledSelect";
 import { serviceOrderStatusList } from "@pages/signedIn/serviceOrders/constants";
-import { IServiceForm } from "../schema";
+import { IServiceForm } from "../../../schema";
 import { Container } from "./styles";
 import { IAddressModel } from "@model/entities/address";
 import { Text } from "@components/base/Text";

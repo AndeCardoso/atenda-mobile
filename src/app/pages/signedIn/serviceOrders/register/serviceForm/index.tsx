@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Layout } from "@components/Layout";
 import { useServiceFormController } from "./useServiceFormController";
 import { useForm } from "react-hook-form";
-import { IServiceForm, serviceFormSchema } from "./schema";
+import { IServiceForm, serviceFormSchema } from "../../schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Container, WrapperButtons } from "./styles";
 import { Button } from "@components/base/Button";

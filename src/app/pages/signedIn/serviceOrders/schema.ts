@@ -1,47 +1,34 @@
 import * as yup from "yup";
-import {
-  IAddressForm,
-  addressObjectSchema,
-} from "@components/forms/AddressForm/formSchema";
 import { IOption } from "@components/base/Select";
 import { serviceOrderStatusEnum } from "./constants";
 
-export interface IServiceOrderForm extends Partial<IAddressForm> {
+export interface IServiceForm {
   selectedVoltage: IOption | string;
   reportedDefect: string;
   foundDefect?: string;
   orderedServices: string;
   executedServices?: string;
   observations?: string;
-  closedAt: Date;
-  status?: serviceOrderStatusEnum;
+  status: serviceOrderStatusEnum;
   addressId?: number;
-  equipmentId: number;
-  customerId: number;
-  technicianId: number;
 }
 
-export const serviceOrderSchema: yup.ObjectSchema<IServiceOrderForm> = yup
+export const serviceFormSchema: yup.ObjectSchema<IServiceForm> = yup
   .object()
   .shape({
-    name: yup
-      .string()
-      .required("Campo obrigatório")
-      .min(4, "Nome deve ter no minímo 4 caracteres")
-      .max(32, "Nome deve ter no máximo de 32 caracteres"),
-    phone: yup.string().required("Campo obrigatório"),
-    cpf: yup.string().required("Campo obrigatório"),
-    position: yup
+    selectedVoltage: yup
       .mixed()
-      .test("is-object-or-string", "Campo obrigatório", (value) => {
+      .test("is-object-or-string", (value) => {
         return (
-          (yup.object().isValidSync(value) && Object.keys(value).length > 0) ||
-          (yup.string().isValidSync(value) &&
-            value !== undefined &&
-            value.trim().length > 0)
+          yup.object().isValidSync(value) || yup.string().isValidSync(value)
         );
       })
       .required("Campo obrigatório"),
+    reportedDefect: yup.string().required("Campo obrigatório"),
+    foundDefect: yup.string(),
+    orderedServices: yup.string().required("Campo obrigatório"),
+    executedServices: yup.string(),
+    observations: yup.string(),
     status: yup
       .mixed()
       .test("is-object-or-string", (value) => {
@@ -49,6 +36,6 @@ export const serviceOrderSchema: yup.ObjectSchema<IServiceOrderForm> = yup
           yup.object().isValidSync(value) || yup.string().isValidSync(value)
         );
       })
-      .notRequired(),
-    ...addressObjectSchema,
+      .required("Campo obrigatório"),
+    addressId: yup.number().notRequired(),
   });

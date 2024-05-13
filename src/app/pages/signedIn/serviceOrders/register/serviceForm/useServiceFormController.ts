@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { RegisterServiceOrderScreens } from "../../navigators";
 import { useServiceOrderContext } from "@contexts/serviceOrder";
-import { IServiceForm } from "./schema";
+import { IServiceForm } from "../../schema";
 import { IAddressModel } from "@model/entities/address";
 
 export const useServiceFormController = () => {
