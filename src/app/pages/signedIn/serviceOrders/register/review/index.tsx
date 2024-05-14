@@ -10,15 +10,23 @@ import { DisplayField } from "@components/base/DisplayField";
 import { Divider } from "@components/base/Separator";
 import { Button } from "@components/base/Button";
 import { Text } from "@components/base/Text";
+import { AbandonmentModal } from "../../components/AbandonmentModal";
 
 export const ServiceOrderRegisterReviewPage = () => {
-  const { data, handleAbbandon, handleGoToCustomerValidation } =
-    useServiceOrderRegisterReview();
+  const {
+    data,
+    handleGoBack,
+    onAbandomentModalToggle,
+    handleConfirmAbandonment,
+    handleGoToCustomerValidation,
+    viewState: { abandomentOpenModalState },
+  } = useServiceOrderRegisterReview();
 
   return (
     <Layout
       header="Revisão dos dados"
-      close={handleAbbandon}
+      close={onAbandomentModalToggle}
+      goBack={handleGoBack}
       hasScroll
       footer={
         <WrapperButtons>
@@ -79,6 +87,11 @@ export const ServiceOrderRegisterReviewPage = () => {
         </Text>
         <TechnicianAccordion data={data?.technician!!} />
       </Container>
+      <AbandonmentModal
+        onConfirm={handleConfirmAbandonment}
+        onDismiss={onAbandomentModalToggle}
+        open={abandomentOpenModalState}
+      />
     </Layout>
   );
 };

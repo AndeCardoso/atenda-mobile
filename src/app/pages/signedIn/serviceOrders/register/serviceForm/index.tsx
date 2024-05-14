@@ -14,6 +14,7 @@ import {
   serviceOrderStatusEnum,
   serviceOrderStatusList,
 } from "../../constants";
+import { AbandonmentModal } from "../../components/AbandonmentModal";
 
 export const ServiceFormPage = () => {
   const { createToast } = useToast();
@@ -21,6 +22,15 @@ export const ServiceFormPage = () => {
     IAddressForm | undefined
   >();
   const [showAddress, setShowAddress] = useState(false);
+
+  const {
+    addressList,
+    handleGoBack,
+    handleSaveForm,
+    onAbandomentModalToggle,
+    handleConfirmAbandonment,
+    viewState: { abandomentOpenModalState },
+  } = useServiceFormController();
 
   const handleShowAddressToggle = () => {
     setAddressFormValues(undefined);
@@ -30,9 +40,6 @@ export const ServiceFormPage = () => {
   const handleSaveNewAddress = (values: IAddressForm) => {
     setAddressFormValues(values);
   };
-
-  const { addressList, handleGoBack, handleSaveForm } =
-    useServiceFormController();
 
   const { control, handleSubmit } = useForm<IServiceForm>({
     defaultValues: {
@@ -89,7 +96,7 @@ export const ServiceFormPage = () => {
     <Layout
       header="Preencher formulário"
       goBack={handleGoBack}
-      close={handleGoBack}
+      close={onAbandomentModalToggle}
       footer={
         <WrapperButtons>
           <Button onPress={handleSubmit(handleSaveAndForward)} mode="contained">
@@ -109,6 +116,11 @@ export const ServiceFormPage = () => {
           handleShowAddressToggle={handleShowAddressToggle}
         />
       </Container>
+      <AbandonmentModal
+        onConfirm={handleConfirmAbandonment}
+        onDismiss={onAbandomentModalToggle}
+        open={abandomentOpenModalState}
+      />
     </Layout>
   );
 };

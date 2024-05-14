@@ -26,6 +26,8 @@ export const useSelectEquipmentController = () => {
 
   const equipmentService = new EquipmentService();
 
+  const [abandomentOpenModalState, setAbandomentOpenModalState] =
+    useState(false);
   const [equipmentsSearch, setEquipmentSearch] = useState("");
   const [listState, setListState] = useState<requestStateEnum | undefined>();
 
@@ -78,6 +80,16 @@ export const useSelectEquipmentController = () => {
     canGoBack && goBack();
   };
 
+  const onAbandomentModalToggle = () => {
+    setAbandomentOpenModalState(!abandomentOpenModalState);
+  };
+
+  const handleConfirmAbandonment = () => {
+    navigate(SignedInNavigators.SERVICE_ORDERS, {
+      screen: SignedInScreens.SERVICE_ORDERS,
+    });
+  };
+
   const handleSelect = (equipment: IEquipmentModel) => {
     onSelectEquipment(equipment);
     navigate(RegisterServiceOrderScreens.SERVICE_FORM);
@@ -115,6 +127,8 @@ export const useSelectEquipmentController = () => {
   return {
     equipmentList: reducePages(data?.pages),
     textSearch: equipmentsSearch,
+    handleConfirmAbandonment,
+    onAbandomentModalToggle,
     handleGoToRegister,
     onEquipmentSearch,
     emptyStateTexts,
@@ -126,6 +140,7 @@ export const useSelectEquipmentController = () => {
       loading: isLoading,
       reloading: isRefetching,
       listState,
+      abandomentOpenModalState,
     },
   };
 };

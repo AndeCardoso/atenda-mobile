@@ -10,6 +10,7 @@ import { TechnicianCard } from "@components/cards/TechnicianCard";
 import { ITechnicianModel } from "@model/entities/technician";
 import { EmptyState } from "@components/EmptyState";
 import { requestStateEnum } from "app/constants/requestStates";
+import { AbandonmentModal } from "../../components/AbandonmentModal";
 
 export const SelectTechnicianPage = () => {
   const { colors } = useTheme();
@@ -17,6 +18,8 @@ export const SelectTechnicianPage = () => {
   const {
     technicianList,
     handleGoBack,
+    handleConfirmAbandonment,
+    onAbandomentModalToggle,
     handleGoToRegister,
     onTechnicianSearch,
     emptyStateTexts,
@@ -24,7 +27,7 @@ export const SelectTechnicianPage = () => {
     handleSelect,
     textSearch,
     refetch,
-    viewState: { loading, reloading, listState },
+    viewState: { loading, reloading, listState, abandomentOpenModalState },
   } = useSelectTechnicianController();
 
   return (
@@ -34,7 +37,7 @@ export const SelectTechnicianPage = () => {
       onSearch={onTechnicianSearch}
       textSearch={textSearch}
       goBack={handleGoBack}
-      close={handleGoBack}
+      close={onAbandomentModalToggle}
       steps={{ total: 4, current: 4 }}
     >
       {loading ? (
@@ -75,6 +78,11 @@ export const SelectTechnicianPage = () => {
           )}
         />
       )}
+      <AbandonmentModal
+        onConfirm={handleConfirmAbandonment}
+        onDismiss={onAbandomentModalToggle}
+        open={abandomentOpenModalState}
+      />
     </Layout>
   );
 };

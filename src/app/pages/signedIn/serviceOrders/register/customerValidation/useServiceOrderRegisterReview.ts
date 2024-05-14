@@ -7,6 +7,7 @@ import ServiceOrderService from "@services/serviceOrder";
 import { ServiceOrderRegisterRequestDTO } from "@services/serviceOrder/dtos/request/ServiceOrderRegisterRequestDTO";
 import { SuperConsole } from "@tools/indentedConsole";
 import { HttpStatusCode } from "axios";
+import { useState } from "react";
 import { useMutation } from "react-query";
 
 export const useServiceOrderRegisterReview = () => {
@@ -16,6 +17,19 @@ export const useServiceOrderRegisterReview = () => {
   const { data: serviceOrderData } = useServiceOrderContext();
 
   const serviceOrderService = new ServiceOrderService();
+
+  const [abandomentOpenModalState, setAbandomentOpenModalState] =
+    useState(false);
+
+  const onAbandomentModalToggle = () => {
+    setAbandomentOpenModalState(!abandomentOpenModalState);
+  };
+
+  const handleConfirmAbandonment = () => {
+    navigate(SignedInNavigators.SERVICE_ORDERS, {
+      screen: SignedInScreens.SERVICE_ORDERS,
+    });
+  };
 
   const { mutateAsync: mutateAsyncRegister, isLoading: registerLoading } =
     useMutation(
@@ -102,6 +116,8 @@ export const useServiceOrderRegisterReview = () => {
     data: serviceOrderData,
     handleGoBack,
     handleRegister,
-    viewState: { registerLoading },
+    onAbandomentModalToggle,
+    handleConfirmAbandonment,
+    viewState: { registerLoading, abandomentOpenModalState },
   };
 };

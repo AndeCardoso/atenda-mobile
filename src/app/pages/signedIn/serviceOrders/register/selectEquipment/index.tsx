@@ -10,6 +10,7 @@ import { EquipmentCard } from "@components/cards/EquipmentCard";
 import { IEquipmentModel } from "@model/entities/equipment";
 import { EmptyState } from "@components/EmptyState";
 import { requestStateEnum } from "app/constants/requestStates";
+import { AbandonmentModal } from "../../components/AbandonmentModal";
 
 export const SelectEquipmentPage = () => {
   const { colors } = useTheme();
@@ -17,6 +18,8 @@ export const SelectEquipmentPage = () => {
   const {
     equipmentList,
     handleGoBack,
+    handleConfirmAbandonment,
+    onAbandomentModalToggle,
     handleGoToRegister,
     onEquipmentSearch,
     emptyStateTexts,
@@ -24,7 +27,7 @@ export const SelectEquipmentPage = () => {
     handleSelect,
     textSearch,
     refetch,
-    viewState: { loading, reloading, listState },
+    viewState: { loading, reloading, listState, abandomentOpenModalState },
   } = useSelectEquipmentController();
 
   return (
@@ -34,7 +37,7 @@ export const SelectEquipmentPage = () => {
       onSearch={onEquipmentSearch}
       textSearch={textSearch}
       goBack={handleGoBack}
-      close={handleGoBack}
+      close={onAbandomentModalToggle}
       steps={{ total: 4, current: 2 }}
     >
       {loading ? (
@@ -75,6 +78,11 @@ export const SelectEquipmentPage = () => {
           )}
         />
       )}
+      <AbandonmentModal
+        onConfirm={handleConfirmAbandonment}
+        onDismiss={onAbandomentModalToggle}
+        open={abandomentOpenModalState}
+      />
     </Layout>
   );
 };

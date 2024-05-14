@@ -22,6 +22,12 @@ export const useSelectTechnicianController = () => {
 
   const [techniciansSearch, setTechnicianSearch] = useState("");
   const [listState, setListState] = useState<requestStateEnum | undefined>();
+  const [abandomentOpenModalState, setAbandomentOpenModalState] =
+    useState(false);
+
+  const onAbandomentModalToggle = () => {
+    setAbandomentOpenModalState(!abandomentOpenModalState);
+  };
 
   const { data, refetch, fetchNextPage, isLoading, isRefetching } =
     useInfiniteQuery(
@@ -71,6 +77,12 @@ export const useSelectTechnicianController = () => {
     canGoBack && goBack();
   };
 
+  const handleConfirmAbandonment = () => {
+    navigate(SignedInNavigators.SERVICE_ORDERS, {
+      screen: SignedInScreens.SERVICE_ORDERS,
+    });
+  };
+
   const handleSelect = (technician: ITechnicianModel) => {
     onSelectTechnician(technician);
     navigate(RegisterServiceOrderScreens.REVIEW);
@@ -107,6 +119,8 @@ export const useSelectTechnicianController = () => {
   return {
     technicianList: reducePages(data?.pages),
     textSearch: techniciansSearch,
+    handleConfirmAbandonment,
+    onAbandomentModalToggle,
     handleGoToRegister,
     onTechnicianSearch,
     emptyStateTexts,
@@ -118,6 +132,7 @@ export const useSelectTechnicianController = () => {
       loading: isLoading,
       reloading: isRefetching,
       listState,
+      abandomentOpenModalState,
     },
   };
 };

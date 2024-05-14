@@ -1,6 +1,7 @@
 import { Layout } from "@components/Layout";
 import React from "react";
 import { Container, WrapperButtons } from "./styles";
+import { AbandonmentModal } from "../../components/AbandonmentModal";
 import { useServiceOrderRegisterReview } from "./useServiceOrderRegisterReview";
 import { CustomerAccordion } from "@components/accordions/CustomerAccordion";
 import { Divider } from "@components/base/Separator";
@@ -12,12 +13,15 @@ export const CustomerValidationPage = () => {
     data,
     handleGoBack,
     handleRegister,
-    viewState: { registerLoading },
+    onAbandomentModalToggle,
+    handleConfirmAbandonment,
+    viewState: { registerLoading, abandomentOpenModalState },
   } = useServiceOrderRegisterReview();
   return (
     <Layout
       header="Validação do cliente"
-      close={handleGoBack}
+      goBack={handleGoBack}
+      close={onAbandomentModalToggle}
       hasScroll
       footer={
         <WrapperButtons>
@@ -26,7 +30,7 @@ export const CustomerValidationPage = () => {
             mode="contained"
             loading={registerLoading}
           >
-            Cadatrar ordem de serviço
+            Cadastrar ordem de serviço
           </Button>
         </WrapperButtons>
       }
@@ -38,6 +42,11 @@ export const CustomerValidationPage = () => {
         <CustomerAccordion data={data?.customer!!} />
         <Divider />
       </Container>
+      <AbandonmentModal
+        onConfirm={handleConfirmAbandonment}
+        onDismiss={onAbandomentModalToggle}
+        open={abandomentOpenModalState}
+      />
     </Layout>
   );
 };
