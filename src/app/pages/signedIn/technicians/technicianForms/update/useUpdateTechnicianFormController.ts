@@ -1,16 +1,23 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { useMutation, useQuery } from "react-query";
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { HttpStatusCode } from "axios";
 import { SuperConsole } from "@tools/indentedConsole";
 import { TechnicianRegisterRequestDTO } from "@services/technician/dtos/request/TechnicianRegisterRequestDTO";
 import TechnicianService from "@services/technician";
 import { ITechnicianForm } from "../schema";
 import { unmask } from "@utils/formatString";
+import { useCallback } from "react";
 
 export const useUpdateTechnicianFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
   const { params } = useRoute<any>();
   const { technicianId } = params;
+  const queryClient = useQueryClient();
+
   const technicianService = new TechnicianService();
 
   const { data, isLoading: dataLoading } = useQuery(
@@ -87,6 +94,12 @@ export const useUpdateTechnicianFormController = () => {
       handleGoBack();
     }
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      queryClient.invalidateQueries("getTechnicianUpdate");
+    }, [])
+  );
 
   return {
     technicianData: data,
