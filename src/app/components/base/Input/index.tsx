@@ -37,7 +37,7 @@ export const Input = ({
 
   const inputStyle: StyleProp<TextStyle> = {
     width: "100%",
-    height: longText ? 200 : undefined,
+    height: longText ? 220 : undefined,
     backgroundColor: colors.INPUT_BACKGROUND,
   };
 
@@ -68,6 +68,9 @@ export const Input = ({
               icon={disabled ? "lock" : "close"}
               color={colors.WHITE}
               onPress={handleClear}
+              style={{
+                bottom: 80,
+              }}
             />
           )
         }
