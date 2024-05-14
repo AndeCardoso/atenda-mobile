@@ -10,6 +10,10 @@ import { ServiceForm } from "./form";
 import { IAddressModel } from "@model/entities/address";
 import { IAddressForm } from "@components/forms/AddressForm/formSchema";
 import { useToast } from "@hooks/useToast";
+import {
+  serviceOrderStatusEnum,
+  serviceOrderStatusList,
+} from "../../constants";
 
 export const ServiceFormPage = () => {
   const { createToast } = useToast();
@@ -30,19 +34,20 @@ export const ServiceFormPage = () => {
   const { addressList, handleGoBack, handleSaveForm } =
     useServiceFormController();
 
-  const { control, handleSubmit, getValues, setValue, watch } =
-    useForm<IServiceForm>({
-      defaultValues: {
-        selectedVoltage: undefined,
-        reportedDefect: "",
-        foundDefect: "",
-        orderedServices: "",
-        executedServices: "",
-        observations: "",
-        status: undefined,
-      },
-      resolver: yupResolver(serviceFormSchema),
-    });
+  const { control, handleSubmit } = useForm<IServiceForm>({
+    defaultValues: {
+      selectedVoltage: undefined,
+      reportedDefect: "",
+      foundDefect: "",
+      orderedServices: "",
+      executedServices: "",
+      observations: "",
+      status: serviceOrderStatusList.find(
+        (item) => item.value === serviceOrderStatusEnum.OPENED
+      ),
+    },
+    resolver: yupResolver(serviceFormSchema),
+  });
 
   const handleSaveAndForward = (values: IServiceForm) => {
     if (!addressFormValues && !values.addressId) {

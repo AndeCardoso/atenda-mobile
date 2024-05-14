@@ -9,7 +9,7 @@ export interface IServiceForm {
   orderedServices: string;
   executedServices?: string;
   observations?: string;
-  status: serviceOrderStatusEnum;
+  status: IOption;
   addressId?: number;
 }
 

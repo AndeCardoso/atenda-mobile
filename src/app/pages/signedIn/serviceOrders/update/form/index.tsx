@@ -15,11 +15,19 @@ export const UpdateServiceOrderForm = ({ control }: IServiceOrderFormProps) => {
   return (
     <Container>
       <ControlledSelect
+        label="Status"
+        placeholder="Selecione o status"
+        options={serviceOrderStatusList}
+        name="status"
+        control={control}
+      />
+      <ControlledSelect
         label="Voltagem selecionada"
         placeholder="Selecione a voltagem"
         options={equipmentVoltageList}
         name="selectedVoltage"
         control={control}
+        disabled
       />
       <ControlledInput
         label="Defeitos informados"
@@ -27,6 +35,7 @@ export const UpdateServiceOrderForm = ({ control }: IServiceOrderFormProps) => {
         name="reportedDefect"
         control={control}
         longText
+        disabled
       />
       <ControlledInput
         label="Defeitos encontrados"
@@ -41,6 +50,7 @@ export const UpdateServiceOrderForm = ({ control }: IServiceOrderFormProps) => {
         name="orderedServices"
         control={control}
         longText
+        disabled
       />
       <ControlledInput
         label="Serviços realizados"
@@ -55,13 +65,6 @@ export const UpdateServiceOrderForm = ({ control }: IServiceOrderFormProps) => {
         name="observations"
         control={control}
         longText
-      />
-      <ControlledSelect
-        label="Status"
-        placeholder="Selecione o status"
-        options={serviceOrderStatusList}
-        name="status"
-        control={control}
       />
     </Container>
   );
