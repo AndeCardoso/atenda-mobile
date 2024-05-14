@@ -187,8 +187,14 @@ export const Select = ({
                   )}
                   showsVerticalScrollIndicator={false}
                   renderItem={({ item }) => {
+                    const selected =
+                      seletedValueState &&
+                      seletedValueState.value === item.value;
                     return (
-                      <ListItem onPress={() => onSelectValue(item)}>
+                      <ListItem
+                        onPress={() => onSelectValue(item)}
+                        selected={Boolean(selected)}
+                      >
                         <Text color="WHITE" size={16} weight="600">
                           {item.text}
                         </Text>
