@@ -1,7 +1,7 @@
 import { Icon } from "@components/base/Icon";
 import React from "react";
-import { Pressable, View } from "react-native";
-import { useTheme } from "styled-components";
+import { Pressable } from "react-native";
+import { Container } from "./styles";
 
 interface IToolbarProps {
   onUndo: () => void;
@@ -9,31 +9,14 @@ interface IToolbarProps {
 }
 
 export const Toolbar = ({ onClearAll, onUndo }: IToolbarProps) => {
-  const { colors } = useTheme();
   return (
-    <View
-      style={{
-        zIndex: 99,
-        backgroundColor: colors.SECONDARY_INACTIVE,
-        height: 50,
-        width: "auto",
-        borderRadius: 100,
-        borderColor: colors.PRIMARY,
-        borderWidth: 1,
-        flexDirection: "row",
-        paddingHorizontal: 24,
-        justifyContent: "center",
-        alignItems: "center",
-        alignSelf: "center",
-        gap: 16,
-      }}
-    >
+    <Container>
       <Pressable onPress={onClearAll}>
         <Icon name="trash-can" size={24} />
       </Pressable>
       <Pressable onPress={onUndo}>
         <Icon name="undo" size={24} />
       </Pressable>
-    </View>
+    </Container>
   );
 };
