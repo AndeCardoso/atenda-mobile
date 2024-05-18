@@ -1,6 +1,7 @@
 import * as yup from "yup";
 import { IOption } from "@components/base/Select";
-import { serviceOrderStatusEnum } from "./constants";
+import { IAddressForm } from "@components/forms/AddressForm/formSchema";
+import { IAddressModel } from "@model/entities/address";
 
 export interface IServiceForm {
   selectedVoltage: IOption | string;
@@ -10,7 +11,7 @@ export interface IServiceForm {
   executedServices?: string;
   observations?: string;
   status: IOption;
-  addressId?: number;
+  address?: IAddressForm | IAddressModel;
 }
 
 export const serviceFormSchema: yup.ObjectSchema<IServiceForm> = yup
@@ -37,5 +38,7 @@ export const serviceFormSchema: yup.ObjectSchema<IServiceForm> = yup
         );
       })
       .required("Campo obrigatório"),
-    addressId: yup.number().notRequired(),
+    address: yup
+      .object<IAddressForm | IAddressModel>()
+      .required("Endereço é obrigatório"),
   });

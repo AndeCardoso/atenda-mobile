@@ -18,10 +18,6 @@ import { AbandonmentModal } from "../../components/AbandonmentModal";
 
 export const ServiceFormPage = () => {
   const { createToast } = useToast();
-  const [addressFormValues, setAddressFormValues] = useState<
-    IAddressForm | undefined
-  >();
-  const [showAddress, setShowAddress] = useState(false);
 
   const {
     addressList,
@@ -32,16 +28,11 @@ export const ServiceFormPage = () => {
     viewState: { abandomentOpenModalState },
   } = useServiceFormController();
 
-  const handleShowAddressToggle = () => {
-    setAddressFormValues(undefined);
-    setShowAddress(!showAddress);
-  };
-
-  const handleSaveNewAddress = (values: IAddressForm) => {
-    setAddressFormValues(values);
-  };
-
-  const { control, handleSubmit } = useForm<IServiceForm>({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IServiceForm>({
     defaultValues: {
       selectedVoltage: undefined,
       reportedDefect: "",
@@ -56,40 +47,44 @@ export const ServiceFormPage = () => {
     resolver: yupResolver(serviceFormSchema),
   });
 
+  const [addressListState, setAddressListState] = useState<
+    IAddressForm[] | IAddressModel[] | undefined
+  >(addressList);
+  const [showAddress, setShowAddress] = useState(false);
+
+  const handleShowAddressToggle = () => {
+    setShowAddress(!showAddress);
+  };
+
+  const handleSaveNewAddress = (values: IAddressForm) => {
+    handleShowAddressToggle();
+    setAddressListState([...addressList, values]);
+  };
+
   const handleSaveAndForward = (values: IServiceForm) => {
-    if (!addressFormValues && !values.addressId) {
-      createToast({
-        duration: 5000,
-        alertType: "error",
-        message: "É obrigatório selecionar um endereço ou informar um novo",
-      });
-      return;
-    }
-    if (addressFormValues) {
+    if (!values.address?.id) {
       handleSaveForm({
         serviceForm: { ...values },
         addressForm: {
-          cep: addressFormValues.cep,
-          city: addressFormValues.city.value,
-          district: addressFormValues.district,
-          number: addressFormValues.number,
-          state: addressFormValues.state.text,
-          street: addressFormValues.street,
-          complement: addressFormValues.complement,
-          nickname: addressFormValues.nickname,
+          cep: values?.address?.cep,
+          city: values?.address?.city.value,
+          district: values?.address?.district,
+          number: values?.address?.number,
+          state: values?.address?.state.text,
+          street: values?.address?.street,
+          complement: values?.address?.complement,
+          nickname: values?.address?.nickname,
         } as IAddressModel,
       });
       return;
     }
-    if (values.addressId) {
-      handleSaveForm({
-        serviceForm: values,
-        addressForm: addressList?.find(
-          (address) => address.id === values.addressId
-        )!!,
-      });
-      return;
-    }
+    handleSaveForm({
+      serviceForm: values,
+      addressForm: addressList?.find(
+        (address) => address.id === values?.address?.id
+      )!!,
+    });
+    return;
   };
 
   return (
@@ -111,9 +106,10 @@ export const ServiceFormPage = () => {
         <ServiceForm
           control={control}
           showAddress={showAddress}
-          addressList={addressList!!}
+          addressList={addressListState!!}
           handleSaveNewAddress={handleSaveNewAddress}
           handleShowAddressToggle={handleShowAddressToggle}
+          newAddressError={Boolean(errors.address)}
         />
       </Container>
       <AbandonmentModal
