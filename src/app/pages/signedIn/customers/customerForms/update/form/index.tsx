@@ -133,6 +133,7 @@ export const UpdateCustomerForm = ({
         name="document"
         control={controlProp}
         mask={Masks.BRL_CPF_CNPJ}
+        keyboardTypes="number-pad"
       />
       <ControlledInput
         label="Celular"
@@ -140,6 +141,7 @@ export const UpdateCustomerForm = ({
         name="phone"
         control={controlProp}
         mask={Masks.BRL_PHONE}
+        keyboardTypes="number-pad"
       />
       <ControlledInput
         label="Celular Aux."
@@ -147,12 +149,14 @@ export const UpdateCustomerForm = ({
         name="secondPhone"
         control={controlProp}
         mask={Masks.BRL_PHONE}
+        keyboardTypes="number-pad"
       />
       <ControlledInput
         label="E-mail"
         placeholder="Ex.: usuario@provedor.com"
         name="email"
         control={controlProp}
+        keyboardTypes="email-address"
       />
       <ControlledSelect
         label="Status"

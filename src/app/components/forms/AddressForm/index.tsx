@@ -55,6 +55,7 @@ export const AddressForm = ({
         name="cep"
         control={control}
         mask={Masks.ZIP_CODE}
+        keyboardTypes="number-pad"
       />
       <ControlledSelect
         options={stateList}
@@ -95,6 +96,7 @@ export const AddressForm = ({
           placeholder="Ex.: 123"
           name="number"
           control={control}
+          keyboardTypes="number-pad"
         />
         <ControlledInput
           label="Complemento"

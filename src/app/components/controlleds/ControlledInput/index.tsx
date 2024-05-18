@@ -3,7 +3,12 @@ import { Text } from "@components/base/Text";
 import React from "react";
 import { Control, Controller, ControllerProps } from "react-hook-form";
 import { Container } from "./styles";
-import { StyleProp, TextStyle, ViewStyle } from "react-native";
+import {
+  KeyboardTypeOptions,
+  StyleProp,
+  TextStyle,
+  ViewStyle,
+} from "react-native";
 import { HelperText } from "react-native-paper";
 import { useTheme } from "styled-components";
 import { Mask } from "react-native-mask-input";
@@ -19,6 +24,7 @@ interface IControlledInput extends Omit<ControllerProps, "render"> {
   password?: boolean;
   longText?: boolean;
   mask?: Mask;
+  keyboardTypes?: KeyboardTypeOptions;
 }
 
 export const ControlledInput = ({
@@ -35,6 +41,7 @@ export const ControlledInput = ({
   defaultValue,
   longText,
   mask,
+  keyboardTypes,
 }: IControlledInput) => {
   const { colors } = useTheme();
 
@@ -68,6 +75,7 @@ export const ControlledInput = ({
             disabled={disabled}
             mode={mode}
             mask={mask}
+            keyboardType={keyboardTypes}
           />
           <HelperText type="error" visible={Boolean(error)} disabled={disabled}>
             {error?.message}

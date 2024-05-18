@@ -22,6 +22,7 @@ export const RegisterUserForm = ({ control }: IUserFormProps) => {
         placeholder="Digite o e-mail"
         name="email"
         control={control}
+        keyboardTypes="email-address"
       />
       <ControlledInput
         label="Senha"

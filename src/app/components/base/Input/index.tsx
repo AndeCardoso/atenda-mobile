@@ -19,6 +19,7 @@ export const Input = ({
   disabled,
   mask,
   error,
+  ...rest
 }: IInputProps) => {
   const { colors } = useTheme();
   const [showPassword, setShowPassword] = useState(false);
@@ -50,6 +51,7 @@ export const Input = ({
   if (longText) {
     return (
       <TextInput
+        {...rest}
         value={value}
         mode={"outlined"}
         onChangeText={onChangeText}
@@ -81,6 +83,7 @@ export const Input = ({
 
   return password ? (
     <TextInput
+      {...rest}
       value={value}
       mode={"outlined"}
       onChangeText={onChangeText}
@@ -105,6 +108,7 @@ export const Input = ({
     />
   ) : (
     <TextInput
+      {...rest}
       value={value}
       mode={"outlined"}
       onChangeText={onChangeText}

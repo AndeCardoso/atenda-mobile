@@ -1,12 +1,7 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { Container } from "./styles";
 import { ControlledInput } from "@components/controlleds/ControlledInput";
-import {
-  Control,
-  UseFormGetValues,
-  UseFormSetValue,
-  useForm,
-} from "react-hook-form";
+import { Control, UseFormSetValue, useForm } from "react-hook-form";
 import { AddressForm } from "@components/forms/AddressForm";
 import { Spacer } from "@components/base/Spacer";
 import { Masks } from "react-native-mask-input";
@@ -33,8 +28,8 @@ export const RegisterCustomerForm = ({
   controlProp,
   setValueProp,
 }: ICustomerFormProps) => {
-  const [idToEdit, setIdToEdit] = useState<number | undefined>();
   const stateRef = useRef<IOption | string>({} as IOption);
+  const [idToEdit, setIdToEdit] = useState<number | undefined>();
   const [addressListState, setAddressListState] = useState<IAddressForm[]>([]);
 
   const { control, handleSubmit, getValues, setValue, watch, reset } =
@@ -110,6 +105,7 @@ export const RegisterCustomerForm = ({
         name="document"
         control={controlProp}
         mask={Masks.BRL_CPF_CNPJ}
+        keyboardTypes="number-pad"
       />
       <ControlledInput
         label="Celular"
@@ -117,6 +113,7 @@ export const RegisterCustomerForm = ({
         name="phone"
         control={controlProp}
         mask={Masks.BRL_PHONE}
+        keyboardTypes="number-pad"
       />
       <ControlledInput
         label="Celular Aux."
@@ -124,12 +121,14 @@ export const RegisterCustomerForm = ({
         name="secondPhone"
         control={controlProp}
         mask={Masks.BRL_PHONE}
+        keyboardTypes="number-pad"
       />
       <ControlledInput
         label="E-mail"
         placeholder="Ex.: usuario@provedor.com"
         name="email"
         control={controlProp}
+        keyboardTypes="email-address"
       />
       <ControlledSelect
         label="Status"
