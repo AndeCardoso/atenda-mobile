@@ -6,7 +6,7 @@ import { Container } from "./styles";
 import { Text } from "@components/base/Text";
 import { Section } from "@components/Section";
 import { Card } from "@components/base/Card";
-import { FabButton } from "@components/base/FAB";
+import { FabGroup } from "@components/base/FAB";
 
 export const HomePage = () => {
   const isFocused = useIsFocused();
@@ -31,7 +31,7 @@ export const HomePage = () => {
           </Card>
         </Section>
       </Container>
-      <FabButton
+      <FabGroup
         isFocused={isFocused}
         fabActions={fabActions}
         openedIcon="close"

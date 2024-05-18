@@ -5,7 +5,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { DisplayField } from "@components/base/DisplayField";
 import { Divider } from "@components/base/Separator";
 import { Spacer } from "@components/base/Spacer";
-import { FabButton } from "@components/base/FAB";
+import { FabGroup } from "@components/base/FAB";
 import { Loader } from "@components/base/Loader";
 import { Chip } from "@components/base/Chip";
 import { Text } from "@components/base/Text";
@@ -127,7 +127,7 @@ export const ServiceOrderDetailPage = () => {
               }
             />
           </Container>
-          <FabButton
+          <FabGroup
             isFocused={isFocused}
             fabActions={fabActions}
             openedIcon="file-document-multiple"

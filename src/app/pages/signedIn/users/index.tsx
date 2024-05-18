@@ -8,7 +8,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { LoaderBox } from "@components/base/Loader/styles";
 import { useUsersController } from "./useUsersController";
 import { UserCard } from "@components/cards/UserCard";
-import { FabButton } from "@components/base/FAB";
+import { FabGroup } from "@components/base/FAB";
 import { EmptyState } from "@components/EmptyState";
 import { requestStateEnum } from "app/constants/requestStates";
 
@@ -18,11 +18,11 @@ export const UsersPage = () => {
 
   const {
     userList,
-    handleGoBack,
-    onUserSearch,
+    handleGoToRegister,
     handleGoToDetails,
     fetchNextPage,
-    fabActions,
+    handleGoBack,
+    onUserSearch,
     refetch,
     viewState: { loading, reloading, listState },
   } = useUsersController();
@@ -65,11 +65,11 @@ export const UsersPage = () => {
               />
             )}
           />
-          <FabButton
+          <FabGroup
+            isSingle
             isFocused={isFocused}
-            fabActions={fabActions}
-            openedIcon="key"
-            closedIcon="account-key"
+            icon="plus"
+            onPress={handleGoToRegister}
           />
         </>
       )}

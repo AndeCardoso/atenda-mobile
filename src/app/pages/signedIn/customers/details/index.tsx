@@ -19,7 +19,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { customerStatusDisplay } from "../constants";
 import { Accordion } from "@components/base/Accordion";
 import { Chip } from "@components/base/Chip";
-import { FabButton } from "@components/base/FAB";
+import { FabGroup } from "@components/base/FAB";
 import { AddressAccordion } from "@components/accordions/AddressAccordion";
 
 export const CustomerDetailPage = () => {
@@ -93,7 +93,7 @@ export const CustomerDetailPage = () => {
               />
             ))}
           </Container>
-          <FabButton
+          <FabGroup
             isFocused={isFocused}
             fabActions={fabActions}
             openedIcon="file-document-edit"

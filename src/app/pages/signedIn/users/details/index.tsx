@@ -11,7 +11,7 @@ import { Text } from "@components/base/Text";
 import { Layout } from "@components/Layout";
 import { Row } from "@components/base/Row";
 import { Container, WrapperName } from "./styles";
-import { FabButton } from "@components/base/FAB";
+import { FabGroup } from "@components/base/FAB";
 
 export const UserDetailPage = () => {
   const isFocused = useIsFocused();
@@ -50,7 +50,7 @@ export const UserDetailPage = () => {
             <Divider />
             <DisplayField text="E-mail" value={userData?.email} hasCopy />
           </Container>
-          <FabButton
+          <FabGroup
             isFocused={isFocused}
             fabActions={fabActions}
             openedIcon="file-document-multiple"

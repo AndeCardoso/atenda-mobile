@@ -7,8 +7,7 @@ import { Spacer } from "@components/base/Spacer";
 import { Loader } from "@components/base/Loader";
 import { useIsFocused } from "@react-navigation/native";
 import { LoaderBox } from "@components/base/Loader/styles";
-import { TechnicianCard } from "@components/cards/TechnicianCard";
-import { FabButton } from "@components/base/FAB";
+import { FabGroup } from "@components/base/FAB";
 import { EmptyState } from "@components/EmptyState";
 import { requestStateEnum } from "app/constants/requestStates";
 import { ServiceOrderCard } from "@components/cards/ServiceOrderCard";
@@ -21,10 +20,10 @@ export const ServiceOrdersPage = () => {
     serviceOrderList,
     handleGoBack,
     onServiceOrderSearch,
+    handleGoToRegister,
     handleGoToDetails,
     emptyStateTexts,
     fetchNextPage,
-    fabActions,
     textSearch,
     refetch,
     viewState: { loading, reloading, listState },
@@ -77,11 +76,11 @@ export const ServiceOrdersPage = () => {
               />
             )}
           />
-          <FabButton
+          <FabGroup
+            isSingle
             isFocused={isFocused}
-            fabActions={fabActions}
-            openedIcon="file-document"
-            closedIcon="file-document-multiple"
+            icon="plus"
+            onPress={handleGoToRegister}
           />
         </>
       )}

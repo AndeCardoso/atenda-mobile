@@ -9,7 +9,7 @@ import { LoaderBox } from "@components/base/Loader/styles";
 import { useCustomersController } from "./useCustomersController";
 import { CustomerCard } from "@components/cards/CustomerCard";
 import { ICustomerModel } from "@model/entities/customer";
-import { FabButton } from "@components/base/FAB";
+import { FabGroup } from "@components/base/FAB";
 import { EmptyState } from "@components/EmptyState";
 import { requestStateEnum } from "app/constants/requestStates";
 
@@ -20,12 +20,12 @@ export const CustomersPage = () => {
   const {
     customerList,
     handleGoBack,
-    onCustomerSearch,
+    handleGoToRegister,
     handleGoToDetails,
+    onCustomerSearch,
     emptyStateTexts,
     fetchNextPage,
     textSearch,
-    fabActions,
     refetch,
     viewState: { loading, reloading, listState },
   } = useCustomersController();
@@ -75,11 +75,11 @@ export const CustomersPage = () => {
               />
             )}
           />
-          <FabButton
+          <FabGroup
+            isSingle
             isFocused={isFocused}
-            fabActions={fabActions}
-            openedIcon="head-cog"
-            closedIcon="head"
+            icon="plus"
+            onPress={handleGoToRegister}
           />
         </>
       )}

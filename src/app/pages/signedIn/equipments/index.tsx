@@ -8,7 +8,7 @@ import { Loader } from "@components/base/Loader";
 import { useIsFocused } from "@react-navigation/native";
 import { LoaderBox } from "@components/base/Loader/styles";
 import { EquipmentCard } from "@components/cards/EquipmentCard";
-import { FabButton } from "@components/base/FAB";
+import { FabGroup } from "@components/base/FAB";
 import { EmptyState } from "@components/EmptyState";
 import { requestStateEnum } from "app/constants/requestStates";
 
@@ -19,11 +19,11 @@ export const EquipmentsPage = () => {
   const {
     equipmentList,
     handleGoBack,
+    handleGoToRegister,
     onEquipmentSearch,
     handleGoToDetails,
     emptyStateTexts,
     fetchNextPage,
-    fabActions,
     textSearch,
     refetch,
     viewState: { loading, reloading, listState },
@@ -74,11 +74,11 @@ export const EquipmentsPage = () => {
               />
             )}
           />
-          <FabButton
+          <FabGroup
+            isSingle
             isFocused={isFocused}
-            fabActions={fabActions}
-            openedIcon="laptop"
-            closedIcon="monitor-cellphone"
+            icon="plus"
+            onPress={handleGoToRegister}
           />
         </>
       )}

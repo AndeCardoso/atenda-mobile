@@ -1,5 +1,4 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { useTheme } from "styled-components";
 import { SignedInScreens } from "@routes/screens";
 import { useInfiniteQuery, useQueryClient } from "react-query";
 import TechnicianService from "@services/technician";
@@ -10,7 +9,6 @@ import { requestStateEnum } from "app/constants/requestStates";
 import { useToast } from "@hooks/useToast";
 
 export const useTechniciansController = () => {
-  const { colors } = useTheme();
   const { createToast } = useToast();
   const { navigate, canGoBack, goBack } = useNavigation<any>();
   const queryClient = useQueryClient();
@@ -68,12 +66,6 @@ export const useTechniciansController = () => {
     canGoBack && goBack();
   };
 
-  const actionStyles = {
-    borderRadius: 50,
-    marginRight: 16,
-    backgroundColor: colors.SECONDARY,
-  };
-
   const handleGoToRegister = () => {
     navigate(SignedInScreens.TECHNICIANS_REGISTER_FORM);
   };
@@ -83,16 +75,6 @@ export const useTechniciansController = () => {
       technicianId,
     });
   };
-
-  const fabActions = [
-    {
-      icon: "plus",
-      label: "Cadastrar",
-      onPress: handleGoToRegister,
-      color: colors.PRIMARY,
-      style: actionStyles,
-    },
-  ];
 
   useFocusEffect(
     useCallback(() => {
@@ -120,11 +102,11 @@ export const useTechniciansController = () => {
     technicianList: reducePages(data?.pages),
     textSearch: technicianSearch,
     onTechnicianSearch,
+    handleGoToRegister,
     handleGoToDetails,
     emptyStateTexts,
     fetchNextPage,
     handleGoBack,
-    fabActions,
     refetch,
     viewState: {
       loading: isLoading,

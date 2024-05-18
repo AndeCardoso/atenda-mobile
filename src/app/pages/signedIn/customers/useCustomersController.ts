@@ -68,12 +68,6 @@ export const useCustomersController = () => {
     canGoBack && goBack();
   };
 
-  const actionStyles = {
-    borderRadius: 50,
-    marginRight: 16,
-    backgroundColor: colors.SECONDARY,
-  };
-
   const handleGoToRegister = () => {
     navigate(SignedInScreens.CUSTOMERS_REGISTER_FORM);
   };
@@ -83,16 +77,6 @@ export const useCustomersController = () => {
       customerId,
     });
   };
-
-  const fabActions = [
-    {
-      icon: "plus",
-      label: "Cadastrar",
-      onPress: handleGoToRegister,
-      color: colors.PRIMARY,
-      style: actionStyles,
-    },
-  ];
 
   useFocusEffect(
     useCallback(() => {
@@ -119,12 +103,12 @@ export const useCustomersController = () => {
   return {
     customerList: reducePages(data?.pages),
     textSearch: customersSearch,
+    handleGoToRegister,
     handleGoToDetails,
     onCustomerSearch,
     emptyStateTexts,
     fetchNextPage,
     handleGoBack,
-    fabActions,
     refetch,
     viewState: {
       loading: isLoading,

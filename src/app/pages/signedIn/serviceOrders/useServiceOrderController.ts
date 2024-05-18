@@ -69,12 +69,6 @@ export const useServiceOrderController = () => {
     canGoBack && goBack();
   };
 
-  const actionStyles = {
-    borderRadius: 50,
-    marginRight: 16,
-    backgroundColor: colors.SECONDARY,
-  };
-
   const handleGoToRegister = () => {
     navigate(SignedInScreens.SERVICE_ORDERS_REGISTER_FLOW, {
       screen: RegisterServiceOrderScreens.SELECT_CUSTOMER,
@@ -86,16 +80,6 @@ export const useServiceOrderController = () => {
       serviceOrderId,
     });
   };
-
-  const fabActions = [
-    {
-      icon: "plus",
-      label: "Cadastrar",
-      onPress: handleGoToRegister,
-      color: colors.PRIMARY,
-      style: actionStyles,
-    },
-  ];
 
   useFocusEffect(
     useCallback(() => {
@@ -125,11 +109,11 @@ export const useServiceOrderController = () => {
     serviceOrderList: reducePages(data?.pages),
     textSearch: serviceOrderSearch,
     onServiceOrderSearch,
+    handleGoToRegister,
     handleGoToDetails,
     emptyStateTexts,
     fetchNextPage,
     handleGoBack,
-    fabActions,
     refetch,
     viewState: {
       loading: isLoading,

@@ -1,16 +1,13 @@
+import { useCallback, useState } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { useTheme } from "styled-components";
 import { SignedInScreens } from "@routes/screens";
 import { useInfiniteQuery, useQueryClient } from "react-query";
 import { HttpStatusCode } from "axios";
-import { SuperConsole } from "@tools/indentedConsole";
-import { useCallback, useState } from "react";
 import UserService from "@services/user";
 import { reducePages } from "@utils/reducePages";
 import { requestStateEnum } from "app/constants/requestStates";
 
 export const useUsersController = () => {
-  const { colors } = useTheme();
   const { navigate, canGoBack, goBack } = useNavigation<any>();
   const queryClient = useQueryClient();
 
@@ -64,12 +61,6 @@ export const useUsersController = () => {
     canGoBack && goBack();
   };
 
-  const actionStyles = {
-    borderRadius: 50,
-    marginRight: 16,
-    backgroundColor: colors.SECONDARY,
-  };
-
   const handleGoToRegister = () => {
     navigate(SignedInScreens.USERS_REGISTER_FORM);
   };
@@ -80,16 +71,6 @@ export const useUsersController = () => {
     });
   };
 
-  const fabActions = [
-    {
-      icon: "plus",
-      label: "Cadastrar",
-      onPress: handleGoToRegister,
-      color: colors.PRIMARY,
-      style: actionStyles,
-    },
-  ];
-
   useFocusEffect(
     useCallback(() => {
       queryClient.invalidateQueries("users");
@@ -98,11 +79,11 @@ export const useUsersController = () => {
 
   return {
     userList: reducePages(data?.pages),
-    onUserSearch,
-    fetchNextPage,
+    handleGoToRegister,
     handleGoToDetails,
+    fetchNextPage,
+    onUserSearch,
     handleGoBack,
-    fabActions,
     refetch,
     viewState: {
       loading: isLoading,
