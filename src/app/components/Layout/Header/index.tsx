@@ -8,12 +8,18 @@ import { InputSearch } from "@components/base/InputSearch";
 import { Profile } from "@components/base/Profile";
 import { useAuth } from "@hooks/useAuth";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { IconButton } from "@components/base/IconButton";
+import { Row } from "@components/base/Row";
+import { IStepperProps, Stepper } from "@components/base/Stepper";
 
 interface IHeaderProps {
   text?: string;
   textSearch?: string;
   showProfile?: boolean;
   hasBrand?: boolean;
+  steps?: IStepperProps;
+  searchPlaceholder?: string;
+  onRegister?: () => void;
   onSearch?: (value?: string) => void;
   goBack?: () => void;
   close?: () => void;
@@ -24,11 +30,14 @@ const android = Platform.OS === "android";
 export const Header = ({
   text,
   textSearch,
+  searchPlaceholder = "Buscar",
   showProfile,
+  onRegister,
   hasBrand,
   onSearch,
   goBack,
   close,
+  steps,
 }: IHeaderProps) => {
   const { userData } = useAuth();
   const { top } = useSafeAreaInsets();
@@ -38,9 +47,12 @@ export const Header = ({
       <ContainerTop>
         <StyledRow>
           {Boolean(goBack) && (
-            <TouchableOpacity onPress={goBack}>
-              <Icon name={"chevron-left"} size={32} color="SECONDARY" />
-            </TouchableOpacity>
+            <IconButton
+              name="chevron-left"
+              onPress={() => goBack && goBack()}
+              size={30}
+              color="SECONDARY"
+            />
           )}
           {hasBrand ? (
             <Image
@@ -50,7 +62,7 @@ export const Header = ({
             />
           ) : null}
           {Boolean(text) ? (
-            <Text weight="700" size={24} color="SECONDARY">
+            <Text weight="700" size={22} color="SECONDARY">
               {text}
             </Text>
           ) : null}
@@ -58,13 +70,31 @@ export const Header = ({
 
         {showProfile && userData ? <Profile data={userData} /> : null}
         {Boolean(close) ? (
-          <TouchableOpacity onPress={close}>
-            <Icon name={"close"} size={28} color="SECONDARY" />
-          </TouchableOpacity>
+          <IconButton
+            name="close"
+            onPress={() => close && close()}
+            size={28}
+            color="SECONDARY"
+          />
         ) : null}
       </ContainerTop>
+      {steps ? <Stepper current={steps.current} total={steps.total} /> : null}
       {onSearch ? (
-        <InputSearch onChangeText={onSearch} text={textSearch} />
+        <Row>
+          <InputSearch
+            onChangeText={onSearch}
+            text={textSearch}
+            placeholder={searchPlaceholder}
+          />
+          {onRegister ? (
+            <IconButton
+              name="plus"
+              onPress={onRegister}
+              size={68}
+              color="SECONDARY"
+            />
+          ) : null}
+        </Row>
       ) : null}
     </Container>
   );

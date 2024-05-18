@@ -60,6 +60,7 @@ export const UsersPage = () => {
             renderItem={({ item }) => (
               <UserCard
                 data={item}
+                footerLabel="Detalhes"
                 onPress={() => handleGoToDetails(item.id)}
               />
             )}

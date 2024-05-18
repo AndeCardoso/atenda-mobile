@@ -6,6 +6,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { useTheme } from "styled-components";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { FooterContainer } from "./styles";
+import { IStepperProps } from "@components/base/Stepper";
 
 interface ILayoutProps extends PropsWithChildren {
   header?: string;
@@ -14,6 +15,9 @@ interface ILayoutProps extends PropsWithChildren {
   textSearch?: string;
   hasScroll?: boolean;
   showProfile?: boolean;
+  steps?: IStepperProps;
+  searchPlaceholder?: string;
+  onRegister?: () => void;
   onSearch?: (value?: string) => void;
   goBack?: () => void;
   close?: () => void;
@@ -27,10 +31,13 @@ export const Layout = ({
   hasBrand,
   hasScroll,
   showProfile,
+  searchPlaceholder,
   textSearch,
+  onRegister,
   onSearch,
   goBack,
   close,
+  steps,
   children,
 }: ILayoutProps) => {
   const { colors } = useTheme();
@@ -53,8 +60,11 @@ export const Layout = ({
       <Header
         text={header}
         onSearch={onSearch}
+        onRegister={onRegister}
         textSearch={textSearch}
+        searchPlaceholder={searchPlaceholder}
         goBack={goBack}
+        steps={steps}
         close={close}
         hasBrand={hasBrand}
         showProfile={showProfile}

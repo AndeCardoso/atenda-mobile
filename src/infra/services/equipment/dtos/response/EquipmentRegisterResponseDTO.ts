@@ -2,6 +2,7 @@ import { equipmentStatusEnum } from "@pages/signedIn/equipments/constants";
 
 export interface EquipmentRegisterResponseDTO {
   customerId: number;
+  id: number;
   nickname?: string;
   brand: string;
   model: string;

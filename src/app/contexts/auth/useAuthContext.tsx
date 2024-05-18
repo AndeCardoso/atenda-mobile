@@ -1,3 +1,5 @@
+import { AsyncAuthEnum } from "@model/asyncStorage/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { parseJwt } from "@utils/parseJwt";
 import React, {
   createContext,
@@ -44,9 +46,10 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
     });
   };
 
-  const changeTokenState = (value: string) => {
+  const changeTokenState = async (value: string) => {
     const jwt = parseJwt(value);
     const user = jwt?.userPayload;
+    await AsyncStorage.setItem(AsyncAuthEnum.TOKEN, value);
     if (user) {
       setUserDataState({
         companyName: user.companyName,

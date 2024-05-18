@@ -1,12 +1,15 @@
 import React, { PropsWithChildren } from "react";
 import { GestureResponderEvent, StyleProp, ViewStyle } from "react-native";
 import { useTheme } from "styled-components";
-import { Container } from "./styles";
+import { ButtonLabel, Container } from "./styles";
 import { Colors } from "@global/styles/colors";
+import { Text } from "../Text";
+import { Icon } from "../Icon";
 
 interface ICardProps extends PropsWithChildren {
   color?: Colors;
   style?: StyleProp<ViewStyle>;
+  footerLabel?: string;
   onPress?: (e: GestureResponderEvent) => void;
 }
 
@@ -14,6 +17,7 @@ export const Card = ({
   children,
   onPress,
   style,
+  footerLabel,
   color = "PRIMARY",
 }: ICardProps) => {
   const { colors } = useTheme();
@@ -29,6 +33,14 @@ export const Card = ({
   return (
     <Container style={styles} onPress={onPress && onPress}>
       {children}
+      {footerLabel ? (
+        <ButtonLabel>
+          <Text color="WHITE" weight="600">
+            {footerLabel}
+          </Text>
+          <Icon color="WHITE" name="arrow-right" />
+        </ButtonLabel>
+      ) : null}
     </Container>
   );
 };

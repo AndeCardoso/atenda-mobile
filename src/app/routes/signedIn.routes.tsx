@@ -7,6 +7,7 @@ import { TechniciansNavigator } from "@pages/signedIn/technicians/navigators";
 import { UsersNavigator } from "@pages/signedIn/users/navigators";
 import { CustomersNavigator } from "@pages/signedIn/customers/navigators";
 import { EquipmentsNavigator } from "@pages/signedIn/equipments/navigators";
+import { ServiceOrdersNavigator } from "@pages/signedIn/serviceOrders/navigators";
 
 const SignedIn = createStackNavigator();
 
@@ -47,6 +48,14 @@ export const SignedInNavigator = () => {
       <SignedIn.Screen
         name={SignedInNavigators.EQUIPMENTS}
         component={EquipmentsNavigator}
+        options={{
+          headerShown: false,
+          ...TransitionPresets.ModalSlideFromBottomIOS,
+        }}
+      />
+      <SignedIn.Screen
+        name={SignedInNavigators.SERVICE_ORDERS}
+        component={ServiceOrdersNavigator}
         options={{
           headerShown: false,
           ...TransitionPresets.ModalSlideFromBottomIOS,

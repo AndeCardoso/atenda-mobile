@@ -17,6 +17,7 @@ interface IControlledInput extends Omit<ControllerProps, "render"> {
   fullwidth?: boolean;
   placeholder?: string;
   password?: boolean;
+  longText?: boolean;
   mask?: Mask;
 }
 
@@ -32,6 +33,7 @@ export const ControlledInput = ({
   labelStyle,
   placeholder,
   defaultValue,
+  longText,
   mask,
 }: IControlledInput) => {
   const { colors } = useTheme();
@@ -55,11 +57,12 @@ export const ControlledInput = ({
         <Container style={containerStyles} fullwidth={fullwidth}>
           {label ? (
             <Text style={labelStyle ?? labelStylesDefault}>{label}</Text>
-          ) : undefined}
+          ) : null}
           <Input
             value={value}
             onChangeText={onChange}
             placeholder={placeholder}
+            longText={longText}
             password={password}
             error={Boolean(error)}
             disabled={disabled}

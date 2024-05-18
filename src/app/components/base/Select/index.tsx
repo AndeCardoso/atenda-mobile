@@ -32,6 +32,7 @@ interface ISelectProps extends Omit<TextInputProps, "value"> {
   onPress?: () => void;
   onSelect: (value?: any) => void;
   onSearch?: (value?: any) => void;
+  onNextPage?: () => void;
 }
 
 export const Select = ({
@@ -45,6 +46,7 @@ export const Select = ({
   onPress,
   onSelect,
   onSearch,
+  onNextPage,
 }: ISelectProps) => {
   const { colors } = useTheme();
   const [modalVisible, setModalVisible] = useState(false);
@@ -171,6 +173,7 @@ export const Select = ({
                   data={options}
                   keyExtractor={(item) => item.id.toString()}
                   ItemSeparatorComponent={() => <Spacer spaceVertical={16} />}
+                  onTouchEnd={onNextPage}
                   contentContainerStyle={{ padding: 16 }}
                   ListEmptyComponent={() => (
                     <EmptyState
@@ -184,8 +187,14 @@ export const Select = ({
                   )}
                   showsVerticalScrollIndicator={false}
                   renderItem={({ item }) => {
+                    const selected =
+                      seletedValueState &&
+                      seletedValueState.value === item.value;
                     return (
-                      <ListItem onPress={() => onSelectValue(item)}>
+                      <ListItem
+                        onPress={() => onSelectValue(item)}
+                        selected={Boolean(selected)}
+                      >
                         <Text color="WHITE" size={16} weight="600">
                           {item.text}
                         </Text>

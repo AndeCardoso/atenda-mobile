@@ -5,8 +5,6 @@ import { useMutation } from "react-query";
 import { AuthenticationRequestDTO } from "@services/auth/dtos/request/AuthenticationRequestDTO";
 import AuthService from "@services/auth";
 import { HttpStatusCode } from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AsyncAuthEnum } from "@model/asyncStorage/auth";
 import { useAuthContext } from "@contexts/auth/useAuthContext";
 import { useAuth } from "@hooks/useAuth";
 import { useToast } from "@hooks/useToast";
@@ -27,8 +25,7 @@ export const useAuthController = () => {
       onSuccess: async ({ statusCode, body }) => {
         switch (statusCode) {
           case HttpStatusCode.Ok:
-            await AsyncStorage.setItem(AsyncAuthEnum.TOKEN, body.token);
-            changeTokenState(body.token);
+            await changeTokenState(body.token);
             return body.token;
           case HttpStatusCode.BadRequest:
           case HttpStatusCode.Unauthorized:

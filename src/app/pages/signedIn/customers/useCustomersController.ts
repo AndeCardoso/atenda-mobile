@@ -20,44 +20,45 @@ export const useCustomersController = () => {
   const [customersSearch, setCustomerSearch] = useState("");
   const [listState, setListState] = useState<requestStateEnum | undefined>();
 
-  const { data, refetch, isLoading, isRefetching } = useInfiniteQuery(
-    ["customers", customersSearch],
-    async ({ pageParam }) => {
-      const { statusCode, body } = await customerService.list({
-        limit: 10,
-        page: pageParam ?? 1,
-        column: "name",
-        order: "asc",
-        search: customersSearch,
-      });
-      switch (statusCode) {
-        case HttpStatusCode.Ok:
-          return body;
-        case HttpStatusCode.NoContent:
-          setListState(requestStateEnum.EMPTY);
-          return;
-        case HttpStatusCode.BadRequest:
-        default:
-          setListState(requestStateEnum.ERROR);
-          return;
-      }
-    },
-    {
-      getNextPageParam: (lastPage) => {
-        if (lastPage)
-          return lastPage?.currentPage < lastPage?.totalPages
-            ? lastPage?.currentPage + 1
-            : undefined;
-      },
-      onError: async (error) => {
-        createToast({
-          message: "Erro inesperado, tente novamente",
-          alertType: "error",
+  const { data, refetch, fetchNextPage, isLoading, isRefetching } =
+    useInfiniteQuery(
+      ["customers", customersSearch],
+      async ({ pageParam }) => {
+        const { statusCode, body } = await customerService.list({
+          limit: 10,
+          page: pageParam ?? 1,
+          column: "name",
+          order: "asc",
+          search: customersSearch,
         });
-        return;
+        switch (statusCode) {
+          case HttpStatusCode.Ok:
+            return body;
+          case HttpStatusCode.NoContent:
+            setListState(requestStateEnum.EMPTY);
+            return;
+          case HttpStatusCode.BadRequest:
+          default:
+            setListState(requestStateEnum.ERROR);
+            return;
+        }
       },
-    }
-  );
+      {
+        getNextPageParam: (lastPage) => {
+          if (lastPage)
+            return lastPage?.currentPage < lastPage?.totalPages
+              ? lastPage?.currentPage + 1
+              : undefined;
+        },
+        onError: async (error) => {
+          createToast({
+            message: "Erro inesperado, tente novamente",
+            alertType: "error",
+          });
+          return;
+        },
+      }
+    );
 
   const onCustomerSearch = (value?: string) => {
     setCustomerSearch(value ?? "");
@@ -121,6 +122,7 @@ export const useCustomersController = () => {
     handleGoToDetails,
     onCustomerSearch,
     emptyStateTexts,
+    fetchNextPage,
     handleGoBack,
     fabActions,
     refetch,

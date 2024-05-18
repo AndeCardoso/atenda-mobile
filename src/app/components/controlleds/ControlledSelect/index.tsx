@@ -15,12 +15,13 @@ interface IControlledSelect extends Omit<ControllerProps, "render"> {
   control: Control<any, any>;
   loading?: boolean;
   mode?: "flat" | "outlined";
-  widthType?: "auto" | "half" | "full";
+  widthType?: "auto" | "half" | "full" | "flex";
   placeholder?: string;
   mask?: Mask;
   onPress?: () => void;
   onSelect?: (value?: any) => void;
   onSearch?: (value?: any) => void;
+  onNextPage?: () => void;
 }
 
 export const ControlledSelect = ({
@@ -38,6 +39,7 @@ export const ControlledSelect = ({
   onPress,
   onSelect,
   onSearch,
+  onNextPage,
 }: IControlledSelect) => {
   const { colors } = useTheme();
   const labelStylesDefault: StyleProp<TextStyle> = {
@@ -47,6 +49,7 @@ export const ControlledSelect = ({
   };
 
   const containerStyles: ViewStyle = {
+    flex: widthType === "flex" ? 1 : 0,
     width:
       widthType === "half" ? "50%" : widthType === "auto" ? "auto" : "100%",
   };
@@ -77,6 +80,7 @@ export const ControlledSelect = ({
               mask={mask}
               onPress={onPress}
               onSearch={onSearch}
+              onNextPage={onNextPage}
             />
             <HelperText
               type="error"

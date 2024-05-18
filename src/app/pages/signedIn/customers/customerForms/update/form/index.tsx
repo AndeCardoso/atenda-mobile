@@ -61,6 +61,10 @@ export const UpdateCustomerForm = ({
   }, []);
 
   useEffect(() => {
+    setAddressListState(addressList || []);
+  }, [addressList]);
+
+  useEffect(() => {
     setValueProp("addresses", [...addressListState]);
   }, [addressListState]);
 

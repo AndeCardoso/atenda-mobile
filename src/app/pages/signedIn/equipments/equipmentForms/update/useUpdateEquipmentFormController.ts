@@ -1,15 +1,22 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { useMutation, useQuery } from "react-query";
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { HttpStatusCode } from "axios";
 import { SuperConsole } from "@tools/indentedConsole";
 import { EquipmentRegisterRequestDTO } from "@services/equipment/dtos/request/EquipmentRegisterRequestDTO";
 import EquipmentService from "@services/equipment";
 import { IEquipmentForm } from "../schema";
+import { useCallback } from "react";
 
 export const useUpdateEquipmentFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
   const { params } = useRoute<any>();
   const { equipmentId, customerId } = params;
+  const queryClient = useQueryClient();
+
   const equipmentService = new EquipmentService();
 
   const { data, isLoading: dataLoading } = useQuery(
@@ -80,6 +87,12 @@ export const useUpdateEquipmentFormController = () => {
       handleGoBack();
     }
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      queryClient.invalidateQueries("getEquipmentUpdate");
+    }, [])
+  );
 
   return {
     equipmentData: data,

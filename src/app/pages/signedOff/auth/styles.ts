@@ -5,6 +5,7 @@ import styled from "styled-components/native";
 export const Layout = styled(ImageBackground)<{ paddingTop: number }>`
   flex: 1 100%;
   padding: 16px;
+  padding-bottom: 0;
   padding-top: ${({ paddingTop }) => paddingTop}px;
   align-items: center;
   justify-content: space-between;
@@ -12,12 +13,13 @@ export const Layout = styled(ImageBackground)<{ paddingTop: number }>`
 `;
 
 export const WrapperTop = styled.View`
+  flex: 1;
   width: 100%;
-  align-items: center;
+  justify-content: center;
 `;
 
-export const WrapperButtons = styled(Row)`
-  margin-bottom: 24px;
+export const WrapperButtons = styled(Row)<{ ios: boolean }>`
+  margin-bottom: ${({ ios }) => (ios ? 32 : 16)}px;
   background-color: ${({ theme }) => theme.colors.SECUNDARY};
   gap: 8px;
 `;

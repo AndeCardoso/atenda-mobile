@@ -5,12 +5,14 @@ import { useTheme } from "styled-components";
 
 interface IChipProps {
   text: string;
+  textSize?: number;
   textColor?: Colors;
   color?: Colors;
 }
 
 export const Chip = ({
   text,
+  textSize = 12,
   textColor = "WHITE",
   color = "SECONDARY_INACTIVE",
 }: IChipProps) => {
@@ -21,8 +23,8 @@ export const Chip = ({
   };
 
   const textStyles: TextStyle = {
-    fontSize: 12,
     fontWeight: "700",
+    fontSize: textSize,
     color: colors[textColor],
   };
   return (

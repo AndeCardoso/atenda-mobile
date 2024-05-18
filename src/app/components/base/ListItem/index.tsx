@@ -3,14 +3,17 @@ import { GestureResponderEvent, StyleProp, ViewStyle } from "react-native";
 import { useTheme } from "styled-components";
 import { Container } from "./styles";
 import { Colors } from "@global/styles/colors";
+import { Icon } from "../Icon";
 
 interface IListItemProps extends PropsWithChildren {
   color?: Colors;
+  selected?: boolean;
   style?: StyleProp<ViewStyle>;
   onPress?: (e: GestureResponderEvent) => void;
 }
 
 export const ListItem = ({
+  selected,
   children,
   onPress,
   style,
@@ -30,6 +33,7 @@ export const ListItem = ({
   return (
     <Container style={styles} onPress={onPress && onPress}>
       {children}
+      {selected ? <Icon name="check-bold" size={20} color="PRIMARY" /> : null}
     </Container>
   );
 };

@@ -52,6 +52,10 @@ export const useHomeController = () => {
     navigate(SignedInNavigators.CUSTOMERS);
   };
 
+  const handleGoToServiceOrders = () => {
+    navigate(SignedInNavigators.SERVICE_ORDERS);
+  };
+
   const handleGoToUsers = () => {
     navigate(SignedInNavigators.USERS);
   };
@@ -64,6 +68,13 @@ export const useHomeController = () => {
       style: actionStyles,
     },
     {
+      icon: "tools",
+      label: "Técnicos",
+      onPress: handleGoToTechnicians,
+      color: colors.PRIMARY,
+      style: actionStyles,
+    },
+    {
       icon: "head",
       label: "Clientes",
       onPress: handleGoToCustomers,
@@ -71,9 +82,9 @@ export const useHomeController = () => {
       style: actionStyles,
     },
     {
-      icon: "tools",
-      label: "Técnicos",
-      onPress: handleGoToTechnicians,
+      icon: "file-plus",
+      label: "Ordens de serviço",
+      onPress: handleGoToServiceOrders,
       color: colors.PRIMARY,
       style: actionStyles,
     },

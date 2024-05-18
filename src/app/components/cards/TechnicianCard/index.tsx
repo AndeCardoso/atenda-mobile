@@ -11,23 +11,25 @@ import {
   technicianPositionDisplay,
   technicianStatusDisplay,
 } from "@pages/signedIn/technicians/constants";
-import { BottomContainer, ButtonLabel, CardContainer } from "./styles";
+import { BottomContainer, CardContainer } from "./styles";
 import { GestureResponderEvent } from "react-native";
 import { useTheme } from "styled-components";
-import { Icon } from "@components/base/Icon";
 
 interface ITechnicianCardProps {
   data: Partial<ITechnicianModel>;
+  footerLabel?: string;
   onPress?: (e: GestureResponderEvent) => void;
 }
 
 export const TechnicianCard = ({
   data: { name, cpf, phone, position, status },
+  footerLabel,
   onPress,
 }: ITechnicianCardProps) => {
   const { colors } = useTheme();
   return (
     <Card
+      footerLabel={footerLabel}
       onPress={onPress && onPress}
       style={{ backgroundColor: colors.SECONDARY_INACTIVE }}
     >
@@ -67,12 +69,6 @@ export const TechnicianCard = ({
             />
           </Row>
         </BottomContainer>
-        <ButtonLabel>
-          <Text color="WHITE" weight="600">
-            Detalhes
-          </Text>
-          <Icon color="WHITE" name="arrow-right" />
-        </ButtonLabel>
       </CardContainer>
     </Card>
   );

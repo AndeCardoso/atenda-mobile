@@ -1,14 +1,21 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { useMutation, useQuery } from "react-query";
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { HttpStatusCode } from "axios";
 import { SuperConsole } from "@tools/indentedConsole";
 import UserService from "@services/user";
 import { IUserForm } from "../schema";
+import { useCallback } from "react";
 
 export const useUpdateUserFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
   const { params } = useRoute<any>();
   const { userId } = params;
+  const queryClient = useQueryClient();
+
   const userService = new UserService();
 
   const { data: userData, isLoading: dataLoading } = useQuery(
@@ -69,6 +76,12 @@ export const useUpdateUserFormController = () => {
       handleGoBack();
     }
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      queryClient.invalidateQueries("getUserUpdate");
+    }, [])
+  );
 
   return {
     userData,

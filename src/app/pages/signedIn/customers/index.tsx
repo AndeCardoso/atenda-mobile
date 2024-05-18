@@ -23,6 +23,7 @@ export const CustomersPage = () => {
     onCustomerSearch,
     handleGoToDetails,
     emptyStateTexts,
+    fetchNextPage,
     textSearch,
     fabActions,
     refetch,
@@ -47,6 +48,7 @@ export const CustomersPage = () => {
             keyExtractor={(item) => item.id.toString()}
             ItemSeparatorComponent={() => <Spacer spaceVertical={16} />}
             contentContainerStyle={{ padding: 16 }}
+            onTouchEnd={() => fetchNextPage()}
             showsVerticalScrollIndicator={false}
             ListEmptyComponent={() => (
               <EmptyState
@@ -68,6 +70,7 @@ export const CustomersPage = () => {
             renderItem={({ item }) => (
               <CustomerCard
                 data={item as Partial<ICustomerModel>}
+                footerLabel="Detalhes"
                 onPress={() => handleGoToDetails(item.id)}
               />
             )}
