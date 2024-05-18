@@ -66,7 +66,7 @@ export const RegisterEquipmentForm = ({ control }: IEquipmentFormProps) => {
         />
       </Row>
       <ControlledInput
-        label="Acessorios"
+        label="Acessórios"
         placeholder="Ex.: Carregador, mouse sem fio"
         name="accessories"
         control={control}
