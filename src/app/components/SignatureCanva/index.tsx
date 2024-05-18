@@ -1,8 +1,9 @@
-import React, { useCallback, useState } from "react";
+import React, { RefObject, useCallback, useState } from "react";
 import {
   Path,
   SkPath,
   Skia,
+  SkiaDomView,
   TouchInfo,
   useTouchHandler,
 } from "@shopify/react-native-skia";
@@ -13,9 +14,13 @@ import { Container, StyledCanvas } from "./styles";
 
 interface ISignatureCanva {
   sigantureOwner: string;
+  signatureRef?: RefObject<SkiaDomView>;
 }
 
-export const SignatureCanva = ({ sigantureOwner }: ISignatureCanva) => {
+export const SignatureCanva = ({
+  sigantureOwner,
+  signatureRef,
+}: ISignatureCanva) => {
   const { colors } = useTheme();
   const [paths, setPaths] = useState<SkPath[]>([]);
 
@@ -65,7 +70,7 @@ export const SignatureCanva = ({ sigantureOwner }: ISignatureCanva) => {
     <Container>
       <Toolbar onClearAll={handleCleanAll} onUndo={handleUndo} />
       <LabelLine text={sigantureOwner} />
-      <StyledCanvas onTouch={touchHandler}>
+      <StyledCanvas onTouch={touchHandler} ref={signatureRef}>
         {paths.map((path, index) => (
           <Path
             key={index}

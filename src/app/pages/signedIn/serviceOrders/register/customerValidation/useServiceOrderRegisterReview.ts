@@ -5,16 +5,19 @@ import { useNavigation } from "@react-navigation/native";
 import { SignedInNavigators, SignedInScreens } from "@routes/screens";
 import ServiceOrderService from "@services/serviceOrder";
 import { ServiceOrderRegisterRequestDTO } from "@services/serviceOrder/dtos/request/ServiceOrderRegisterRequestDTO";
+import { ImageFormat, useCanvasRef } from "@shopify/react-native-skia";
 import { SuperConsole } from "@tools/indentedConsole";
 import { HttpStatusCode } from "axios";
 import { useState } from "react";
 import { useMutation } from "react-query";
 
 export const useServiceOrderRegisterReview = () => {
+  const signatureRef = useCanvasRef();
   const { createToast } = useToast();
   const { navigate, canGoBack, goBack } = useNavigation<any>();
 
-  const { data: serviceOrderData } = useServiceOrderContext();
+  const { data: serviceOrderData, onTakeSignatureSnapshot } =
+    useServiceOrderContext();
 
   const serviceOrderService = new ServiceOrderService();
 
@@ -99,6 +102,14 @@ export const useServiceOrderRegisterReview = () => {
       }
     );
 
+  const handleTakeSignatureSnapshot = () => {
+    const image = signatureRef.current?.makeImageSnapshot();
+    if (image) {
+      const signatureImage = image.encodeToBytes(ImageFormat.JPEG, 95);
+      onTakeSignatureSnapshot(signatureImage);
+    }
+  };
+
   const handleRegister = async () => {
     const res = await mutateAsyncRegister(serviceOrderData!!);
     if (res.statusCode === HttpStatusCode.Created) {
@@ -114,6 +125,7 @@ export const useServiceOrderRegisterReview = () => {
 
   return {
     data: serviceOrderData,
+    signatureRef,
     handleGoBack,
     handleRegister,
     onAbandomentModalToggle,

@@ -9,6 +9,7 @@ import { SignatureCanva } from "@components/SignatureCanva";
 export const CustomerValidationPage = () => {
   const {
     data,
+    signatureRef,
     handleGoBack,
     handleRegister,
     onAbandomentModalToggle,
@@ -34,7 +35,10 @@ export const CustomerValidationPage = () => {
       }
     >
       <Container>
-        <SignatureCanva sigantureOwner={data?.customer.name!!} />
+        <SignatureCanva
+          sigantureOwner={data?.customer.name!!}
+          signatureRef={signatureRef}
+        />
       </Container>
       <AbandonmentModal
         onConfirm={handleConfirmAbandonment}
