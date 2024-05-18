@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from "react";
 import {
-  Canvas,
   Path,
   SkPath,
   Skia,
@@ -8,9 +7,9 @@ import {
   useTouchHandler,
 } from "@shopify/react-native-skia";
 import { useTheme } from "styled-components";
-import { View } from "react-native";
 import { Toolbar } from "./Toolbar";
 import { LabelLine } from "./LabelLine";
+import { Container, StyledCanvas } from "./styles";
 
 interface ISignatureCanva {
   sigantureOwner: string;
@@ -56,25 +55,17 @@ export const SignatureCanva = ({ sigantureOwner }: ISignatureCanva) => {
 
   const handleUndo = () => {
     if (paths.length > 1) {
-      const newPathValues = paths.pop();
-      setPaths(newPathValues);
+      setPaths(paths.slice(0, -1));
     } else {
       handleCleanAll();
     }
   };
 
   return (
-    <View style={{ flex: 1, width: "100%", backgroundColor: colors.SECONDARY }}>
+    <Container>
       <Toolbar onClearAll={handleCleanAll} onUndo={handleUndo} />
-
-      <Canvas
-        style={{
-          flex: 1,
-          backgroundColor: colors.SECONDARY,
-        }}
-        onTouch={touchHandler}
-      >
-        <LabelLine text={sigantureOwner} />
+      <LabelLine text={sigantureOwner} />
+      <StyledCanvas onTouch={touchHandler}>
         {paths.map((path, index) => (
           <Path
             key={index}
@@ -84,7 +75,7 @@ export const SignatureCanva = ({ sigantureOwner }: ISignatureCanva) => {
             strokeWidth={3}
           />
         ))}
-      </Canvas>
-    </View>
+      </StyledCanvas>
+    </Container>
   );
 };
