@@ -1,9 +1,7 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { Image, Platform } from "react-native";
 import { Container, ContainerTop, StyledRow } from "./styles";
 import { Text } from "@components/base/Text";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { Icon } from "@components/base/Icon";
 import { InputSearch } from "@components/base/InputSearch";
 import { Profile } from "@components/base/Profile";
 import { useAuth } from "@hooks/useAuth";
@@ -23,6 +21,7 @@ interface IHeaderProps {
   onSearch?: (value?: string) => void;
   goBack?: () => void;
   close?: () => void;
+  headerComponent?: ReactNode;
 }
 
 const android = Platform.OS === "android";
@@ -38,6 +37,7 @@ export const Header = ({
   goBack,
   close,
   steps,
+  headerComponent,
 }: IHeaderProps) => {
   const { userData } = useAuth();
   const { top } = useSafeAreaInsets();
@@ -96,6 +96,7 @@ export const Header = ({
           ) : null}
         </Row>
       ) : null}
+      {Boolean(headerComponent) ? headerComponent : null}
     </Container>
   );
 };

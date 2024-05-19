@@ -32,6 +32,7 @@ interface ILayoutProps extends PropsWithChildren {
   onSearch?: (value?: string) => void;
   goBack?: () => void;
   close?: () => void;
+  headerComponent?: ReactNode;
 }
 
 const ios = Platform.OS === "ios";
@@ -50,6 +51,7 @@ export const Layout = ({
   close,
   steps,
   children,
+  headerComponent,
 }: ILayoutProps) => {
   const { colors } = useTheme();
   const { bottom } = useSafeAreaInsets();
@@ -101,6 +103,7 @@ export const Layout = ({
         close={close}
         hasBrand={hasBrand}
         showProfile={showProfile}
+        headerComponent={headerComponent}
       />
 
       {hasScroll ? (
