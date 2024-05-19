@@ -14,8 +14,8 @@ import { useMutation } from "react-query";
 
 export const useServiceOrderRegisterReview = () => {
   const signatureRef = useCanvasRef();
-  const { createToast } = useToast();
   const { navigate, canGoBack, goBack } = useNavigation<any>();
+  const { unexpectedErrorToast } = useToast();
 
   const { data: serviceOrderData, onTakeSignatureSnapshot } =
     useServiceOrderContext();
@@ -90,19 +90,14 @@ export const useServiceOrderRegisterReview = () => {
               return body;
             case HttpStatusCode.BadRequest:
             default:
-              createToast({
-                message: "Erro inesperado",
-                alertType: "error",
-                duration: 5000,
-              });
+              SuperConsole(body, "serviceOrderRegister");
+              unexpectedErrorToast();
               return;
           }
         },
         onError: async (error) => {
-          console.log(
-            "error - technician register",
-            JSON.stringify(error, null, 2)
-          );
+          SuperConsole(error, "serviceOrderRegister");
+          unexpectedErrorToast();
           return;
         },
       }
@@ -128,20 +123,14 @@ export const useServiceOrderRegisterReview = () => {
           case HttpStatusCode.BadRequest:
           case HttpStatusCode.NotFound:
           default:
-            createToast({
-              message: "Erro inesperado",
-              alertType: "error",
-              duration: 5000,
-            });
-            SuperConsole(body);
+            SuperConsole(body, "signatureRegister");
+            unexpectedErrorToast();
             return;
         }
       },
       onError: async (error) => {
-        console.log(
-          "error - technician register",
-          JSON.stringify(error, null, 2)
-        );
+        SuperConsole(error, "signatureRegister");
+        unexpectedErrorToast();
         return;
       },
     }

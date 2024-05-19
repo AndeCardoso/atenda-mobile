@@ -14,9 +14,10 @@ import { RegisterServiceOrderScreens } from "../../navigators";
 import { useServiceOrderContext } from "@contexts/serviceOrder";
 import { IEquipmentModel } from "@model/entities/equipment";
 import { SignedInNavigators, SignedInScreens } from "@routes/screens";
+import { SuperConsole } from "@tools/indentedConsole";
 
 export const useSelectEquipmentController = () => {
-  const { createToast } = useToast();
+  const { unexpectedErrorToast } = useToast();
   const { navigate, canGoBack, goBack } = useNavigation<any>();
   const queryClient = useQueryClient();
   const route = useRoute<any>();
@@ -52,6 +53,8 @@ export const useSelectEquipmentController = () => {
           case HttpStatusCode.BadRequest:
           default:
             setListState(requestStateEnum.ERROR);
+            SuperConsole(body, "equipments");
+            unexpectedErrorToast();
             return;
         }
       },
@@ -63,10 +66,8 @@ export const useSelectEquipmentController = () => {
               : undefined;
         },
         onError: async (error) => {
-          createToast({
-            message: "Erro inesperado, tente novamente",
-            alertType: "error",
-          });
+          SuperConsole(error, "equipments");
+          unexpectedErrorToast();
           return;
         },
       }

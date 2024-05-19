@@ -4,9 +4,11 @@ import { HttpStatusCode } from "axios";
 import { SuperConsole } from "@tools/indentedConsole";
 import { IUserForm } from "../schema";
 import UserService from "@services/user";
+import { useToast } from "@hooks/useToast";
 
 export const useRegisterUserFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
+  const { unexpectedErrorToast } = useToast();
 
   const userService = new UserService();
 
@@ -23,12 +25,14 @@ export const useRegisterUserFormController = () => {
               return body;
             case HttpStatusCode.BadRequest:
             default:
-              SuperConsole(body);
+              SuperConsole(body, "userRegister");
+              unexpectedErrorToast();
               return;
           }
         },
         onError: async (error) => {
-          console.log("error - user register", JSON.stringify(error, null, 2));
+          SuperConsole(error, "userRegister");
+          unexpectedErrorToast();
           return;
         },
       }

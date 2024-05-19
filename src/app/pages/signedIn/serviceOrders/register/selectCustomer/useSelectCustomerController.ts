@@ -10,9 +10,10 @@ import { requestStateEnum } from "app/constants/requestStates";
 import { RegisterServiceOrderScreens } from "../../navigators";
 import { useServiceOrderContext } from "@contexts/serviceOrder";
 import { ICustomerModel } from "@model/entities/customer";
+import { SuperConsole } from "@tools/indentedConsole";
 
 export const useSelectCustomerController = () => {
-  const { createToast } = useToast();
+  const { unexpectedErrorToast } = useToast();
   const { navigate, canGoBack, goBack } = useNavigation<any>();
   const queryClient = useQueryClient();
   const { onSelectCustomer } = useServiceOrderContext();
@@ -42,6 +43,8 @@ export const useSelectCustomerController = () => {
           case HttpStatusCode.BadRequest:
           default:
             setListState(requestStateEnum.ERROR);
+            SuperConsole(body, "customers");
+            unexpectedErrorToast();
             return;
         }
       },
@@ -53,10 +56,8 @@ export const useSelectCustomerController = () => {
               : undefined;
         },
         onError: async (error) => {
-          createToast({
-            message: "Erro inesperado, tente novamente",
-            alertType: "error",
-          });
+          SuperConsole(error, "customers");
+          unexpectedErrorToast();
           return;
         },
       }

@@ -11,9 +11,11 @@ import { ServiceOrderRegisterRequestDTO } from "@services/serviceOrder/dtos/requ
 import ServiceOrderService from "@services/serviceOrder";
 import { IServiceForm } from "../schema";
 import { IServiceOrderModel } from "@model/entities/serviceOrder";
+import { useToast } from "@hooks/useToast";
 
 export const useUpdateServiceOrderFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
+  const { unexpectedErrorToast } = useToast();
   const { params } = useRoute<any>();
   const { serviceOrderId } = params;
   const queryClient = useQueryClient();
@@ -32,13 +34,15 @@ export const useUpdateServiceOrderFormController = () => {
         case HttpStatusCode.NoContent:
         case HttpStatusCode.BadRequest:
         default:
-          SuperConsole(body);
+          SuperConsole(body, "getServiceOrderUpdate");
+          unexpectedErrorToast();
           return;
       }
     },
     {
       onError: async (error) => {
-        console.log("error - serviceOrder id", JSON.stringify(error, null, 2));
+        SuperConsole(error, "getServiceOrderUpdate");
+        unexpectedErrorToast();
         return;
       },
     }
@@ -74,15 +78,14 @@ export const useUpdateServiceOrderFormController = () => {
               return body;
             case HttpStatusCode.BadRequest:
             default:
-              SuperConsole(body);
+              SuperConsole(body, "updateServiceOrder");
+              unexpectedErrorToast();
               return;
           }
         },
         onError: async (error) => {
-          console.log(
-            "error - serviceOrder register",
-            JSON.stringify(error, null, 2)
-          );
+          SuperConsole(error, "updateServiceOrder");
+          unexpectedErrorToast();
           return;
         },
       }

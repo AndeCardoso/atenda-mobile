@@ -1,5 +1,4 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { useTheme } from "styled-components";
 import { SignedInScreens } from "@routes/screens";
 import { useInfiniteQuery, useQueryClient } from "react-query";
 import { HttpStatusCode } from "axios";
@@ -9,10 +8,10 @@ import { requestStateEnum } from "app/constants/requestStates";
 import { useToast } from "@hooks/useToast";
 import ServiceOrderService from "@services/serviceOrder";
 import { RegisterServiceOrderScreens } from "./navigators";
+import { SuperConsole } from "@tools/indentedConsole";
 
 export const useServiceOrderController = () => {
-  const { colors } = useTheme();
-  const { createToast } = useToast();
+  const { unexpectedErrorToast } = useToast();
   const { navigate, canGoBack, goBack } = useNavigation<any>();
   const queryClient = useQueryClient();
 
@@ -41,6 +40,8 @@ export const useServiceOrderController = () => {
           case HttpStatusCode.BadRequest:
           default:
             setListState(requestStateEnum.ERROR);
+            SuperConsole(body, "serviceOrders");
+            unexpectedErrorToast();
             return;
         }
       },
@@ -52,10 +53,8 @@ export const useServiceOrderController = () => {
               : undefined;
         },
         onError: async (error) => {
-          createToast({
-            message: "Erro inesperado, tente novamente",
-            alertType: "error",
-          });
+          SuperConsole(error, "serviceOrders");
+          unexpectedErrorToast();
           return;
         },
       }

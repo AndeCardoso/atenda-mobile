@@ -10,9 +10,10 @@ import { RegisterServiceOrderScreens } from "../../navigators";
 import { useServiceOrderContext } from "@contexts/serviceOrder";
 import { ITechnicianModel } from "@model/entities/technician";
 import { SignedInNavigators, SignedInScreens } from "@routes/screens";
+import { SuperConsole } from "@tools/indentedConsole";
 
 export const useSelectTechnicianController = () => {
-  const { createToast } = useToast();
+  const { unexpectedErrorToast } = useToast();
   const { navigate, canGoBack, goBack } = useNavigation<any>();
   const queryClient = useQueryClient();
 
@@ -49,6 +50,8 @@ export const useSelectTechnicianController = () => {
           case HttpStatusCode.BadRequest:
           default:
             setListState(requestStateEnum.ERROR);
+            SuperConsole(body, "technicians");
+            unexpectedErrorToast();
             return;
         }
       },
@@ -60,10 +63,8 @@ export const useSelectTechnicianController = () => {
               : undefined;
         },
         onError: async (error) => {
-          createToast({
-            message: "Erro inesperado, tente novamente",
-            alertType: "error",
-          });
+          SuperConsole(error, "technicians");
+          unexpectedErrorToast();
           return;
         },
       }

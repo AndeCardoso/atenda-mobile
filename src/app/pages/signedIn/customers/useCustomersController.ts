@@ -1,5 +1,4 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { useTheme } from "styled-components";
 import { SignedInScreens } from "@routes/screens";
 import { useInfiniteQuery, useQueryClient } from "react-query";
 import CustomerService from "@services/customer";
@@ -8,10 +7,10 @@ import { useCallback, useState } from "react";
 import { reducePages } from "@utils/reducePages";
 import { useToast } from "@hooks/useToast";
 import { requestStateEnum } from "app/constants/requestStates";
+import { SuperConsole } from "@tools/indentedConsole";
 
 export const useCustomersController = () => {
-  const { colors } = useTheme();
-  const { createToast } = useToast();
+  const { unexpectedErrorToast } = useToast();
   const { navigate, canGoBack, goBack } = useNavigation<any>();
   const queryClient = useQueryClient();
 
@@ -40,6 +39,8 @@ export const useCustomersController = () => {
           case HttpStatusCode.BadRequest:
           default:
             setListState(requestStateEnum.ERROR);
+            SuperConsole(body, "customers");
+            unexpectedErrorToast();
             return;
         }
       },
@@ -51,10 +52,8 @@ export const useCustomersController = () => {
               : undefined;
         },
         onError: async (error) => {
-          createToast({
-            message: "Erro inesperado, tente novamente",
-            alertType: "error",
-          });
+          SuperConsole(error, "customers");
+          unexpectedErrorToast();
           return;
         },
       }

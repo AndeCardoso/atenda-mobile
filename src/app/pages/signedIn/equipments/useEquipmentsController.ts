@@ -11,9 +11,10 @@ import { useCallback, useState } from "react";
 import { reducePages } from "@utils/reducePages";
 import { requestStateEnum } from "app/constants/requestStates";
 import { useToast } from "@hooks/useToast";
+import { SuperConsole } from "@tools/indentedConsole";
 
 export const useEquipmentsController = () => {
-  const { createToast } = useToast();
+  const { unexpectedErrorToast } = useToast();
   const { navigate, canGoBack, goBack } = useNavigation<any>();
   const queryClient = useQueryClient();
   const { params } = useRoute<any>();
@@ -45,6 +46,8 @@ export const useEquipmentsController = () => {
           case HttpStatusCode.BadRequest:
           default:
             setListState(requestStateEnum.ERROR);
+            SuperConsole(body, "equipments");
+            unexpectedErrorToast();
             return;
         }
       },
@@ -56,10 +59,8 @@ export const useEquipmentsController = () => {
               : undefined;
         },
         onError: async (error) => {
-          createToast({
-            message: "Erro inesperado, tente novamente",
-            alertType: "error",
-          });
+          SuperConsole(error, "equipments");
+          unexpectedErrorToast();
           return;
         },
       }

@@ -8,14 +8,15 @@ import { HttpStatusCode } from "axios";
 import { useAuthContext } from "@contexts/auth/useAuthContext";
 import { useAuth } from "@hooks/useAuth";
 import { useToast } from "@hooks/useToast";
+import { SuperConsole } from "@tools/indentedConsole";
 
 export const useAuthController = () => {
   const { navigate } = useNavigation<any>();
   const { changeTokenState } = useAuthContext();
   const { logout } = useAuth();
-  const authService = new AuthService();
+  const { unexpectedErrorToast } = useToast();
 
-  const { createToast } = useToast();
+  const authService = new AuthService();
 
   const { mutateAsync: mutateAsyncAuth, isLoading: loadingAuth } = useMutation(
     ["authentication"],
@@ -30,15 +31,14 @@ export const useAuthController = () => {
           case HttpStatusCode.BadRequest:
           case HttpStatusCode.Unauthorized:
           default:
-            createToast({
-              message: body?.message || "Erro inesperado",
-              alertType: "error",
-            });
+            SuperConsole(body, "authentication");
+            unexpectedErrorToast();
             return;
         }
       },
       onError: async (error) => {
-        console.log("error", JSON.stringify(error, null, 2));
+        SuperConsole(error, "authentication");
+        unexpectedErrorToast();
         logout();
         return;
       },

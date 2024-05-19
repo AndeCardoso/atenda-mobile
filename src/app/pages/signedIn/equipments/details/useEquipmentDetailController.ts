@@ -10,9 +10,11 @@ import { HttpStatusCode } from "axios";
 import EquipmentService from "@services/equipment";
 import { SuperConsole } from "@tools/indentedConsole";
 import { useCallback } from "react";
+import { useToast } from "@hooks/useToast";
 
 export const useEquipmentDetailController = () => {
   const { colors } = useTheme();
+  const { unexpectedErrorToast } = useToast();
   const { navigate, canGoBack, goBack } = useNavigation<any>();
   const { params } = useRoute<any>();
   const { equipmentId, customerId } = params;
@@ -21,7 +23,7 @@ export const useEquipmentDetailController = () => {
   const equipmentService = new EquipmentService();
 
   const { data, isLoading } = useQuery(
-    ["equipmentDetail", equipmentId],
+    ["equipmentDetails", equipmentId],
     async () => {
       const { statusCode, body } = await equipmentService.get(equipmentId);
       switch (statusCode) {
@@ -30,13 +32,15 @@ export const useEquipmentDetailController = () => {
         case HttpStatusCode.NoContent:
         case HttpStatusCode.BadRequest:
         default:
-          SuperConsole(body);
+          SuperConsole(body, "equipmentDetails");
+          unexpectedErrorToast();
           return;
       }
     },
     {
       onError: async (error) => {
-        console.log("error - equipments", JSON.stringify(error, null, 2));
+        SuperConsole(error, "equipmentDetails");
+        unexpectedErrorToast();
         return;
       },
     }
@@ -71,7 +75,7 @@ export const useEquipmentDetailController = () => {
 
   useFocusEffect(
     useCallback(() => {
-      queryClient.invalidateQueries("equipmentDetail");
+      queryClient.invalidateQueries("equipmentDetails");
     }, [])
   );
 

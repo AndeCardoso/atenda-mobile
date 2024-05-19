@@ -7,9 +7,10 @@ import { useCallback, useState } from "react";
 import { reducePages } from "@utils/reducePages";
 import { requestStateEnum } from "app/constants/requestStates";
 import { useToast } from "@hooks/useToast";
+import { SuperConsole } from "@tools/indentedConsole";
 
 export const useTechniciansController = () => {
-  const { createToast } = useToast();
+  const { unexpectedErrorToast } = useToast();
   const { navigate, canGoBack, goBack } = useNavigation<any>();
   const queryClient = useQueryClient();
 
@@ -38,6 +39,8 @@ export const useTechniciansController = () => {
           case HttpStatusCode.BadRequest:
           default:
             setListState(requestStateEnum.ERROR);
+            SuperConsole(body, "technicians");
+            unexpectedErrorToast();
             return;
         }
       },
@@ -49,10 +52,8 @@ export const useTechniciansController = () => {
               : undefined;
         },
         onError: async (error) => {
-          createToast({
-            message: "Erro inesperado, tente novamente",
-            alertType: "error",
-          });
+          SuperConsole(error, "technicians");
+          unexpectedErrorToast();
           return;
         },
       }

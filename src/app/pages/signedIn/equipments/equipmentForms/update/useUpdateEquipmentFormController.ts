@@ -10,9 +10,11 @@ import { EquipmentRegisterRequestDTO } from "@services/equipment/dtos/request/Eq
 import EquipmentService from "@services/equipment";
 import { IEquipmentForm } from "../schema";
 import { useCallback } from "react";
+import { useToast } from "@hooks/useToast";
 
 export const useUpdateEquipmentFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
+  const { unexpectedErrorToast } = useToast();
   const { params } = useRoute<any>();
   const { equipmentId, customerId } = params;
   const queryClient = useQueryClient();
@@ -29,13 +31,15 @@ export const useUpdateEquipmentFormController = () => {
         case HttpStatusCode.NoContent:
         case HttpStatusCode.BadRequest:
         default:
-          SuperConsole(body);
+          SuperConsole(body, "getEquipmentUpdate");
+          unexpectedErrorToast();
           return;
       }
     },
     {
       onError: async (error) => {
-        console.log("error - equipment id", JSON.stringify(error, null, 2));
+        SuperConsole(error, "getEquipmentUpdate");
+        unexpectedErrorToast();
         return;
       },
     }
@@ -63,15 +67,14 @@ export const useUpdateEquipmentFormController = () => {
               return body;
             case HttpStatusCode.BadRequest:
             default:
-              SuperConsole(body);
+              SuperConsole(body, "updateEquipment");
+              unexpectedErrorToast();
               return;
           }
         },
         onError: async (error) => {
-          console.log(
-            "error - equipment register",
-            JSON.stringify(error, null, 2)
-          );
+          SuperConsole(error, "updateEquipment");
+          unexpectedErrorToast();
           return;
         },
       }

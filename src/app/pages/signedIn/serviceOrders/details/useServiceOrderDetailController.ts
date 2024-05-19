@@ -4,19 +4,17 @@ import {
   useRoute,
 } from "@react-navigation/native";
 import { useTheme } from "styled-components";
-import {
-  Navigators,
-  SignedInNavigators,
-  SignedInScreens,
-} from "@routes/screens";
+import { SignedInNavigators, SignedInScreens } from "@routes/screens";
 import { useQuery, useQueryClient } from "react-query";
 import { HttpStatusCode } from "axios";
 import { SuperConsole } from "@tools/indentedConsole";
 import { useCallback } from "react";
 import ServiceOrderService from "@services/serviceOrder";
+import { useToast } from "@hooks/useToast";
 
 export const useServiceOrderDetailController = () => {
   const { colors } = useTheme();
+  const { unexpectedErrorToast } = useToast();
   const { navigate, canGoBack, goBack } = useNavigation<any>();
   const { params } = useRoute<any>();
   const { serviceOrderId } = params;
@@ -25,7 +23,7 @@ export const useServiceOrderDetailController = () => {
   const serviceOrderService = new ServiceOrderService();
 
   const { data, isLoading } = useQuery(
-    ["serviceOrderDetail", serviceOrderId],
+    ["serviceOrderDetails", serviceOrderId],
     async () => {
       const { statusCode, body } = await serviceOrderService.get({
         serviceOrderId,
@@ -36,13 +34,15 @@ export const useServiceOrderDetailController = () => {
         case HttpStatusCode.NoContent:
         case HttpStatusCode.BadRequest:
         default:
-          SuperConsole(body);
+          SuperConsole(body, "serviceOrderDetails");
+          unexpectedErrorToast();
           return;
       }
     },
     {
       onError: async (error) => {
-        console.log("error - serviceOrders", JSON.stringify(error, null, 2));
+        SuperConsole(error, "serviceOrderDetails");
+        unexpectedErrorToast();
         return;
       },
     }
@@ -90,7 +90,7 @@ export const useServiceOrderDetailController = () => {
 
   useFocusEffect(
     useCallback(() => {
-      queryClient.invalidateQueries("serviceOrderDetail");
+      queryClient.invalidateQueries("serviceOrderDetails");
     }, [])
   );
 

@@ -6,9 +6,12 @@ import { HttpStatusCode } from "axios";
 import UserService from "@services/user";
 import { reducePages } from "@utils/reducePages";
 import { requestStateEnum } from "app/constants/requestStates";
+import { useToast } from "@hooks/useToast";
+import { SuperConsole } from "@tools/indentedConsole";
 
 export const useUsersController = () => {
   const { navigate, canGoBack, goBack } = useNavigation<any>();
+  const { unexpectedErrorToast } = useToast();
   const queryClient = useQueryClient();
 
   const userService = new UserService();
@@ -36,6 +39,8 @@ export const useUsersController = () => {
           case HttpStatusCode.BadRequest:
           default:
             setListState(requestStateEnum.ERROR);
+            SuperConsole(body, "users");
+            unexpectedErrorToast();
             return;
         }
       },
@@ -47,7 +52,8 @@ export const useUsersController = () => {
               : undefined;
         },
         onError: async (error) => {
-          console.log("error - user", JSON.stringify(error, null, 2));
+          SuperConsole(error, "users");
+          unexpectedErrorToast();
           return;
         },
       }
