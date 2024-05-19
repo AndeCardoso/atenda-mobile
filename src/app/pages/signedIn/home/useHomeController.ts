@@ -107,6 +107,7 @@ export const useHomeController = () => {
   );
 
   return {
+    userData,
     advertiseData,
     fabActions,
     viewState: {
