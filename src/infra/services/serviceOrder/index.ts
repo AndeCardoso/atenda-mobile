@@ -8,6 +8,9 @@ import {
 } from "@model/http/paginationRequest";
 import { ServiceOrderGetRequestDTO } from "./dtos/request/ServiceOrderGetRequestDTO";
 import { ServiceOrderGetResponseDTO } from "./dtos/response/ServiceOrderGetResponseDTO";
+import { SignatureRequestDTO } from "./dtos/request/SignatureRequestDTO";
+import { SignatureResponseDTO } from "./dtos/response/SignatureResponseDTO";
+import { convertUint8ArrayToUri } from "@utils/convertUint8ArrayToUri";
 
 export default class ServiceOrderService {
   public async register(
@@ -17,6 +20,23 @@ export default class ServiceOrderService {
       method: "post",
       url: "service-order/",
       body,
+    });
+  }
+
+  public async registerSignature(
+    body: SignatureRequestDTO
+  ): Promise<HttpResponse<SignatureResponseDTO>> {
+    const uri = await convertUint8ArrayToUri(body.signature);
+
+    const formData = new FormData();
+
+    // formData.append("signature", uri);
+
+    return await new AxiosHttpClient().request({
+      method: "post",
+      url: "service-order/signature",
+      headers: { "Content-Type": "multipart/form-data" },
+      body: formData,
     });
   }
 
