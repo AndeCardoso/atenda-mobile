@@ -4,11 +4,9 @@ import {
   TextStyle,
   TextInput as TextInputRN,
   FlatList,
-  KeyboardAvoidingView,
-  Platform,
 } from "react-native";
 import MaskInput, { Mask } from "react-native-mask-input";
-import { Modal, Portal, TextInput, TextInputProps } from "react-native-paper";
+import { TextInput, TextInputProps } from "react-native-paper";
 import { useTheme } from "styled-components";
 import { Text } from "../Text";
 import { Spacer } from "../Spacer";
@@ -19,15 +17,13 @@ import { InputSearch } from "../InputSearch";
 import { LoaderBox } from "../Loader/styles";
 import { ListItem } from "../ListItem";
 import { EmptyState } from "@components/EmptyState";
-import { RFValue } from "react-native-responsive-fontsize";
+import { Modal } from "../Modal";
 
 export interface IOption {
   id: number | string;
   text: string;
   value: number | string;
 }
-
-const ios = Platform.OS === "ios";
 
 interface ISelectProps extends Omit<TextInputProps, "value"> {
   options?: IOption[];
@@ -145,78 +141,70 @@ export const Select = ({
         }
         render={(props) => <MaskInput {...props} mask={mask} />}
       />
-      <Portal>
-        <Modal visible={modalVisible} onDismiss={onToggleModal} dismissable>
-          <KeyboardAvoidingView
-            behavior={ios ? "padding" : "height"}
-            keyboardVerticalOffset={ios ? RFValue(40) : 0}
-          >
-            <ModalContainer>
-              <Header>
-                <Text size={24} weight="700" color="SECONDARY">
-                  {placeholder}
-                </Text>
-                <IconButton
-                  name="close"
-                  size={26}
-                  onPress={onToggleModal}
-                  color="SECONDARY"
-                />
-              </Header>
-              {onSearch ? (
-                <Search>
-                  <InputSearch
-                    placeholder="Busca"
-                    onChangeText={handleSearch}
-                    text={searchValue}
-                  />
-                </Search>
-              ) : null}
-              <Content>
-                {loading ? (
-                  <LoaderBox>
-                    <Loader size={64} />
-                  </LoaderBox>
-                ) : (
-                  <FlatList
-                    data={options}
-                    keyExtractor={(item) => item.id.toString()}
-                    ItemSeparatorComponent={() => <Spacer spaceVertical={16} />}
-                    onTouchEnd={onNextPage}
-                    contentContainerStyle={{ padding: 16 }}
-                    ListEmptyComponent={() => (
-                      <EmptyState
-                        title="Nenhum resultado encontrado"
-                        action={{
-                          text: "Limpar busca",
-                          onPress: onCleanSearch,
-                        }}
-                        secondary
-                      />
-                    )}
-                    showsVerticalScrollIndicator={false}
-                    renderItem={({ item }) => {
-                      const selected =
-                        seletedValueState &&
-                        seletedValueState.value === item.value;
-                      return (
-                        <ListItem
-                          onPress={() => onSelectValue(item)}
-                          selected={Boolean(selected)}
-                        >
-                          <Text color="WHITE" size={16} weight="600">
-                            {item.text}
-                          </Text>
-                        </ListItem>
-                      );
+      <Modal modalVisible={modalVisible} onToggleModal={onToggleModal}>
+        <ModalContainer>
+          <Header>
+            <Text size={24} weight="700" color="SECONDARY">
+              {placeholder}
+            </Text>
+            <IconButton
+              name="close"
+              size={26}
+              onPress={onToggleModal}
+              color="SECONDARY"
+            />
+          </Header>
+          {onSearch ? (
+            <Search>
+              <InputSearch
+                placeholder="Busca"
+                onChangeText={handleSearch}
+                text={searchValue}
+              />
+            </Search>
+          ) : null}
+          <Content>
+            {loading ? (
+              <LoaderBox>
+                <Loader size={64} />
+              </LoaderBox>
+            ) : (
+              <FlatList
+                data={options}
+                keyExtractor={(item) => item.id.toString()}
+                ItemSeparatorComponent={() => <Spacer spaceVertical={16} />}
+                onTouchEnd={onNextPage}
+                contentContainerStyle={{ padding: 16 }}
+                ListEmptyComponent={() => (
+                  <EmptyState
+                    title="Nenhum resultado encontrado"
+                    action={{
+                      text: "Limpar busca",
+                      onPress: onCleanSearch,
                     }}
+                    secondary
                   />
                 )}
-              </Content>
-            </ModalContainer>
-          </KeyboardAvoidingView>
-        </Modal>
-      </Portal>
+                showsVerticalScrollIndicator={false}
+                renderItem={({ item }) => {
+                  const selected =
+                    seletedValueState && seletedValueState.value === item.value;
+                  return (
+                    <ListItem
+                      onPress={() => onSelectValue(item)}
+                      selected={Boolean(selected)}
+                    >
+                      <Text color="WHITE" size={16} weight="600">
+                        {item.text}
+                      </Text>
+                    </ListItem>
+                  );
+                }}
+              />
+            )}
+          </Content>
+        </ModalContainer>
+      </Modal>
     </>
   );
 };
