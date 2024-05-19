@@ -12,9 +12,14 @@ export const CustomerValidationPage = () => {
     signatureRef,
     handleGoBack,
     handleRegister,
+    onEnableForwardButton,
     onAbandomentModalToggle,
     handleConfirmAbandonment,
-    viewState: { registerLoading, abandomentOpenModalState },
+    viewState: {
+      registerLoading,
+      abandomentOpenModalState,
+      forwardButtonEnableState,
+    },
   } = useServiceOrderRegisterReview();
 
   return (
@@ -25,9 +30,10 @@ export const CustomerValidationPage = () => {
       footer={
         <WrapperButtons>
           <Button
-            onPress={handleRegister}
             mode="contained"
+            onPress={handleRegister}
             loading={registerLoading}
+            disabled={!forwardButtonEnableState}
           >
             Cadastrar O.S.
           </Button>
@@ -38,6 +44,7 @@ export const CustomerValidationPage = () => {
         <SignatureCanva
           sigantureOwner={data?.customer.name!!}
           signatureRef={signatureRef}
+          onDirty={onEnableForwardButton}
         />
       </Container>
       <AbandonmentModal

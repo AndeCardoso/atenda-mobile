@@ -1,4 +1,4 @@
-import React, { RefObject, useCallback, useState } from "react";
+import React, { RefObject, useCallback, useEffect, useState } from "react";
 import {
   Path,
   SkPath,
@@ -15,11 +15,13 @@ import { Container, StyledCanvas } from "./styles";
 interface ISignatureCanva {
   sigantureOwner: string;
   signatureRef?: RefObject<SkiaDomView>;
+  onDirty?: (value: boolean) => void;
 }
 
 export const SignatureCanva = ({
   sigantureOwner,
   signatureRef,
+  onDirty,
 }: ISignatureCanva) => {
   const { colors } = useTheme();
   const [paths, setPaths] = useState<SkPath[]>([]);
@@ -65,6 +67,10 @@ export const SignatureCanva = ({
       handleCleanAll();
     }
   };
+
+  useEffect(() => {
+    onDirty && onDirty(paths.length > 0);
+  }, [paths]);
 
   return (
     <Container>

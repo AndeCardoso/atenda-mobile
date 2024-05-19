@@ -5,6 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { SignedInNavigators, SignedInScreens } from "@routes/screens";
 import ServiceOrderService from "@services/serviceOrder";
 import { ServiceOrderRegisterRequestDTO } from "@services/serviceOrder/dtos/request/ServiceOrderRegisterRequestDTO";
+import { SignatureRequestDTO } from "@services/serviceOrder/dtos/request/SignatureRequestDTO";
 import { ImageFormat, useCanvasRef } from "@shopify/react-native-skia";
 import { SuperConsole } from "@tools/indentedConsole";
 import { HttpStatusCode } from "axios";
@@ -23,6 +24,12 @@ export const useServiceOrderRegisterReview = () => {
 
   const [abandomentOpenModalState, setAbandomentOpenModalState] =
     useState(false);
+  const [forwardButtonEnableState, setForwardButtonEnableState] =
+    useState(false);
+
+  const onEnableForwardButton = (value: boolean) => {
+    setForwardButtonEnableState(value);
+  };
 
   const onAbandomentModalToggle = () => {
     setAbandomentOpenModalState(!abandomentOpenModalState);
@@ -88,7 +95,6 @@ export const useServiceOrderRegisterReview = () => {
                 alertType: "error",
                 duration: 5000,
               });
-              SuperConsole(body);
               return;
           }
         },
@@ -102,20 +108,65 @@ export const useServiceOrderRegisterReview = () => {
       }
     );
 
+  const {
+    mutateAsync: mutateAsyncSignatureRegister,
+    isLoading: signatureRegisterLoading,
+  } = useMutation(
+    ["signatureRegister"],
+    async ({ serviceOrderId, signature }: SignatureRequestDTO) => {
+      const body: SignatureRequestDTO = {
+        serviceOrderId,
+        signature,
+      };
+      return await serviceOrderService.registerSignature(body);
+    },
+    {
+      onSuccess: async ({ statusCode, body }) => {
+        switch (statusCode) {
+          case HttpStatusCode.Created:
+            return body;
+          case HttpStatusCode.BadRequest:
+          case HttpStatusCode.NotFound:
+          default:
+            createToast({
+              message: "Erro inesperado",
+              alertType: "error",
+              duration: 5000,
+            });
+            SuperConsole(body);
+            return;
+        }
+      },
+      onError: async (error) => {
+        console.log(
+          "error - technician register",
+          JSON.stringify(error, null, 2)
+        );
+        return;
+      },
+    }
+  );
+
   const handleTakeSignatureSnapshot = () => {
     const image = signatureRef.current?.makeImageSnapshot();
     if (image) {
-      const signatureImage = image.encodeToBytes(ImageFormat.JPEG, 95);
-      onTakeSignatureSnapshot(signatureImage);
+      return image.encodeToBytes(ImageFormat.JPEG, 95);
     }
   };
 
   const handleRegister = async () => {
-    const res = await mutateAsyncRegister(serviceOrderData!!);
-    if (res.statusCode === HttpStatusCode.Created) {
-      navigate(SignedInNavigators.SERVICE_ORDERS, {
-        screen: SignedInScreens.SERVICE_ORDERS,
+    const serviceOrderResponse = await mutateAsyncRegister(serviceOrderData!!);
+    if (serviceOrderResponse.statusCode === HttpStatusCode.Created) {
+      const signatureImage = handleTakeSignatureSnapshot();
+      const signatureRegisterResponse = await mutateAsyncSignatureRegister({
+        serviceOrderId: serviceOrderResponse.body.id,
+        signature: signatureImage!!,
       });
+      if (signatureRegisterResponse.statusCode === HttpStatusCode.Ok) {
+        navigate(SignedInNavigators.SERVICE_ORDERS, {
+          screen: SignedInScreens.SERVICE_ORDERS,
+        });
+      }
     }
   };
 
@@ -128,8 +179,13 @@ export const useServiceOrderRegisterReview = () => {
     signatureRef,
     handleGoBack,
     handleRegister,
+    onEnableForwardButton,
     onAbandomentModalToggle,
     handleConfirmAbandonment,
-    viewState: { registerLoading, abandomentOpenModalState },
+    viewState: {
+      registerLoading: signatureRegisterLoading && registerLoading,
+      abandomentOpenModalState,
+      forwardButtonEnableState,
+    },
   };
 };
