@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useCallback, useRef } from "react";
 import { Image, Platform } from "react-native";
 import { Container, ContainerTop, StyledRow } from "./styles";
 import { Text } from "@components/base/Text";
@@ -9,6 +9,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { IconButton } from "@components/base/IconButton";
 import { Row } from "@components/base/Row";
 import { IStepperProps, Stepper } from "@components/base/Stepper";
+import debounce from "lodash.debounce";
 
 interface IHeaderProps {
   text?: string;
@@ -41,6 +42,13 @@ export const Header = ({
 }: IHeaderProps) => {
   const { userData } = useAuth();
   const { top } = useSafeAreaInsets();
+
+  const handleDebouncedChange = useCallback(
+    debounce((value?: string) => {
+      onSearch && onSearch(value);
+    }, 500),
+    []
+  );
 
   return (
     <Container paddingTop={android ? top + 16 : top}>
@@ -82,7 +90,7 @@ export const Header = ({
       {onSearch ? (
         <Row>
           <InputSearch
-            onChangeText={onSearch}
+            onChangeText={handleDebouncedChange}
             text={textSearch}
             placeholder={searchPlaceholder}
           />
