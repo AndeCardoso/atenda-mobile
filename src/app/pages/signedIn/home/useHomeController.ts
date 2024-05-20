@@ -26,7 +26,7 @@ export const useHomeController = () => {
         case HttpStatusCode.Ok:
           return body;
         case HttpStatusCode.NoContent:
-          return [];
+          return;
         case HttpStatusCode.BadRequest:
         default:
           SuperConsole(body, "advertise");
