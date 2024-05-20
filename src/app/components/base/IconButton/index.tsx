@@ -1,9 +1,9 @@
 import React from "react";
 import { TouchableOpacity } from "react-native";
-import { useTheme } from "styled-components";
 import { IIconProps, Icon } from "../Icon";
+import { IconButtonProps } from "react-native-paper";
 
-interface IIconButtonProps extends IIconProps {
+interface IIconButtonProps extends IIconProps, Omit<IconButtonProps, "icon"> {
   disabled?: boolean;
   onPress: (value?: any) => void;
 }
