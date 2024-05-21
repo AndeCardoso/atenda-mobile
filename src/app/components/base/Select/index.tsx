@@ -1,12 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
-import {
-  StyleProp,
-  TextStyle,
-  TextInput as TextInputRN,
-  FlatList,
-} from "react-native";
-import MaskInput, { Mask } from "react-native-mask-input";
-import { TextInput, TextInputProps } from "react-native-paper";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { TextInput as TextInputRN, FlatList } from "react-native";
+import { TextInputProps } from "react-native-paper";
 import { useTheme } from "styled-components";
 import { Text } from "../Text";
 import { Spacer } from "../Spacer";
@@ -18,6 +12,8 @@ import { LoaderBox } from "../Loader/styles";
 import { ListItem } from "../ListItem";
 import { EmptyState } from "@components/EmptyState";
 import { Modal } from "../Modal";
+import { debounce, isObject } from "lodash";
+import { SelectButton } from "./components/SelectButton";
 
 export interface IOption {
   id: number | string;
@@ -27,7 +23,6 @@ export interface IOption {
 
 interface ISelectProps extends Omit<TextInputProps, "value"> {
   options?: IOption[];
-  mask?: Mask;
   value?: IOption;
   loading?: boolean;
   onPress?: () => void;
@@ -42,7 +37,6 @@ export const Select = ({
   loading,
   placeholder,
   disabled,
-  mask,
   error,
   onPress,
   onSelect,
@@ -94,52 +88,32 @@ export const Select = ({
     onSelect?.("");
   }
 
-  const inputStyle: StyleProp<TextStyle> = {
-    width: "100%",
-    backgroundColor: colors.INPUT_BACKGROUND,
-  };
-
-  const disabledInputStyle: StyleProp<TextStyle> = {
-    ...(inputStyle as Object),
-    color: colors.SECONDARY_INACTIVE,
-    pointerEvents: "none",
-  };
-
   const isSelected =
     (seletedValueState?.text && seletedValueState?.text?.length > 0) ||
     (seletedValueState && seletedValueState.length > 0);
 
+  const handleDebouncedChange = useCallback(
+    debounce((value?: string) => {
+      handleSearch && handleSearch(value);
+    }, 500),
+    []
+  );
+
+  const textValue = isObject(seletedValueState)
+    ? seletedValueState?.text
+    : seletedValueState;
+
   return (
     <>
-      <TextInput
-        value={seletedValueState?.text ?? seletedValueState}
-        mode={"outlined"}
-        onPressIn={handlePress}
+      <SelectButton
+        value={textValue}
         placeholder={placeholder}
-        textColor={disabled ? colors.SECONDARY_INACTIVE : colors.WHITE}
-        outlineColor={disabled ? "transparent" : colors.SECONDARY_INACTIVE}
-        placeholderTextColor={
-          disabled ? colors.SECONDARY : colors.SECONDARY_INACTIVE
-        }
-        style={disabled ? disabledInputStyle : inputStyle}
+        modalVisible={modalVisible}
+        handleClear={handleClear}
+        isSelected={isSelected}
+        onPress={handlePress}
+        disabled={disabled}
         error={error}
-        editable={false}
-        right={
-          <TextInput.Icon
-            icon={
-              disabled
-                ? "lock"
-                : isSelected
-                ? "close"
-                : modalVisible
-                ? "chevron-up"
-                : "chevron-down"
-            }
-            color={colors.WHITE}
-            onPress={isSelected ? handleClear : handlePress}
-          />
-        }
-        render={(props) => <MaskInput {...props} mask={mask} />}
       />
       <Modal modalVisible={modalVisible} onToggleModal={onToggleModal}>
         <ModalContainer>
@@ -158,7 +132,7 @@ export const Select = ({
             <Search>
               <InputSearch
                 placeholder="Busca"
-                onChangeText={handleSearch}
+                onChangeText={handleDebouncedChange}
                 text={searchValue}
               />
             </Search>
