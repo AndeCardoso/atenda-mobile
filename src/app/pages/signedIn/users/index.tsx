@@ -24,7 +24,7 @@ export const UsersPage = () => {
     handleGoBack,
     onUserSearch,
     refetch,
-    viewState: { loading, reloading, listState },
+    viewState: { loading, reloading, loadingNextPage, listState },
   } = useUsersController();
 
   return (
@@ -41,6 +41,13 @@ export const UsersPage = () => {
             ItemSeparatorComponent={() => <Spacer spaceVertical={16} />}
             contentContainerStyle={{ padding: 16 }}
             showsVerticalScrollIndicator={false}
+            ListFooterComponent={() =>
+              loadingNextPage ? (
+                <Loader size={32} />
+              ) : (
+                <Spacer spaceVertical={64} />
+              )
+            }
             ListEmptyComponent={() => (
               <EmptyState
                 title="Nenhum Usuário encontrado"

@@ -32,46 +32,52 @@ export const useSelectEquipmentController = () => {
   const [equipmentsSearch, setEquipmentSearch] = useState("");
   const [listState, setListState] = useState<requestStateEnum | undefined>();
 
-  const { data, refetch, fetchNextPage, isLoading, isRefetching } =
-    useInfiniteQuery(
-      ["equipments", equipmentsSearch],
-      async ({ pageParam }) => {
-        const { statusCode, body } = await equipmentService.list({
-          limit: 10,
-          page: pageParam ?? 1,
-          column: "nickname",
-          order: "asc",
-          search: equipmentsSearch,
-          customerId,
-        });
-        switch (statusCode) {
-          case HttpStatusCode.Ok:
-            return body;
-          case HttpStatusCode.NoContent:
-            setListState(requestStateEnum.EMPTY);
-            return;
-          case HttpStatusCode.BadRequest:
-          default:
-            setListState(requestStateEnum.ERROR);
-            SuperConsole(body, "equipments");
-            unexpectedErrorToast();
-            return;
-        }
-      },
-      {
-        getNextPageParam: (lastPage) => {
-          if (lastPage)
-            return lastPage?.currentPage < lastPage?.totalPages
-              ? lastPage?.currentPage + 1
-              : undefined;
-        },
-        onError: async (error) => {
-          SuperConsole(error, "equipments");
+  const {
+    data,
+    refetch,
+    fetchNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isRefetching,
+  } = useInfiniteQuery(
+    ["equipments", equipmentsSearch],
+    async ({ pageParam }) => {
+      const { statusCode, body } = await equipmentService.list({
+        limit: 10,
+        page: pageParam ?? 1,
+        column: "nickname",
+        order: "asc",
+        search: equipmentsSearch,
+        customerId,
+      });
+      switch (statusCode) {
+        case HttpStatusCode.Ok:
+          return body;
+        case HttpStatusCode.NoContent:
+          setListState(requestStateEnum.EMPTY);
+          return;
+        case HttpStatusCode.BadRequest:
+        default:
+          setListState(requestStateEnum.ERROR);
+          SuperConsole(body, "equipments");
           unexpectedErrorToast();
           return;
-        },
       }
-    );
+    },
+    {
+      getNextPageParam: (lastPage) => {
+        if (lastPage)
+          return lastPage?.currentPage < lastPage?.totalPages
+            ? lastPage?.currentPage + 1
+            : undefined;
+      },
+      onError: async (error) => {
+        SuperConsole(error, "equipments");
+        unexpectedErrorToast();
+        return;
+      },
+    }
+  );
 
   const onEquipmentSearch = (value?: string) => {
     setEquipmentSearch(value ?? "");
@@ -140,6 +146,7 @@ export const useSelectEquipmentController = () => {
     viewState: {
       loading: isLoading,
       reloading: isRefetching,
+      loadingNextPage: isFetchingNextPage,
       listState,
       abandomentOpenModalState,
     },

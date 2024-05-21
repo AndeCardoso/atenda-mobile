@@ -24,7 +24,7 @@ export const SelectCustomerPage = () => {
     handleSelect,
     textSearch,
     refetch,
-    viewState: { loading, reloading, listState },
+    viewState: { loading, reloading, loadingNextPage, listState },
   } = useSelectCustomerController();
 
   return (
@@ -48,6 +48,13 @@ export const SelectCustomerPage = () => {
           ItemSeparatorComponent={() => <Spacer spaceVertical={16} />}
           contentContainerStyle={{ padding: 16 }}
           onTouchEnd={() => fetchNextPage()}
+          ListFooterComponent={() =>
+            loadingNextPage ? (
+              <Loader size={32} />
+            ) : (
+              <Spacer spaceVertical={64} />
+            )
+          }
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={() => (
             <EmptyState

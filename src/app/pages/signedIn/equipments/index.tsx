@@ -26,7 +26,7 @@ export const EquipmentsPage = () => {
     fetchNextPage,
     textSearch,
     refetch,
-    viewState: { loading, reloading, listState },
+    viewState: { loading, reloading, loadingNextPage, listState },
   } = useEquipmentsController();
 
   return (
@@ -48,6 +48,13 @@ export const EquipmentsPage = () => {
             ItemSeparatorComponent={() => <Spacer spaceVertical={16} />}
             contentContainerStyle={{ padding: 16 }}
             showsVerticalScrollIndicator={false}
+            ListFooterComponent={() =>
+              loadingNextPage ? (
+                <Loader size={32} />
+              ) : (
+                <Spacer spaceVertical={64} />
+              )
+            }
             onTouchEnd={() => fetchNextPage()}
             ListEmptyComponent={() => (
               <EmptyState

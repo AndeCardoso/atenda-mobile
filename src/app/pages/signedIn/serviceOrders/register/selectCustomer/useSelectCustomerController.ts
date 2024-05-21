@@ -23,45 +23,51 @@ export const useSelectCustomerController = () => {
   const [customersSearch, setCustomerSearch] = useState("");
   const [listState, setListState] = useState<requestStateEnum | undefined>();
 
-  const { data, refetch, fetchNextPage, isLoading, isRefetching } =
-    useInfiniteQuery(
-      ["customers", customersSearch],
-      async ({ pageParam }) => {
-        const { statusCode, body } = await customerService.list({
-          limit: 10,
-          page: pageParam ?? 1,
-          column: "name",
-          order: "asc",
-          search: customersSearch,
-        });
-        switch (statusCode) {
-          case HttpStatusCode.Ok:
-            return body;
-          case HttpStatusCode.NoContent:
-            setListState(requestStateEnum.EMPTY);
-            return;
-          case HttpStatusCode.BadRequest:
-          default:
-            setListState(requestStateEnum.ERROR);
-            SuperConsole(body, "customers");
-            unexpectedErrorToast();
-            return;
-        }
-      },
-      {
-        getNextPageParam: (lastPage) => {
-          if (lastPage)
-            return lastPage?.currentPage < lastPage?.totalPages
-              ? lastPage?.currentPage + 1
-              : undefined;
-        },
-        onError: async (error) => {
-          SuperConsole(error, "customers");
+  const {
+    data,
+    refetch,
+    fetchNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isRefetching,
+  } = useInfiniteQuery(
+    ["customers", customersSearch],
+    async ({ pageParam }) => {
+      const { statusCode, body } = await customerService.list({
+        limit: 10,
+        page: pageParam ?? 1,
+        column: "name",
+        order: "asc",
+        search: customersSearch,
+      });
+      switch (statusCode) {
+        case HttpStatusCode.Ok:
+          return body;
+        case HttpStatusCode.NoContent:
+          setListState(requestStateEnum.EMPTY);
+          return;
+        case HttpStatusCode.BadRequest:
+        default:
+          setListState(requestStateEnum.ERROR);
+          SuperConsole(body, "customers");
           unexpectedErrorToast();
           return;
-        },
       }
-    );
+    },
+    {
+      getNextPageParam: (lastPage) => {
+        if (lastPage)
+          return lastPage?.currentPage < lastPage?.totalPages
+            ? lastPage?.currentPage + 1
+            : undefined;
+      },
+      onError: async (error) => {
+        SuperConsole(error, "customers");
+        unexpectedErrorToast();
+        return;
+      },
+    }
+  );
 
   const onCustomerSearch = (value?: string) => {
     setCustomerSearch(value ?? "");
@@ -119,6 +125,7 @@ export const useSelectCustomerController = () => {
     viewState: {
       loading: isLoading,
       reloading: isRefetching,
+      loadingNextPage: isFetchingNextPage,
       listState,
     },
   };

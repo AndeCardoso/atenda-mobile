@@ -26,7 +26,7 @@ export const ServiceOrdersPage = () => {
     fetchNextPage,
     textSearch,
     refetch,
-    viewState: { loading, reloading, listState },
+    viewState: { loading, reloading, loadingNextPage, listState },
   } = useServiceOrderController();
 
   return (
@@ -49,7 +49,13 @@ export const ServiceOrdersPage = () => {
             contentContainerStyle={{ padding: 16 }}
             keyExtractor={(item) => item.id.toString()}
             ItemSeparatorComponent={() => <Spacer spaceVertical={16} />}
-            ListFooterComponent={() => <Spacer spaceVertical={64} />}
+            ListFooterComponent={() =>
+              loadingNextPage ? (
+                <Loader size={32} />
+              ) : (
+                <Spacer spaceVertical={64} />
+              )
+            }
             ListEmptyComponent={() => (
               <EmptyState
                 title={emptyStateTexts.title}

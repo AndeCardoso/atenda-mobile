@@ -19,45 +19,51 @@ export const useUsersController = () => {
   const [userSearch, setUserSearch] = useState("");
   const [listState, setListState] = useState<requestStateEnum | undefined>();
 
-  const { data, refetch, fetchNextPage, isLoading, isRefetching } =
-    useInfiniteQuery(
-      ["users", userSearch],
-      async ({ pageParam }) => {
-        const { statusCode, body } = await userService.list({
-          limit: 10,
-          page: pageParam ?? 1,
-          column: "name",
-          order: "asc",
-          search: userSearch,
-        });
-        switch (statusCode) {
-          case HttpStatusCode.Ok:
-            return body;
-          case HttpStatusCode.NoContent:
-            setListState(requestStateEnum.EMPTY);
-            return;
-          case HttpStatusCode.BadRequest:
-          default:
-            setListState(requestStateEnum.ERROR);
-            SuperConsole(body, "users");
-            unexpectedErrorToast();
-            return;
-        }
-      },
-      {
-        getNextPageParam: (lastPage) => {
-          if (lastPage)
-            return lastPage?.currentPage < lastPage?.totalPages
-              ? lastPage?.currentPage + 1
-              : undefined;
-        },
-        onError: async (error) => {
-          SuperConsole(error, "users");
+  const {
+    data,
+    refetch,
+    fetchNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isRefetching,
+  } = useInfiniteQuery(
+    ["users", userSearch],
+    async ({ pageParam }) => {
+      const { statusCode, body } = await userService.list({
+        limit: 10,
+        page: pageParam ?? 1,
+        column: "name",
+        order: "asc",
+        search: userSearch,
+      });
+      switch (statusCode) {
+        case HttpStatusCode.Ok:
+          return body;
+        case HttpStatusCode.NoContent:
+          setListState(requestStateEnum.EMPTY);
+          return;
+        case HttpStatusCode.BadRequest:
+        default:
+          setListState(requestStateEnum.ERROR);
+          SuperConsole(body, "users");
           unexpectedErrorToast();
           return;
-        },
       }
-    );
+    },
+    {
+      getNextPageParam: (lastPage) => {
+        if (lastPage)
+          return lastPage?.currentPage < lastPage?.totalPages
+            ? lastPage?.currentPage + 1
+            : undefined;
+      },
+      onError: async (error) => {
+        SuperConsole(error, "users");
+        unexpectedErrorToast();
+        return;
+      },
+    }
+  );
 
   const onUserSearch = (value?: string) => {
     setUserSearch(value ?? "");
@@ -94,6 +100,7 @@ export const useUsersController = () => {
     viewState: {
       loading: isLoading,
       reloading: isRefetching,
+      loadingNextPage: isFetchingNextPage,
       listState,
     },
   };

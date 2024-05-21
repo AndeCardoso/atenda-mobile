@@ -19,45 +19,51 @@ export const useTechniciansController = () => {
   const [technicianSearch, setTechnicianSearch] = useState("");
   const [listState, setListState] = useState<requestStateEnum | undefined>();
 
-  const { data, refetch, fetchNextPage, isLoading, isRefetching } =
-    useInfiniteQuery(
-      ["technicians", technicianSearch],
-      async ({ pageParam }) => {
-        const { statusCode, body } = await technicianService.list({
-          limit: 10,
-          page: pageParam ?? 1,
-          column: "name",
-          order: "asc",
-          search: technicianSearch,
-        });
-        switch (statusCode) {
-          case HttpStatusCode.Ok:
-            return body;
-          case HttpStatusCode.NoContent:
-            setListState(requestStateEnum.EMPTY);
-            return;
-          case HttpStatusCode.BadRequest:
-          default:
-            setListState(requestStateEnum.ERROR);
-            SuperConsole(body, "technicians");
-            unexpectedErrorToast();
-            return;
-        }
-      },
-      {
-        getNextPageParam: (lastPage) => {
-          if (lastPage)
-            return lastPage?.currentPage < lastPage?.totalPages
-              ? lastPage?.currentPage + 1
-              : undefined;
-        },
-        onError: async (error) => {
-          SuperConsole(error, "technicians");
+  const {
+    data,
+    refetch,
+    fetchNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isRefetching,
+  } = useInfiniteQuery(
+    ["technicians", technicianSearch],
+    async ({ pageParam }) => {
+      const { statusCode, body } = await technicianService.list({
+        limit: 10,
+        page: pageParam ?? 1,
+        column: "name",
+        order: "asc",
+        search: technicianSearch,
+      });
+      switch (statusCode) {
+        case HttpStatusCode.Ok:
+          return body;
+        case HttpStatusCode.NoContent:
+          setListState(requestStateEnum.EMPTY);
+          return;
+        case HttpStatusCode.BadRequest:
+        default:
+          setListState(requestStateEnum.ERROR);
+          SuperConsole(body, "technicians");
           unexpectedErrorToast();
           return;
-        },
       }
-    );
+    },
+    {
+      getNextPageParam: (lastPage) => {
+        if (lastPage)
+          return lastPage?.currentPage < lastPage?.totalPages
+            ? lastPage?.currentPage + 1
+            : undefined;
+      },
+      onError: async (error) => {
+        SuperConsole(error, "technicians");
+        unexpectedErrorToast();
+        return;
+      },
+    }
+  );
 
   const onTechnicianSearch = (value?: string) => {
     setTechnicianSearch(value ?? "");
@@ -112,6 +118,7 @@ export const useTechniciansController = () => {
     viewState: {
       loading: isLoading,
       reloading: isRefetching,
+      loadingNextPage: isFetchingNextPage,
       listState,
     },
   };

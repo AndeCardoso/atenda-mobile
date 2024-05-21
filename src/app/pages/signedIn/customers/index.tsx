@@ -27,7 +27,7 @@ export const CustomersPage = () => {
     fetchNextPage,
     textSearch,
     refetch,
-    viewState: { loading, reloading, listState },
+    viewState: { loading, reloading, loadingNextPage, listState },
   } = useCustomersController();
 
   return (
@@ -48,6 +48,13 @@ export const CustomersPage = () => {
             keyExtractor={(item) => item.id.toString()}
             ItemSeparatorComponent={() => <Spacer spaceVertical={16} />}
             contentContainerStyle={{ padding: 16 }}
+            ListFooterComponent={() =>
+              loadingNextPage ? (
+                <Loader size={32} />
+              ) : (
+                <Spacer spaceVertical={64} />
+              )
+            }
             onTouchEnd={() => fetchNextPage()}
             showsVerticalScrollIndicator={false}
             ListEmptyComponent={() => (
