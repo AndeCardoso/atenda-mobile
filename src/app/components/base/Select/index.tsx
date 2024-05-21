@@ -123,7 +123,7 @@ export const Select = ({
             </Text>
             <IconButton
               name="close"
-              size={26}
+              size={24}
               onPress={onToggleModal}
               color="SECONDARY"
             />

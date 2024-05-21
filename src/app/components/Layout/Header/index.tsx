@@ -58,7 +58,7 @@ export const Header = ({
             <IconButton
               name="chevron-left"
               onPress={() => goBack && goBack()}
-              size={30}
+              size={28}
               color="SECONDARY"
             />
           )}
@@ -98,7 +98,7 @@ export const Header = ({
             <IconButton
               name="plus"
               onPress={onRegister}
-              size={68}
+              size={40}
               color="SECONDARY"
             />
           ) : null}
