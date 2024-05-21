@@ -86,7 +86,7 @@ export const useSelectTechnicianController = () => {
 
   const handleSelect = (technician: ITechnicianModel) => {
     onSelectTechnician(technician);
-    navigate(RegisterServiceOrderScreens.REVIEW);
+    navigate(RegisterServiceOrderScreens.SERVICE_FORM);
   };
 
   const handleGoToRegister = () => {

@@ -93,7 +93,7 @@ export const useSelectEquipmentController = () => {
 
   const handleSelect = (equipment: IEquipmentModel) => {
     onSelectEquipment(equipment);
-    navigate(RegisterServiceOrderScreens.SERVICE_FORM);
+    navigate(RegisterServiceOrderScreens.SELECT_TECHNICIAN);
   };
 
   const handleGoToRegister = () => {

@@ -37,7 +37,7 @@ export const useServiceFormController = () => {
   }) => {
     onSaveServiceForm(serviceForm);
     onSaveAddressForm(addressForm);
-    navigate(RegisterServiceOrderScreens.SELECT_TECHNICIAN);
+    navigate(RegisterServiceOrderScreens.REVIEW);
   };
 
   return {

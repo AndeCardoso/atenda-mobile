@@ -39,12 +39,12 @@ export const ServiceOrderRegisterFlowNavigator = () => {
           component={SelectEquipmentPage}
         />
         <Screen
-          name={RegisterServiceOrderScreens.SERVICE_FORM}
-          component={ServiceFormPage}
-        />
-        <Screen
           name={RegisterServiceOrderScreens.SELECT_TECHNICIAN}
           component={SelectTechnicianPage}
+        />
+        <Screen
+          name={RegisterServiceOrderScreens.SERVICE_FORM}
+          component={ServiceFormPage}
         />
         <Screen
           name={RegisterServiceOrderScreens.REVIEW}
