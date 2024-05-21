@@ -1,25 +1,33 @@
 import React from "react";
-import { TouchableOpacity } from "react-native";
-import { IIconProps, Icon } from "../Icon";
-import { IconButtonProps } from "react-native-paper";
+import { IIconProps } from "../Icon";
+import {
+  IconButton as PaperIconButton,
+  IconButtonProps,
+} from "react-native-paper";
+import { useTheme } from "styled-components";
+import { Colors } from "@global/styles/colors";
 
 interface IIconButtonProps extends IIconProps, Omit<IconButtonProps, "icon"> {
   disabled?: boolean;
-  onPress: (value?: any) => void;
+  onPress?: (value?: any) => void;
 }
 
 export const IconButton = ({
   disabled,
   onPress,
+  name,
+  color,
   ...rest
 }: IIconButtonProps) => {
+  const { colors } = useTheme();
   return (
-    <TouchableOpacity
+    <PaperIconButton
+      {...rest}
+      icon={name}
+      iconColor={colors[color as Colors]}
       onPress={onPress}
       disabled={disabled}
-      style={{ opacity: disabled ? 0.3 : 1 }}
-    >
-      <Icon {...rest} />
-    </TouchableOpacity>
+      style={{ margin: 0 }}
+    />
   );
 };
