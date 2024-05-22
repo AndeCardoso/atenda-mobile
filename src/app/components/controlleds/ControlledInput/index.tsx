@@ -77,7 +77,12 @@ export const ControlledInput = ({
             mask={mask}
             keyboardType={keyboardTypes}
           />
-          <HelperText type="error" visible={Boolean(error)} disabled={disabled}>
+          <HelperText
+            type="error"
+            visible={Boolean(error)}
+            disabled={disabled}
+            style={{ fontSize: 14 }}
+          >
             {error?.message}
           </HelperText>
         </Container>
