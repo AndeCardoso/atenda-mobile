@@ -60,7 +60,7 @@ export const useRegisterUserController = () => {
       companyDocument: unmask(values.companyDocument),
     };
     const res = await mutateAsyncRegister(fixedValues);
-    if (res.statusCode === HttpStatusCode.Ok) {
+    if (res.statusCode === HttpStatusCode.Created) {
       handleGoBack();
     }
   };
