@@ -31,7 +31,7 @@ export const useCustomersController = () => {
     async ({ pageParam }) => {
       const { statusCode, body } = await customerService.list({
         limit: 10,
-        page: pageParam ?? 1,
+        page: pageParam,
         column: "name",
         order: "asc",
         search: customersSearch,

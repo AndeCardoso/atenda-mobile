@@ -24,15 +24,15 @@ export const useServiceOrderController = () => {
     data,
     refetch,
     fetchNextPage,
-    isFetchingNextPage,
     isLoading,
     isRefetching,
+    isFetchingNextPage,
   } = useInfiniteQuery(
     ["serviceOrders", serviceOrderSearch],
     async ({ pageParam }) => {
       const { statusCode, body } = await serviceOrderService.list({
         limit: 10,
-        page: pageParam ?? 1,
+        page: pageParam,
         column: "created_at",
         order: "desc",
         search: serviceOrderSearch,

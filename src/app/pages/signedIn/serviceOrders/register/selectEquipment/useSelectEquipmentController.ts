@@ -44,7 +44,7 @@ export const useSelectEquipmentController = () => {
     async ({ pageParam }) => {
       const { statusCode, body } = await equipmentService.list({
         limit: 10,
-        page: pageParam ?? 1,
+        page: pageParam,
         column: "nickname",
         order: "asc",
         search: equipmentsSearch,

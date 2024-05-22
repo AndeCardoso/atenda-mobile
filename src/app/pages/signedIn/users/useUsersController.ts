@@ -31,7 +31,7 @@ export const useUsersController = () => {
     async ({ pageParam }) => {
       const { statusCode, body } = await userService.list({
         limit: 10,
-        page: pageParam ?? 1,
+        page: pageParam,
         column: "name",
         order: "asc",
         search: userSearch,
