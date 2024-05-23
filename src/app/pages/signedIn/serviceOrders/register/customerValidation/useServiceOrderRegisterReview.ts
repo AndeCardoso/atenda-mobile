@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react";
+import { HttpStatusCode } from "axios";
+import { useMutation } from "react-query";
 import { useServiceOrderContext } from "@contexts/serviceOrder";
 import { useToast } from "@hooks/useToast";
 import { IServiceOrderModel } from "@model/entities/serviceOrder";
@@ -8,13 +11,10 @@ import { ServiceOrderRegisterRequestDTO } from "@services/serviceOrder/dtos/requ
 import { SignatureRequestDTO } from "@services/serviceOrder/dtos/request/SignatureRequestDTO";
 import { ImageFormat, useCanvasRef } from "@shopify/react-native-skia";
 import { SuperConsole } from "@tools/indentedConsole";
-import { HttpStatusCode } from "axios";
-import { useState } from "react";
-import { useMutation } from "react-query";
 
 export const useServiceOrderRegisterReview = () => {
   const signatureRef = useCanvasRef();
-  const { navigate, canGoBack, goBack } = useNavigation<any>();
+  const { navigate, canGoBack, goBack, getParent } = useNavigation<any>();
   const { unexpectedErrorToast } = useToast();
 
   const { data: serviceOrderData, onTakeSignatureSnapshot } =
@@ -162,6 +162,13 @@ export const useServiceOrderRegisterReview = () => {
   const handleGoBack = () => {
     canGoBack && goBack();
   };
+
+  useEffect(() => {
+    getParent()?.setOptions({ gestureEnabled: false });
+    return () => {
+      getParent()?.setOptions({ gestureEnabled: true });
+    };
+  }, []);
 
   return {
     data: serviceOrderData,

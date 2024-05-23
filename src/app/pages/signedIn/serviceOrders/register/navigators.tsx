@@ -7,9 +7,9 @@ import { SelectEquipmentPage } from "./selectEquipment";
 import { ServiceFormPage } from "./serviceForm";
 import { SelectTechnicianPage } from "./selectTechnician";
 import { ServiceOrderRegisterReviewPage } from "./review";
+import { CustomerValidationPage } from "./customerValidation";
 
 import { ServiceOrderContextProvider } from "@contexts/serviceOrder";
-import { CustomerValidationPage } from "./customerValidation";
 
 export const ServiceOrderRegisterFlowNavigator = () => {
   type RootStackParamList = {
@@ -53,6 +53,9 @@ export const ServiceOrderRegisterFlowNavigator = () => {
         <Screen
           name={RegisterServiceOrderScreens.CUSTOMER_VALIDATION}
           component={CustomerValidationPage}
+          options={{
+            gestureEnabled: false,
+          }}
         />
       </Navigator>
     </ServiceOrderContextProvider>
