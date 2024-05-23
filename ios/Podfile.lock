@@ -3,7 +3,7 @@ PODS:
   - DoubleConversion (1.1.6)
   - EXConstants (16.0.1):
     - ExpoModulesCore
-  - Expo (51.0.7):
+  - Expo (51.0.8):
     - ExpoModulesCore
   - ExpoAsset (10.0.6):
     - ExpoModulesCore
@@ -1490,7 +1490,7 @@ SPEC CHECKSUMS:
   boost: d3f49c53809116a5d38da093a8aa78bf551aed09
   DoubleConversion: 76ab83afb40bddeeee456813d9c04f67f78771b5
   EXConstants: 9a008dbf262550884e6280dea95b81b51f65ea6f
-  Expo: ad3c10d4a7723961d4796d73e07eddcd9fd9cf66
+  Expo: c99f14ca53381d5399b88684c88e20ff7928d3c7
   ExpoAsset: 9b7433ecc5f1b608ccbb823492e062bde944abd2
   ExpoClipboard: 23d203f5d4843699fbc45be1cc4fe1fbd811a6fa
   ExpoFileSystem: 80bfe850b1f9922c16905822ecbf97acd711dc51
