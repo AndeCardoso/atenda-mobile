@@ -17,13 +17,13 @@ export const LabelLine = ({ text }: ILabelLineProps) => {
   };
   return (
     <>
-      <SignatureLine top={window.height / 2.6} left={window.width / 1.2 - 24} />
+      <SignatureLine top={window.height / 3.9} left={window.width / 1.2 - 24} />
       {text ? (
         <SignatureName
           size={24}
           weight="600"
           color="WHITE"
-          top={window.height / 2.6}
+          top={window.height / 3.2}
           left={window.width / 1.22 - textWidthState / 2}
           onLayout={handleTextLayout}
         >

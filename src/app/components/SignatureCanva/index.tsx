@@ -1,4 +1,4 @@
-import React, { RefObject, useCallback, useEffect, useState } from "react";
+import React, { Ref, useCallback, useEffect, useState } from "react";
 import {
   Path,
   SkPath,
@@ -10,11 +10,11 @@ import {
 import { useTheme } from "styled-components";
 import { Toolbar } from "./Toolbar";
 import { LabelLine } from "./LabelLine";
-import { Container, StyledCanvas } from "./styles";
+import { Container, PrintBox, StyledCanvas } from "./styles";
 
 interface ISignatureCanva {
   sigantureOwner: string;
-  signatureRef?: RefObject<SkiaDomView>;
+  signatureRef?: Ref<any>;
   onDirty?: (value: boolean) => void;
 }
 
@@ -75,18 +75,23 @@ export const SignatureCanva = ({
   return (
     <Container>
       <Toolbar onClearAll={handleCleanAll} onUndo={handleUndo} />
-      <LabelLine text={sigantureOwner} />
-      <StyledCanvas onTouch={touchHandler} ref={signatureRef}>
-        {paths.map((path, index) => (
-          <Path
-            key={index}
-            path={path}
-            color={colors.PRIMARY}
-            style={"stroke"}
-            strokeWidth={3}
-          />
-        ))}
-      </StyledCanvas>
+      <PrintBox
+        ref={signatureRef}
+        options={{ fileName: "signature", format: "jpg", quality: 0.9 }}
+      >
+        <LabelLine text={sigantureOwner} />
+        <StyledCanvas onTouch={touchHandler}>
+          {paths.map((path, index) => (
+            <Path
+              key={index}
+              path={path}
+              color={colors.PRIMARY}
+              style={"stroke"}
+              strokeWidth={3}
+            />
+          ))}
+        </StyledCanvas>
+      </PrintBox>
     </Container>
   );
 };
