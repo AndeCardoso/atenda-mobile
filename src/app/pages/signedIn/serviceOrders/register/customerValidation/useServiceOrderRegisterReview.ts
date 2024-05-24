@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { HttpStatusCode } from "axios";
 import { useMutation } from "react-query";
 import { useServiceOrderContext } from "@contexts/serviceOrder";
@@ -9,16 +9,18 @@ import { SignedInNavigators, SignedInScreens } from "@routes/screens";
 import ServiceOrderService from "@services/serviceOrder";
 import { ServiceOrderRegisterRequestDTO } from "@services/serviceOrder/dtos/request/ServiceOrderRegisterRequestDTO";
 import { SignatureRequestDTO } from "@services/serviceOrder/dtos/request/SignatureRequestDTO";
-import { ImageFormat, useCanvasRef } from "@shopify/react-native-skia";
 import { SuperConsole } from "@tools/indentedConsole";
+import { captureRef } from "react-native-view-shot";
+import * as MediaLibrary from "expo-media-library";
 
 export const useServiceOrderRegisterReview = () => {
-  const signatureRef = useCanvasRef();
+  const signatureRef = useRef();
   const { navigate, canGoBack, goBack, getParent } = useNavigation<any>();
   const { unexpectedErrorToast } = useToast();
 
-  const { data: serviceOrderData, onTakeSignatureSnapshot } =
-    useServiceOrderContext();
+  const [permissionStatus, requestPermission] = MediaLibrary.usePermissions();
+
+  const { data: serviceOrderData } = useServiceOrderContext();
 
   const serviceOrderService = new ServiceOrderService();
 
@@ -108,10 +110,11 @@ export const useServiceOrderRegisterReview = () => {
     isLoading: signatureRegisterLoading,
   } = useMutation(
     ["signatureRegister"],
-    async ({ serviceOrderId, signature }: SignatureRequestDTO) => {
+    async ({ serviceOrderId, image, fileName }: SignatureRequestDTO) => {
       const body: SignatureRequestDTO = {
         serviceOrderId,
-        signature,
+        image,
+        fileName,
       };
       return await serviceOrderService.registerSignature(body);
     },
@@ -136,21 +139,30 @@ export const useServiceOrderRegisterReview = () => {
     }
   );
 
-  const handleTakeSignatureSnapshot = () => {
-    const image = signatureRef.current?.makeImageSnapshot();
+  const handleTakeSignatureSnapshot = async () => {
+    if (permissionStatus === null) {
+      requestPermission();
+    }
+
+    const image = await captureRef(signatureRef, {
+      quality: 1,
+      format: "jpg",
+    });
     if (image) {
-      return image.encodeToBytes(ImageFormat.JPEG, 95);
+      return image;
     }
   };
 
   const handleRegister = async () => {
     const serviceOrderResponse = await mutateAsyncRegister(serviceOrderData!!);
     if (serviceOrderResponse.statusCode === HttpStatusCode.Created) {
-      const signatureImage = handleTakeSignatureSnapshot();
+      const signatureImage = await handleTakeSignatureSnapshot();
       const signatureRegisterResponse = await mutateAsyncSignatureRegister({
         serviceOrderId: serviceOrderResponse.body.id,
-        signature: signatureImage!!,
+        image: signatureImage!!,
+        fileName: `signature-${serviceOrderData?.customer.name}-${serviceOrderResponse.body.id}.jpg`,
       });
+
       if (signatureRegisterResponse.statusCode === HttpStatusCode.Ok) {
         navigate(SignedInNavigators.SERVICE_ORDERS, {
           screen: SignedInScreens.SERVICE_ORDERS,

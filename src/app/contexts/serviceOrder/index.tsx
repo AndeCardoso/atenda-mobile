@@ -29,7 +29,6 @@ interface ServiceOrderContextProps {
   onSaveServiceForm: (serviceForm: IServiceForm) => void;
   onSaveAddressForm: (addressForm: IAddressModel) => void;
   onSelectTechnician: (technicianData: ITechnicianModel) => void;
-  onTakeSignatureSnapshot: (signatureData: Uint8Array) => void;
 }
 
 export const ServiceOrderContext = createContext(
@@ -101,7 +100,6 @@ export function ServiceOrderContextProvider({ children }: PropsWithChildren) {
         onSaveServiceForm,
         onSaveAddressForm,
         onSelectTechnician,
-        onTakeSignatureSnapshot,
       }}
     >
       {children}
