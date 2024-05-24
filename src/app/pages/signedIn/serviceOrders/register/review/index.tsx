@@ -56,17 +56,15 @@ export const ServiceOrderRegisterReviewPage = () => {
           text="Defeitos informados"
           value={data?.serviceForm.reportedDefect}
         />
-        <Divider />
-        <DisplayField
-          text="Defeitos encontrados"
-          value={data?.serviceForm.foundDefect}
-        />
-        <Divider />
         <DisplayField
           text="Serviços requisitados"
           value={data?.serviceForm.orderedServices}
         />
         <Divider />
+        <DisplayField
+          text="Defeitos encontrados"
+          value={data?.serviceForm.foundDefect}
+        />
         <DisplayField
           text="Serviços realizados"
           value={data?.serviceForm.executedServices}

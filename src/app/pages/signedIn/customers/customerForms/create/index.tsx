@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigation } from "@react-navigation/native";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Layout } from "@components/Layout";
 import { Container, WrapperButtons } from "./styles";

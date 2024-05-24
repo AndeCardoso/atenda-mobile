@@ -9,7 +9,7 @@ import { LoaderBox } from "@components/base/Loader/styles";
 import { useCustomersController } from "./useCustomersController";
 import { CustomerCard } from "@components/cards/CustomerCard";
 import { ICustomerModel } from "@model/entities/customer";
-import { FabButton } from "@components/base/FAB";
+import { FabGroup } from "@components/base/FAB";
 import { EmptyState } from "@components/EmptyState";
 import { requestStateEnum } from "app/constants/requestStates";
 
@@ -20,14 +20,14 @@ export const CustomersPage = () => {
   const {
     customerList,
     handleGoBack,
-    onCustomerSearch,
+    handleGoToRegister,
     handleGoToDetails,
+    onCustomerSearch,
     emptyStateTexts,
     fetchNextPage,
     textSearch,
-    fabActions,
     refetch,
-    viewState: { loading, reloading, listState },
+    viewState: { loading, reloading, loadingNextPage, listState },
   } = useCustomersController();
 
   return (
@@ -48,6 +48,13 @@ export const CustomersPage = () => {
             keyExtractor={(item) => item.id.toString()}
             ItemSeparatorComponent={() => <Spacer spaceVertical={16} />}
             contentContainerStyle={{ padding: 16 }}
+            ListFooterComponent={() =>
+              loadingNextPage ? (
+                <Loader size={32} />
+              ) : (
+                <Spacer spaceVertical={64} />
+              )
+            }
             onTouchEnd={() => fetchNextPage()}
             showsVerticalScrollIndicator={false}
             ListEmptyComponent={() => (
@@ -75,11 +82,11 @@ export const CustomersPage = () => {
               />
             )}
           />
-          <FabButton
+          <FabGroup
+            isSingle
             isFocused={isFocused}
-            fabActions={fabActions}
-            openedIcon="head-cog"
-            closedIcon="head"
+            icon="plus"
+            onPress={handleGoToRegister}
           />
         </>
       )}

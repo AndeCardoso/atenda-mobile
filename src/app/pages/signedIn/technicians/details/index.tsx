@@ -19,7 +19,7 @@ import { Icon } from "@components/base/Icon";
 import { Divider } from "@components/base/Separator";
 import { Loader } from "@components/base/Loader";
 import { useIsFocused } from "@react-navigation/native";
-import { FabButton } from "@components/base/FAB";
+import { FabGroup } from "@components/base/FAB";
 
 export const TechnicianDetailPage = () => {
   const isFocused = useIsFocused();
@@ -116,7 +116,7 @@ export const TechnicianDetailPage = () => {
               />
             </Row>
           </Container>
-          <FabButton
+          <FabGroup
             isFocused={isFocused}
             fabActions={fabActions}
             openedIcon="file-document-multiple"

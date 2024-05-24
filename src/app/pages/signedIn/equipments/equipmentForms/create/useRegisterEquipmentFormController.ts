@@ -4,9 +4,11 @@ import { HttpStatusCode } from "axios";
 import { SuperConsole } from "@tools/indentedConsole";
 import EquipmentService from "@services/equipment";
 import { IEquipmentForm } from "../schema";
+import { useToast } from "@hooks/useToast";
 
 export const useRegisterEquipmentFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
+  const { unexpectedErrorToast } = useToast();
   const { params } = useRoute<any>();
   const { customerId } = params;
 
@@ -31,15 +33,14 @@ export const useRegisterEquipmentFormController = () => {
               return body;
             case HttpStatusCode.BadRequest:
             default:
-              SuperConsole(body);
+              SuperConsole(body, "equipmentRegister");
+              unexpectedErrorToast();
               return;
           }
         },
         onError: async (error) => {
-          console.log(
-            "error - equipment register",
-            JSON.stringify(error, null, 2)
-          );
+          SuperConsole(error, "equipmentRegister");
+          unexpectedErrorToast();
           return;
         },
       }

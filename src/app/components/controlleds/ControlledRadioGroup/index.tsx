@@ -49,6 +49,7 @@ export const ControlledRadioGroup = ({
               onSelect={onChange}
               selectedValue={value}
               items={itemList}
+              error={Boolean(error)}
             />
             <HelperText
               type="error"

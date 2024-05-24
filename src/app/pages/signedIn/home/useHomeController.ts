@@ -7,9 +7,11 @@ import HomeService from "@services/home";
 import { HttpStatusCode } from "axios";
 import { SuperConsole } from "@tools/indentedConsole";
 import { useCallback } from "react";
+import { useToast } from "@hooks/useToast";
 
 export const useHomeController = () => {
   const { colors } = useTheme();
+  const { unexpectedErrorToast } = useToast();
   const { navigate } = useNavigation<any>();
   const { logout, userData } = useAuth();
   const queryClient = useQueryClient();
@@ -24,15 +26,18 @@ export const useHomeController = () => {
         case HttpStatusCode.Ok:
           return body;
         case HttpStatusCode.NoContent:
+          return;
         case HttpStatusCode.BadRequest:
         default:
-          SuperConsole(body);
+          SuperConsole(body, "advertise");
+          unexpectedErrorToast();
           return;
       }
     },
     {
       onError: async (error) => {
-        console.log("error - technicians", JSON.stringify(error, null, 2));
+        SuperConsole(error, "advertise");
+        unexpectedErrorToast();
         return;
       },
     }
@@ -107,6 +112,7 @@ export const useHomeController = () => {
   );
 
   return {
+    userData,
     advertiseData,
     fabActions,
     viewState: {

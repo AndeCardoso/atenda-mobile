@@ -1,5 +1,4 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { useTheme } from "styled-components";
 import { SignedInScreens } from "@routes/screens";
 import { useInfiniteQuery, useQueryClient } from "react-query";
 import TechnicianService from "@services/technician";
@@ -8,10 +7,10 @@ import { useCallback, useState } from "react";
 import { reducePages } from "@utils/reducePages";
 import { requestStateEnum } from "app/constants/requestStates";
 import { useToast } from "@hooks/useToast";
+import { SuperConsole } from "@tools/indentedConsole";
 
 export const useTechniciansController = () => {
-  const { colors } = useTheme();
-  const { createToast } = useToast();
+  const { unexpectedErrorToast } = useToast();
   const { navigate, canGoBack, goBack } = useNavigation<any>();
   const queryClient = useQueryClient();
 
@@ -20,45 +19,51 @@ export const useTechniciansController = () => {
   const [technicianSearch, setTechnicianSearch] = useState("");
   const [listState, setListState] = useState<requestStateEnum | undefined>();
 
-  const { data, refetch, fetchNextPage, isLoading, isRefetching } =
-    useInfiniteQuery(
-      ["technicians", technicianSearch],
-      async ({ pageParam }) => {
-        const { statusCode, body } = await technicianService.list({
-          limit: 10,
-          page: pageParam ?? 1,
-          column: "name",
-          order: "asc",
-          search: technicianSearch,
-        });
-        switch (statusCode) {
-          case HttpStatusCode.Ok:
-            return body;
-          case HttpStatusCode.NoContent:
-            setListState(requestStateEnum.EMPTY);
-            return;
-          case HttpStatusCode.BadRequest:
-          default:
-            setListState(requestStateEnum.ERROR);
-            return;
-        }
-      },
-      {
-        getNextPageParam: (lastPage) => {
-          if (lastPage)
-            return lastPage?.currentPage < lastPage?.totalPages
-              ? lastPage?.currentPage + 1
-              : undefined;
-        },
-        onError: async (error) => {
-          createToast({
-            message: "Erro inesperado, tente novamente",
-            alertType: "error",
-          });
+  const {
+    data,
+    refetch,
+    fetchNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isRefetching,
+  } = useInfiniteQuery(
+    ["technicians", technicianSearch],
+    async ({ pageParam }) => {
+      const { statusCode, body } = await technicianService.list({
+        limit: 10,
+        page: pageParam,
+        column: "name",
+        order: "asc",
+        search: technicianSearch,
+      });
+      switch (statusCode) {
+        case HttpStatusCode.Ok:
+          return body;
+        case HttpStatusCode.NoContent:
+          setListState(requestStateEnum.EMPTY);
           return;
-        },
+        case HttpStatusCode.BadRequest:
+        default:
+          setListState(requestStateEnum.ERROR);
+          SuperConsole(body, "technicians");
+          unexpectedErrorToast();
+          return;
       }
-    );
+    },
+    {
+      getNextPageParam: (lastPage) => {
+        if (lastPage)
+          return lastPage?.currentPage < lastPage?.totalPages
+            ? lastPage?.currentPage + 1
+            : undefined;
+      },
+      onError: async (error) => {
+        SuperConsole(error, "technicians");
+        unexpectedErrorToast();
+        return;
+      },
+    }
+  );
 
   const onTechnicianSearch = (value?: string) => {
     setTechnicianSearch(value ?? "");
@@ -66,12 +71,6 @@ export const useTechniciansController = () => {
 
   const handleGoBack = () => {
     canGoBack && goBack();
-  };
-
-  const actionStyles = {
-    borderRadius: 50,
-    marginRight: 16,
-    backgroundColor: colors.SECONDARY,
   };
 
   const handleGoToRegister = () => {
@@ -83,16 +82,6 @@ export const useTechniciansController = () => {
       technicianId,
     });
   };
-
-  const fabActions = [
-    {
-      icon: "plus",
-      label: "Cadastrar",
-      onPress: handleGoToRegister,
-      color: colors.PRIMARY,
-      style: actionStyles,
-    },
-  ];
 
   useFocusEffect(
     useCallback(() => {
@@ -120,15 +109,16 @@ export const useTechniciansController = () => {
     technicianList: reducePages(data?.pages),
     textSearch: technicianSearch,
     onTechnicianSearch,
+    handleGoToRegister,
     handleGoToDetails,
     emptyStateTexts,
     fetchNextPage,
     handleGoBack,
-    fabActions,
     refetch,
     viewState: {
       loading: isLoading,
       reloading: isRefetching,
+      loadingNextPage: isFetchingNextPage,
       listState,
     },
   };

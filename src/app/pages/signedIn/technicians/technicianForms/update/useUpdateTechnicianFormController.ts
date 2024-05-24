@@ -11,9 +11,11 @@ import TechnicianService from "@services/technician";
 import { ITechnicianForm } from "../schema";
 import { unmask } from "@utils/formatString";
 import { useCallback } from "react";
+import { useToast } from "@hooks/useToast";
 
 export const useUpdateTechnicianFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
+  const { unexpectedErrorToast } = useToast();
   const { params } = useRoute<any>();
   const { technicianId } = params;
   const queryClient = useQueryClient();
@@ -32,13 +34,15 @@ export const useUpdateTechnicianFormController = () => {
         case HttpStatusCode.NoContent:
         case HttpStatusCode.BadRequest:
         default:
-          SuperConsole(body);
+          SuperConsole(body, "getTechnicianUpdate");
+          unexpectedErrorToast();
           return;
       }
     },
     {
       onError: async (error) => {
-        console.log("error - technician id", JSON.stringify(error, null, 2));
+        SuperConsole(error, "getTechnicianUpdate");
+        unexpectedErrorToast();
         return;
       },
     }
@@ -70,15 +74,14 @@ export const useUpdateTechnicianFormController = () => {
               return body;
             case HttpStatusCode.BadRequest:
             default:
-              SuperConsole(body);
+              SuperConsole(body, "updateTechnician");
+              unexpectedErrorToast();
               return;
           }
         },
         onError: async (error) => {
-          console.log(
-            "error - technician register",
-            JSON.stringify(error, null, 2)
-          );
+          SuperConsole(error, "updateTechnician");
+          unexpectedErrorToast();
           return;
         },
       }

@@ -36,6 +36,7 @@ export const UpdateTechnicianForm = ({
         disabled
         control={control}
         mask={Masks.BRL_CPF}
+        keyboardTypes="number-pad"
       />
       <ControlledInput
         label="Celular"
@@ -43,6 +44,7 @@ export const UpdateTechnicianForm = ({
         name="phone"
         control={control}
         mask={Masks.BRL_PHONE}
+        keyboardTypes="number-pad"
       />
       <ControlledSelect
         label="Cargo"

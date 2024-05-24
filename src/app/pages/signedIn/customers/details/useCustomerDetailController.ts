@@ -10,9 +10,11 @@ import CustomerService from "@services/customer";
 import { HttpStatusCode } from "axios";
 import { SuperConsole } from "@tools/indentedConsole";
 import { useCallback } from "react";
+import { useToast } from "@hooks/useToast";
 
 export const useCustomerDetailController = () => {
   const { colors } = useTheme();
+  const { unexpectedErrorToast } = useToast();
   const { navigate, canGoBack, goBack } = useNavigation<any>();
   const { params } = useRoute<any>();
   const { customerId } = params;
@@ -21,7 +23,7 @@ export const useCustomerDetailController = () => {
   const customerService = new CustomerService();
 
   const { data, isLoading } = useQuery(
-    ["customerDetail", customerId],
+    ["customerDetails", customerId],
     async () => {
       const { statusCode, body } = await customerService.get({
         customerId,
@@ -32,13 +34,15 @@ export const useCustomerDetailController = () => {
         case HttpStatusCode.NoContent:
         case HttpStatusCode.BadRequest:
         default:
-          SuperConsole(body);
+          SuperConsole(body, "customerDetails");
+          unexpectedErrorToast();
           return;
       }
     },
     {
       onError: async (error) => {
-        console.log("error - customers", JSON.stringify(error, null, 2));
+        SuperConsole(error, "customerDetails");
+        unexpectedErrorToast();
         return;
       },
     }
@@ -86,18 +90,18 @@ export const useCustomerDetailController = () => {
       color: colors.PRIMARY,
       style: actionStyles,
     },
-    {
-      icon: "file-table",
-      label: "Relatorio de ordens de serviço",
-      onPress: handleServiceOrderReport,
-      color: colors.PRIMARY,
-      style: actionStyles,
-    },
+    // {
+    //   icon: "file-table",
+    //   label: "Relatorio de ordens de serviço",
+    //   onPress: handleServiceOrderReport,
+    //   color: colors.PRIMARY,
+    //   style: actionStyles,
+    // },
   ];
 
   useFocusEffect(
     useCallback(() => {
-      queryClient.invalidateQueries("customerDetail");
+      queryClient.invalidateQueries("customerDetails");
     }, [])
   );
 

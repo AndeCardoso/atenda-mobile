@@ -1,3 +1,6 @@
+import { useEffect, useRef, useState } from "react";
+import { HttpStatusCode } from "axios";
+import { useMutation } from "react-query";
 import { useServiceOrderContext } from "@contexts/serviceOrder";
 import { useToast } from "@hooks/useToast";
 import { IServiceOrderModel } from "@model/entities/serviceOrder";
@@ -5,14 +8,17 @@ import { useNavigation } from "@react-navigation/native";
 import { SignedInNavigators, SignedInScreens } from "@routes/screens";
 import ServiceOrderService from "@services/serviceOrder";
 import { ServiceOrderRegisterRequestDTO } from "@services/serviceOrder/dtos/request/ServiceOrderRegisterRequestDTO";
+import { SignatureRequestDTO } from "@services/serviceOrder/dtos/request/SignatureRequestDTO";
 import { SuperConsole } from "@tools/indentedConsole";
-import { HttpStatusCode } from "axios";
-import { useState } from "react";
-import { useMutation } from "react-query";
+import { captureRef } from "react-native-view-shot";
+import * as MediaLibrary from "expo-media-library";
 
 export const useServiceOrderRegisterReview = () => {
-  const { createToast } = useToast();
-  const { navigate, canGoBack, goBack } = useNavigation<any>();
+  const signatureRef = useRef();
+  const { navigate, canGoBack, goBack, getParent } = useNavigation<any>();
+  const { unexpectedErrorToast } = useToast();
+
+  const [permissionStatus, requestPermission] = MediaLibrary.usePermissions();
 
   const { data: serviceOrderData } = useServiceOrderContext();
 
@@ -20,6 +26,12 @@ export const useServiceOrderRegisterReview = () => {
 
   const [abandomentOpenModalState, setAbandomentOpenModalState] =
     useState(false);
+  const [forwardButtonEnableState, setForwardButtonEnableState] =
+    useState(false);
+
+  const onEnableForwardButton = (value: boolean) => {
+    setForwardButtonEnableState(value);
+  };
 
   const onAbandomentModalToggle = () => {
     setAbandomentOpenModalState(!abandomentOpenModalState);
@@ -80,31 +92,82 @@ export const useServiceOrderRegisterReview = () => {
               return body;
             case HttpStatusCode.BadRequest:
             default:
-              createToast({
-                message: "Erro inesperado",
-                alertType: "error",
-                duration: 5000,
-              });
-              SuperConsole(body);
+              SuperConsole(body, "serviceOrderRegister");
+              unexpectedErrorToast();
               return;
           }
         },
         onError: async (error) => {
-          console.log(
-            "error - technician register",
-            JSON.stringify(error, null, 2)
-          );
+          SuperConsole(error, "serviceOrderRegister");
+          unexpectedErrorToast();
           return;
         },
       }
     );
 
+  const {
+    mutateAsync: mutateAsyncSignatureRegister,
+    isLoading: signatureRegisterLoading,
+  } = useMutation(
+    ["signatureRegister"],
+    async ({ serviceOrderId, image, fileName }: SignatureRequestDTO) => {
+      const body: SignatureRequestDTO = {
+        serviceOrderId,
+        image,
+        fileName,
+      };
+      return await serviceOrderService.registerSignature(body);
+    },
+    {
+      onSuccess: async ({ statusCode, body }) => {
+        switch (statusCode) {
+          case HttpStatusCode.Created:
+            return body;
+          case HttpStatusCode.BadRequest:
+          case HttpStatusCode.NotFound:
+          default:
+            SuperConsole(body, "signatureRegister");
+            unexpectedErrorToast();
+            return;
+        }
+      },
+      onError: async (error) => {
+        SuperConsole(error, "signatureRegister");
+        unexpectedErrorToast();
+        return;
+      },
+    }
+  );
+
+  const handleTakeSignatureSnapshot = async () => {
+    if (permissionStatus === null) {
+      requestPermission();
+    }
+
+    const image = await captureRef(signatureRef, {
+      quality: 1,
+      format: "jpg",
+    });
+    if (image) {
+      return image;
+    }
+  };
+
   const handleRegister = async () => {
-    const res = await mutateAsyncRegister(serviceOrderData!!);
-    if (res.statusCode === HttpStatusCode.Created) {
-      navigate(SignedInNavigators.SERVICE_ORDERS, {
-        screen: SignedInScreens.SERVICE_ORDERS,
+    const serviceOrderResponse = await mutateAsyncRegister(serviceOrderData!!);
+    if (serviceOrderResponse.statusCode === HttpStatusCode.Created) {
+      const signatureImage = await handleTakeSignatureSnapshot();
+      const signatureRegisterResponse = await mutateAsyncSignatureRegister({
+        serviceOrderId: serviceOrderResponse.body.id,
+        image: signatureImage!!,
+        fileName: `signature-${serviceOrderData?.customer.name}-${serviceOrderResponse.body.id}.jpg`,
       });
+
+      if (signatureRegisterResponse.statusCode === HttpStatusCode.Ok) {
+        navigate(SignedInNavigators.SERVICE_ORDERS, {
+          screen: SignedInScreens.SERVICE_ORDERS,
+        });
+      }
     }
   };
 
@@ -112,12 +175,25 @@ export const useServiceOrderRegisterReview = () => {
     canGoBack && goBack();
   };
 
+  useEffect(() => {
+    getParent()?.setOptions({ gestureEnabled: false });
+    return () => {
+      getParent()?.setOptions({ gestureEnabled: true });
+    };
+  }, []);
+
   return {
     data: serviceOrderData,
+    signatureRef,
     handleGoBack,
     handleRegister,
+    onEnableForwardButton,
     onAbandomentModalToggle,
     handleConfirmAbandonment,
-    viewState: { registerLoading, abandomentOpenModalState },
+    viewState: {
+      registerLoading: signatureRegisterLoading && registerLoading,
+      abandomentOpenModalState,
+      forwardButtonEnableState,
+    },
   };
 };

@@ -9,9 +9,11 @@ import { SuperConsole } from "@tools/indentedConsole";
 import UserService from "@services/user";
 import { IUserForm } from "../schema";
 import { useCallback } from "react";
+import { useToast } from "@hooks/useToast";
 
 export const useUpdateUserFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
+  const { unexpectedErrorToast } = useToast();
   const { params } = useRoute<any>();
   const { userId } = params;
   const queryClient = useQueryClient();
@@ -30,13 +32,15 @@ export const useUpdateUserFormController = () => {
         case HttpStatusCode.NoContent:
         case HttpStatusCode.BadRequest:
         default:
-          SuperConsole(body);
+          SuperConsole(body, "getUserUpdate");
+          unexpectedErrorToast();
           return;
       }
     },
     {
       onError: async (error) => {
-        console.log("error - user id", JSON.stringify(error, null, 2));
+        SuperConsole(error, "getUserUpdate");
+        unexpectedErrorToast();
         return;
       },
     }
@@ -55,12 +59,14 @@ export const useUpdateUserFormController = () => {
               return body;
             case HttpStatusCode.BadRequest:
             default:
-              SuperConsole(body);
+              SuperConsole(body, "updateUser");
+              unexpectedErrorToast();
               return;
           }
         },
         onError: async (error) => {
-          console.log("error - user update", JSON.stringify(error, null, 2));
+          SuperConsole(error, "updateUser");
+          unexpectedErrorToast();
           return;
         },
       }

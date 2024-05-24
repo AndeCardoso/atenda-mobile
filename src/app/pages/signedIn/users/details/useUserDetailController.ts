@@ -10,10 +10,12 @@ import { HttpStatusCode } from "axios";
 import { SuperConsole } from "@tools/indentedConsole";
 import { useCallback } from "react";
 import UserService from "@services/user";
+import { useToast } from "@hooks/useToast";
 
 export const useUserDetailController = () => {
   const { colors } = useTheme();
   const { navigate, canGoBack, goBack } = useNavigation<any>();
+  const { unexpectedErrorToast } = useToast();
   const { params } = useRoute<any>();
   const { userId } = params;
   const queryClient = useQueryClient();
@@ -21,7 +23,7 @@ export const useUserDetailController = () => {
   const userService = new UserService();
 
   const { data, isLoading } = useQuery(
-    ["userDetail", userId],
+    ["userDetails", userId],
     async () => {
       const { statusCode, body } = await userService.get({
         userId,
@@ -32,13 +34,15 @@ export const useUserDetailController = () => {
         case HttpStatusCode.NoContent:
         case HttpStatusCode.BadRequest:
         default:
-          SuperConsole(body);
+          SuperConsole(body, "userDetails");
+          unexpectedErrorToast();
           return;
       }
     },
     {
       onError: async (error) => {
-        console.log("error - users", JSON.stringify(error, null, 2));
+        SuperConsole(error, "userDetails");
+        unexpectedErrorToast();
         return;
       },
     }
@@ -52,10 +56,6 @@ export const useUserDetailController = () => {
     navigate(SignedInScreens.USERS_UPDATE_FORM, {
       userId,
     });
-  };
-
-  const handleServiceOrderReport = () => {
-    console.log("report");
   };
 
   const actionStyles = {
@@ -76,7 +76,7 @@ export const useUserDetailController = () => {
 
   useFocusEffect(
     useCallback(() => {
-      queryClient.invalidateQueries("userDetail");
+      queryClient.invalidateQueries("userDetails");
     }, [])
   );
 

@@ -10,7 +10,7 @@ import { useToast } from "@hooks/useToast";
 
 export const useRegisterCustomerFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
-  const { createToast } = useToast();
+  const { createToast, unexpectedErrorToast } = useToast();
 
   const customerService = new CustomerService();
 
@@ -43,15 +43,14 @@ export const useRegisterCustomerFormController = () => {
               return body;
             case HttpStatusCode.BadRequest:
             default:
-              SuperConsole(body);
+              SuperConsole(body, "customerRegister");
+              unexpectedErrorToast();
               return;
           }
         },
         onError: async (error) => {
-          console.log(
-            "error - customer register",
-            JSON.stringify(error, null, 2)
-          );
+          SuperConsole(error, "customerRegister");
+          unexpectedErrorToast();
           return;
         },
       }

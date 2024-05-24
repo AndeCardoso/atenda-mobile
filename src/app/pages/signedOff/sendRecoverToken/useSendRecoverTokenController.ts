@@ -6,9 +6,12 @@ import { useMutation } from "react-query";
 import { SendRecoverTokenRequestDTO } from "@services/auth/dtos/request/SendRecoverTokenRequestDTO";
 import AuthService from "@services/auth";
 import { HttpStatusCode } from "axios";
+import { useToast } from "@hooks/useToast";
 
 export const useSendRecoverTokenController = () => {
   const { navigate, goBack, canGoBack } = useNavigation<any>();
+  const { unexpectedErrorToast } = useToast();
+
   const authService = new AuthService();
 
   const { mutateAsync: mutateAsyncSendRecoverToken, isLoading } = useMutation(
@@ -22,12 +25,14 @@ export const useSendRecoverTokenController = () => {
             return body;
           case HttpStatusCode.BadRequest:
           default:
-            SuperConsole(body);
+            SuperConsole(body, "sendRecover");
+            unexpectedErrorToast();
             return;
         }
       },
       onError: async (error) => {
-        console.log("error", JSON.stringify(error, null, 2));
+        SuperConsole(error, "sendRecover");
+        unexpectedErrorToast();
         return;
       },
     }
@@ -38,9 +43,10 @@ export const useSendRecoverTokenController = () => {
   };
 
   const handleRegister = async (values: ISendRecoverTokenForm) => {
-    // const res = await mutateAsyncSendRecoverToken(values);
-    SuperConsole(values);
-    navigate(SignedOffScreens.PASSWORD_RECOVER);
+    const res = await mutateAsyncSendRecoverToken(values);
+    if (res.statusCode === HttpStatusCode.Ok) {
+      navigate(SignedOffScreens.PASSWORD_RECOVER);
+    }
   };
 
   return {

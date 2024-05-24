@@ -6,12 +6,14 @@ import { Content } from "./styles";
 interface IRadioGroup<T> {
   items: T[];
   selectedValue: any;
+  error?: boolean;
   onSelect: (value: any) => void;
 }
 
 export const RadioGroup = ({
   items,
   selectedValue,
+  error,
   onSelect,
 }: IRadioGroup<any>) => {
   const { colors } = useTheme();
@@ -19,7 +21,7 @@ export const RadioGroup = ({
 
   const handleSelect = (newValue: any) => {
     setValue(newValue);
-    onSelect(newValue.id);
+    onSelect(newValue);
   };
 
   return (
@@ -27,14 +29,17 @@ export const RadioGroup = ({
       onValueChange={(newValue) => handleSelect(newValue)}
       value={value}
     >
-      <Content>
+      <Content error={Boolean(error)}>
         {items && items.length > 0
           ? items.map((item) => (
               <RadioButton.Item
                 key={`${item.id}`}
                 value={item}
                 label={item.nickname}
-                labelStyle={{ fontWeight: "700" }}
+                labelStyle={{
+                  fontWeight: "700",
+                  color: error ? colors.WARNING : colors.WHITE,
+                }}
                 mode="android"
                 color={colors.PRIMARY}
                 style={{

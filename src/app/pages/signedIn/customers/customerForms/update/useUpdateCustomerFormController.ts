@@ -15,7 +15,7 @@ import { useToast } from "@hooks/useToast";
 
 export const useUpdateCustomerFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
-  const { createToast } = useToast();
+  const { createToast, unexpectedErrorToast } = useToast();
   const { params } = useRoute<any>();
   const { customerId } = params;
   const queryClient = useQueryClient();
@@ -40,13 +40,15 @@ export const useUpdateCustomerFormController = () => {
         case HttpStatusCode.NoContent:
         case HttpStatusCode.BadRequest:
         default:
-          SuperConsole(body);
+          SuperConsole(body, "getCustomerUpdate");
+          unexpectedErrorToast();
           return;
       }
     },
     {
       onError: async (error) => {
-        console.log("error - customer id", JSON.stringify(error, null, 2));
+        SuperConsole(error, "getCustomerUpdate");
+        unexpectedErrorToast();
         return;
       },
     }
@@ -84,15 +86,14 @@ export const useUpdateCustomerFormController = () => {
               return body;
             case HttpStatusCode.BadRequest:
             default:
-              SuperConsole(body);
+              SuperConsole(body, "updateCustomer");
+              unexpectedErrorToast();
               return;
           }
         },
         onError: async (error) => {
-          console.log(
-            "error - customer register",
-            JSON.stringify(error, null, 2)
-          );
+          SuperConsole(error, "updateCustomer");
+          unexpectedErrorToast();
           return;
         },
       }

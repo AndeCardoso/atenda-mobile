@@ -7,6 +7,9 @@ import {
 } from "@model/http/httpClient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AsyncAuthEnum } from "@model/asyncStorage/auth";
+import { Platform } from "react-native";
+
+const ios = Platform.OS === "ios";
 
 interface CreateHeadersProps {
   token?: string | null;
@@ -15,7 +18,9 @@ interface CreateHeadersProps {
 
 export class AxiosHttpClient implements IHttpClient {
   private baseUrl: string;
-  private apiUrl = process.env.EXPO_PUBLIC_API_URL;
+  private apiUrl = ios
+    ? process.env.EXPO_PUBLIC_API_URL_IOS
+    : process.env.EXPO_PUBLIC_API_URL_ANDROID;
   private token?: string;
 
   constructor(baseUrl?: string, token?: string) {

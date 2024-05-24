@@ -19,18 +19,21 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { IOption } from "@components/base/Select";
 import { ControlledRadioGroup } from "@components/controlleds/ControlledRadioGroup";
 import { equipmentVoltageList } from "@pages/signedIn/equipments/constants";
+import { HelperText } from "react-native-paper";
 
 interface IServiceOrderFormProps {
   control: Control<IServiceForm>;
   showAddress: boolean;
-  addressList: IAddressModel[];
-  handleSaveNewAddress: (values: IAddressModel) => void;
+  newAddressError: boolean;
+  addressList: IAddressModel[] | IAddressForm[];
+  handleSaveNewAddress: (values: IAddressForm) => void;
   handleShowAddressToggle: () => void;
 }
 
 export const ServiceForm = ({
   handleShowAddressToggle,
   handleSaveNewAddress,
+  newAddressError,
   addressList,
   showAddress,
   control,
@@ -125,12 +128,15 @@ export const ServiceForm = ({
             hasNoHeader
           />
           <Button onPress={handleSubmit(handleSaveNewAddress)}>
-            Salvar novo endereço
+            Usar novo endereço
           </Button>
+          <HelperText type="error" visible={newAddressError}>
+            Adicione o novo endereço a lista e o selecione para avançar
+          </HelperText>
         </>
       ) : (
         <ControlledRadioGroup
-          name="addressId"
+          name="address"
           control={control}
           itemList={addressList}
         />

@@ -1,21 +1,26 @@
-import { useNavigation } from "@react-navigation/native";
-import { SignedOffScreens } from "@routes/screens";
-import { IAuthForm } from "./loginForm/formSchema";
-import { useMutation } from "react-query";
-import { AuthenticationRequestDTO } from "@services/auth/dtos/request/AuthenticationRequestDTO";
-import AuthService from "@services/auth";
+import { useState } from "react";
 import { HttpStatusCode } from "axios";
+import { useMutation } from "react-query";
+import { IAuthForm } from "./loginForm/schema";
+import { SignedOffScreens } from "@routes/screens";
+import { useNavigation } from "@react-navigation/native";
+import { AuthenticationRequestDTO } from "@services/auth/dtos/request/AuthenticationRequestDTO";
 import { useAuthContext } from "@contexts/auth/useAuthContext";
-import { useAuth } from "@hooks/useAuth";
+import { SuperConsole } from "@tools/indentedConsole";
 import { useToast } from "@hooks/useToast";
+import { useAuth } from "@hooks/useAuth";
+import AuthService from "@services/auth";
 
 export const useAuthController = () => {
   const { navigate } = useNavigation<any>();
   const { changeTokenState } = useAuthContext();
   const { logout } = useAuth();
+  const { unexpectedErrorToast } = useToast();
+
   const authService = new AuthService();
 
-  const { createToast } = useToast();
+  const [alertState, setAlertState] = useState("");
+  const [loginErrorState, setLoginErrorState] = useState("");
 
   const { mutateAsync: mutateAsyncAuth, isLoading: loadingAuth } = useMutation(
     ["authentication"],
@@ -25,25 +30,34 @@ export const useAuthController = () => {
       onSuccess: async ({ statusCode, body }) => {
         switch (statusCode) {
           case HttpStatusCode.Ok:
-            await changeTokenState(body.token);
+            changeTokenState(body.token);
             return body.token;
-          case HttpStatusCode.BadRequest:
           case HttpStatusCode.Unauthorized:
+            setLoginErrorState(body.message);
+            return;
+          case HttpStatusCode.Forbidden:
+            setAlertState(body.message);
+            return;
+          case HttpStatusCode.BadRequest:
           default:
-            createToast({
-              message: body?.message || "Erro inesperado",
-              alertType: "error",
-            });
+            SuperConsole(body, "authentication");
+            unexpectedErrorToast();
             return;
         }
       },
       onError: async (error) => {
-        console.log("error", JSON.stringify(error, null, 2));
+        SuperConsole(error, "authentication");
+        unexpectedErrorToast();
         logout();
         return;
       },
     }
   );
+
+  const onClearAlert = () => {
+    setAlertState("");
+    setLoginErrorState("");
+  };
 
   const handleLogin = async (authValues: IAuthForm) => {
     await mutateAsyncAuth(authValues);
@@ -58,7 +72,10 @@ export const useAuthController = () => {
   };
 
   return {
+    alertState,
     handleLogin,
+    onClearAlert,
+    loginErrorState,
     goToUserRegister,
     goToRecoverPassword,
     viewState: {

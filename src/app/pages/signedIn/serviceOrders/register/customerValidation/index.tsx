@@ -3,44 +3,49 @@ import React from "react";
 import { Container, WrapperButtons } from "./styles";
 import { AbandonmentModal } from "../../components/AbandonmentModal";
 import { useServiceOrderRegisterReview } from "./useServiceOrderRegisterReview";
-import { CustomerAccordion } from "@components/accordions/CustomerAccordion";
-import { Divider } from "@components/base/Separator";
 import { Button } from "@components/base/Button";
-import { Text } from "@components/base/Text";
+import { SignatureCanva } from "@components/SignatureCanva";
 
 export const CustomerValidationPage = () => {
   const {
     data,
+    signatureRef,
     handleGoBack,
     handleRegister,
+    onEnableForwardButton,
     onAbandomentModalToggle,
     handleConfirmAbandonment,
-    viewState: { registerLoading, abandomentOpenModalState },
+    viewState: {
+      registerLoading,
+      abandomentOpenModalState,
+      forwardButtonEnableState,
+    },
   } = useServiceOrderRegisterReview();
+
   return (
     <Layout
-      header="Validação do cliente"
+      header="Assinatura do cliente"
       goBack={handleGoBack}
       close={onAbandomentModalToggle}
-      hasScroll
       footer={
         <WrapperButtons>
           <Button
-            onPress={handleRegister}
             mode="contained"
+            onPress={handleRegister}
             loading={registerLoading}
+            disabled={!forwardButtonEnableState}
           >
-            Cadastrar ordem de serviço
+            Cadastrar O.S.
           </Button>
         </WrapperButtons>
       }
     >
       <Container>
-        <Text color="WHITE_TEXT" size={14}>
-          Cliente:
-        </Text>
-        <CustomerAccordion data={data?.customer!!} />
-        <Divider />
+        <SignatureCanva
+          sigantureOwner={data?.customer.name!!}
+          signatureRef={signatureRef}
+          onDirty={onEnableForwardButton}
+        />
       </Container>
       <AbandonmentModal
         onConfirm={handleConfirmAbandonment}

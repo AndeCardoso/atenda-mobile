@@ -1,9 +1,7 @@
-import React from "react";
+import React, { ReactNode, useCallback, useRef } from "react";
 import { Image, Platform } from "react-native";
 import { Container, ContainerTop, StyledRow } from "./styles";
 import { Text } from "@components/base/Text";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { Icon } from "@components/base/Icon";
 import { InputSearch } from "@components/base/InputSearch";
 import { Profile } from "@components/base/Profile";
 import { useAuth } from "@hooks/useAuth";
@@ -11,6 +9,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { IconButton } from "@components/base/IconButton";
 import { Row } from "@components/base/Row";
 import { IStepperProps, Stepper } from "@components/base/Stepper";
+import debounce from "lodash.debounce";
 
 interface IHeaderProps {
   text?: string;
@@ -23,6 +22,7 @@ interface IHeaderProps {
   onSearch?: (value?: string) => void;
   goBack?: () => void;
   close?: () => void;
+  headerComponent?: ReactNode;
 }
 
 const android = Platform.OS === "android";
@@ -38,9 +38,17 @@ export const Header = ({
   goBack,
   close,
   steps,
+  headerComponent,
 }: IHeaderProps) => {
   const { userData } = useAuth();
   const { top } = useSafeAreaInsets();
+
+  const handleDebouncedChange = useCallback(
+    debounce((value?: string) => {
+      onSearch && onSearch(value);
+    }, 500),
+    []
+  );
 
   return (
     <Container paddingTop={android ? top + 16 : top}>
@@ -50,7 +58,7 @@ export const Header = ({
             <IconButton
               name="chevron-left"
               onPress={() => goBack && goBack()}
-              size={30}
+              size={28}
               color="SECONDARY"
             />
           )}
@@ -82,7 +90,7 @@ export const Header = ({
       {onSearch ? (
         <Row>
           <InputSearch
-            onChangeText={onSearch}
+            onChangeText={handleDebouncedChange}
             text={textSearch}
             placeholder={searchPlaceholder}
           />
@@ -90,12 +98,13 @@ export const Header = ({
             <IconButton
               name="plus"
               onPress={onRegister}
-              size={68}
+              size={40}
               color="SECONDARY"
             />
           ) : null}
         </Row>
       ) : null}
+      {Boolean(headerComponent) ? headerComponent : null}
     </Container>
   );
 };

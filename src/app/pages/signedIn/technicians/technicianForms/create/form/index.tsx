@@ -35,6 +35,7 @@ export const RegisterTechnicianForm = ({
         name="cpf"
         control={control}
         mask={Masks.BRL_CPF}
+        keyboardTypes="number-pad"
       />
       <ControlledInput
         label="Celular"
@@ -42,6 +43,7 @@ export const RegisterTechnicianForm = ({
         name="phone"
         control={control}
         mask={Masks.BRL_PHONE}
+        keyboardTypes="number-pad"
       />
       <ControlledSelect
         label="Cargo"

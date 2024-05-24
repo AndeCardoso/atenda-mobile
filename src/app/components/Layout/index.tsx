@@ -1,5 +1,16 @@
-import React, { PropsWithChildren, ReactNode } from "react";
-import { KeyboardAvoidingView, Platform, View, ViewStyle } from "react-native";
+import React, {
+  PropsWithChildren,
+  ReactNode,
+  useEffect,
+  useState,
+} from "react";
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  View,
+  ViewStyle,
+} from "react-native";
 import { Header } from "./Header";
 import { StatusBar } from "../base/StatusBar";
 import { ScrollView } from "react-native-gesture-handler";
@@ -21,6 +32,7 @@ interface ILayoutProps extends PropsWithChildren {
   onSearch?: (value?: string) => void;
   goBack?: () => void;
   close?: () => void;
+  headerComponent?: ReactNode;
 }
 
 const ios = Platform.OS === "ios";
@@ -39,9 +51,11 @@ export const Layout = ({
   close,
   steps,
   children,
+  headerComponent,
 }: ILayoutProps) => {
   const { colors } = useTheme();
   const { bottom } = useSafeAreaInsets();
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
   const style: ViewStyle = {
     flex: 1,
@@ -54,6 +68,27 @@ export const Layout = ({
     flex: 1,
     width: "100%",
   };
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardWillShow",
+      () => {
+        setKeyboardVisible(true);
+      }
+    );
+
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardWillHide",
+      () => {
+        setKeyboardVisible(false);
+      }
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
 
   return (
     <KeyboardAvoidingView behavior={ios ? "padding" : "height"} style={style}>
@@ -68,6 +103,7 @@ export const Layout = ({
         close={close}
         hasBrand={hasBrand}
         showProfile={showProfile}
+        headerComponent={headerComponent}
       />
 
       {hasScroll ? (
@@ -79,7 +115,9 @@ export const Layout = ({
       )}
 
       {footer && (
-        <FooterContainer paddingBottom={bottom || 16}>{footer}</FooterContainer>
+        <FooterContainer paddingBottom={isKeyboardVisible ? 16 : bottom || 16}>
+          {footer}
+        </FooterContainer>
       )}
       <StatusBar textColor="dark" backgroundColor={colors.primary} />
     </KeyboardAvoidingView>

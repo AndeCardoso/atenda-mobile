@@ -8,7 +8,7 @@ export const Container = styled(ImageBackground)<{ paddingTop: number }>`
   padding-top: ${({ paddingTop }) => paddingTop}px;
   align-items: flex-start;
   background-color: ${({ theme }) => theme.colors.PRIMARY};
-  gap: 16px;
+  gap: 8px;
 `;
 
 export const ContainerTop = styled(Row)`

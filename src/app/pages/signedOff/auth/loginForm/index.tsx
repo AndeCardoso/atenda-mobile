@@ -3,7 +3,7 @@ import { Control } from "react-hook-form";
 import { Container, PasswordWrapper, StyledButton } from "./styles";
 import { ControlledInput } from "@components/controlleds/ControlledInput";
 import { useTheme } from "styled-components";
-import { IAuthForm } from "./formSchema";
+import { IAuthForm } from "./schema";
 import { useAuthController } from "../useAuthController";
 
 interface ILoginFormProps {

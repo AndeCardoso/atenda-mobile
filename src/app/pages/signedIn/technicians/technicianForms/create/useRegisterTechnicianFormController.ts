@@ -5,8 +5,10 @@ import { SuperConsole } from "@tools/indentedConsole";
 import TechnicianService from "@services/technician";
 import { ITechnicianForm } from "../schema";
 import { unmask } from "@utils/formatString";
+import { useToast } from "@hooks/useToast";
 
 export const useRegisterTechnicianFormController = () => {
+  const { unexpectedErrorToast } = useToast();
   const { goBack, canGoBack } = useNavigation<any>();
 
   const technicianService = new TechnicianService();
@@ -34,15 +36,14 @@ export const useRegisterTechnicianFormController = () => {
               return body;
             case HttpStatusCode.BadRequest:
             default:
-              SuperConsole(body);
+              SuperConsole(body, "technicianRegister");
+              unexpectedErrorToast();
               return;
           }
         },
         onError: async (error) => {
-          console.log(
-            "error - technician register",
-            JSON.stringify(error, null, 2)
-          );
+          SuperConsole(error, "technicianRegister");
+          unexpectedErrorToast();
           return;
         },
       }

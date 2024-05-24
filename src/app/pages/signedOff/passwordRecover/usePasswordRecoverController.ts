@@ -1,14 +1,17 @@
 import { useNavigation } from "@react-navigation/native";
 import { SignedOffScreens } from "@routes/screens";
-import { SuperConsole } from "@tools/indentedConsole";
 import { IRecoverPasswordForm } from "./recoverForm/formSchema";
 import { useMutation } from "react-query";
 import { RecoverPasswordRequestDTO } from "@services/auth/dtos/request/RecoverPasswordRequestDTO";
 import { HttpStatusCode } from "axios";
 import AuthService from "@services/auth";
+import { useToast } from "@hooks/useToast";
+import { SuperConsole } from "@tools/indentedConsole";
 
 export const usePasswordRecoverController = () => {
   const { navigate, goBack, canGoBack } = useNavigation<any>();
+  const { unexpectedErrorToast } = useToast();
+
   const authService = new AuthService();
 
   const { mutateAsync: mutateAsyncRecoverPassword, isLoading } = useMutation(
@@ -22,12 +25,14 @@ export const usePasswordRecoverController = () => {
             return body;
           case HttpStatusCode.BadRequest:
           default:
-            SuperConsole(body);
+            SuperConsole(body, "recoverPassword");
+            unexpectedErrorToast();
             return;
         }
       },
       onError: async (error) => {
-        console.log("error", JSON.stringify(error, null, 2));
+        SuperConsole(error, "recoverPassword");
+        unexpectedErrorToast();
         return;
       },
     }
@@ -38,9 +43,8 @@ export const usePasswordRecoverController = () => {
   };
 
   const handleRegister = async (values: IRecoverPasswordForm) => {
-    // const res = await mutateAsyncRecoverPassword(values);
-    SuperConsole(values);
-    navigate(SignedOffScreens.AUTH);
+    const res = await mutateAsyncRecoverPassword(values);
+    if (res.statusCode === HttpStatusCode.Ok) navigate(SignedOffScreens.AUTH);
   };
 
   return {

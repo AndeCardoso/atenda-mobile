@@ -3,7 +3,7 @@ import { ICustomerModel } from "@model/entities/customer";
 import { IEquipmentModel } from "@model/entities/equipment";
 import { IServiceOrderModel } from "@model/entities/serviceOrder";
 import { ITechnicianModel } from "@model/entities/technician";
-import { IServiceForm } from "@pages/signedIn/serviceOrders/register/serviceForm/schema";
+import { IServiceForm } from "@pages/signedIn/serviceOrders/schema";
 import React, {
   createContext,
   PropsWithChildren,
@@ -17,6 +17,7 @@ export interface IServiceOrderRegister {
   equipment: IEquipmentModel;
   customer: ICustomerModel;
   technician: ITechnicianModel;
+  signature: Uint8Array;
 }
 
 interface ServiceOrderContextProps {
@@ -41,6 +42,8 @@ export function ServiceOrderContextProvider({ children }: PropsWithChildren) {
   const [serviceFormDataState, setServiceFormDataState] = useState<
     IServiceForm | undefined
   >({} as IServiceForm);
+  const [customerSignatureSnapshotState, setCustomerSignatureSnapshotState] =
+    useState<Uint8Array | undefined>();
 
   const resetState = () => {
     setDataState(undefined);
@@ -78,10 +81,18 @@ export function ServiceOrderContextProvider({ children }: PropsWithChildren) {
     });
   };
 
+  const onTakeSignatureSnapshot = (signatureData: Uint8Array) => {
+    setCustomerSignatureSnapshotState(signatureData);
+  };
+
   return (
     <ServiceOrderContext.Provider
       value={{
-        data: { ...dataState!!, serviceForm: serviceFormDataState!! },
+        data: {
+          ...dataState!!,
+          serviceForm: serviceFormDataState!!,
+          signature: customerSignatureSnapshotState!!,
+        },
 
         resetState,
         onSelectCustomer,

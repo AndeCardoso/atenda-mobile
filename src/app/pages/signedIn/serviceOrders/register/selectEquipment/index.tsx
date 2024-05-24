@@ -27,7 +27,13 @@ export const SelectEquipmentPage = () => {
     handleSelect,
     textSearch,
     refetch,
-    viewState: { loading, reloading, listState, abandomentOpenModalState },
+    viewState: {
+      loading,
+      reloading,
+      loadingNextPage,
+      listState,
+      abandomentOpenModalState,
+    },
   } = useSelectEquipmentController();
 
   return (
@@ -51,6 +57,13 @@ export const SelectEquipmentPage = () => {
           ItemSeparatorComponent={() => <Spacer spaceVertical={16} />}
           contentContainerStyle={{ padding: 16 }}
           onTouchEnd={() => fetchNextPage()}
+          ListFooterComponent={() =>
+            loadingNextPage ? (
+              <Loader size={32} />
+            ) : (
+              <Spacer spaceVertical={64} />
+            )
+          }
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={() => (
             <EmptyState
