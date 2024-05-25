@@ -50,12 +50,12 @@ export const CustomersPage = () => {
             contentContainerStyle={{ padding: 16 }}
             ListFooterComponent={() =>
               loadingNextPage ? (
-                <Loader size={32} />
+                <Loader size={62} padding={64} />
               ) : (
                 <Spacer spaceVertical={64} />
               )
             }
-            onTouchEnd={() => fetchNextPage()}
+            onEndReached={() => fetchNextPage()}
             showsVerticalScrollIndicator={false}
             ListEmptyComponent={() => (
               <EmptyState

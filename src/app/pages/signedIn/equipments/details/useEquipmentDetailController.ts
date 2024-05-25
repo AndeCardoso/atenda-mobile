@@ -75,7 +75,7 @@ export const useEquipmentDetailController = () => {
 
   useFocusEffect(
     useCallback(() => {
-      queryClient.invalidateQueries("equipmentDetails");
+      queryClient.resetQueries("equipmentDetails");
     }, [])
   );
 

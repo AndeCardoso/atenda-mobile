@@ -90,7 +90,7 @@ export const useServiceOrderDetailController = () => {
 
   useFocusEffect(
     useCallback(() => {
-      queryClient.invalidateQueries("serviceOrderDetails");
+      queryClient.resetQueries("serviceOrderDetails");
     }, [])
   );
 

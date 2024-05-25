@@ -76,7 +76,7 @@ export const useUserDetailController = () => {
 
   useFocusEffect(
     useCallback(() => {
-      queryClient.invalidateQueries("userDetails");
+      queryClient.resetQueries("userDetails");
     }, [])
   );
 

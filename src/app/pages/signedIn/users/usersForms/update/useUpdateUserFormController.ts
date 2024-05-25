@@ -85,7 +85,7 @@ export const useUpdateUserFormController = () => {
 
   useFocusEffect(
     useCallback(() => {
-      queryClient.invalidateQueries("getUserUpdate");
+      queryClient.resetQueries("getUserUpdate");
     }, [])
   );
 

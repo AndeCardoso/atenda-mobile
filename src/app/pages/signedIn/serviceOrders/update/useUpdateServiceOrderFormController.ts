@@ -104,7 +104,7 @@ export const useUpdateServiceOrderFormController = () => {
 
   useFocusEffect(
     useCallback(() => {
-      queryClient.invalidateQueries("getServiceOrderUpdate");
+      queryClient.resetQueries("getServiceOrderUpdate");
     }, [])
   );
 

@@ -56,10 +56,10 @@ export const SelectTechnicianPage = () => {
           keyExtractor={(item) => item.id.toString()}
           ItemSeparatorComponent={() => <Spacer spaceVertical={16} />}
           contentContainerStyle={{ padding: 16 }}
-          onTouchEnd={() => fetchNextPage()}
+          onEndReached={() => fetchNextPage()}
           ListFooterComponent={() =>
             loadingNextPage ? (
-              <Loader size={32} />
+              <Loader size={62} padding={64} />
             ) : (
               <Spacer spaceVertical={64} />
             )

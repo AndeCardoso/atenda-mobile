@@ -111,7 +111,7 @@ export const useSelectEquipmentController = () => {
 
   useFocusEffect(
     useCallback(() => {
-      queryClient.invalidateQueries("equipments");
+      queryClient.resetQueries("equipments");
     }, [])
   );
 

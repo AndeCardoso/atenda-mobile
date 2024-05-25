@@ -1,5 +1,5 @@
 import { Text } from "@components/base/Text";
-import React from "react";
+import React, { memo } from "react";
 import { Card } from "@components/base/Card";
 import { Divider } from "@components/base/Separator";
 import { DisplayField } from "@components/base/DisplayField";
@@ -16,37 +16,39 @@ interface IUserCardProps {
   onPress?: (e: GestureResponderEvent) => void;
 }
 
-export const UserCard = ({
-  data: { name, email, admin },
-  footerLabel,
-  onPress,
-}: IUserCardProps) => {
-  const { colors } = useTheme();
-  return (
-    <Card
-      footerLabel={footerLabel}
-      onPress={onPress && onPress}
-      style={{ backgroundColor: colors.SECONDARY_INACTIVE }}
-    >
-      <CardContainer>
-        <Row space="space-between">
-          <Text
-            color="WHITE"
-            size={24}
-            weight="700"
-            numberOfLines={1}
-            fullwidth
-          >
-            {name}
-          </Text>
+export const UserCard = memo(
+  ({ data: { name, email, admin }, footerLabel, onPress }: IUserCardProps) => {
+    const { colors } = useTheme();
+    return (
+      <Card
+        footerLabel={footerLabel}
+        onPress={onPress && onPress}
+        style={{ backgroundColor: colors.SECONDARY_INACTIVE }}
+      >
+        <CardContainer>
+          <Row space="space-between">
+            <Text
+              color="WHITE"
+              size={24}
+              weight="700"
+              numberOfLines={1}
+              fullwidth
+            >
+              {name}
+            </Text>
 
-          {admin ? (
-            <Chip text="Administrador" color="PRIMARY" textColor="SECONDARY" />
-          ) : null}
-        </Row>
-        <Divider color="WHITE" />
-        <DisplayField text="E-mail" value={email} color="WHITE" />
-      </CardContainer>
-    </Card>
-  );
-};
+            {admin ? (
+              <Chip
+                text="Administrador"
+                color="PRIMARY"
+                textColor="SECONDARY"
+              />
+            ) : null}
+          </Row>
+          <Divider color="WHITE" />
+          <DisplayField text="E-mail" value={email} color="WHITE" />
+        </CardContainer>
+      </Card>
+    );
+  }
+);
