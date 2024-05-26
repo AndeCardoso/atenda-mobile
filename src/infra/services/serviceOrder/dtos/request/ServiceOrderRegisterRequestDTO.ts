@@ -9,6 +9,9 @@ export interface ServiceOrderRegisterRequestDTO
   orderedServices: string;
   executedServices?: string;
   observations?: string;
+  openedAt: Date;
+  closedAt?: Date;
+  valueTotal?: number;
   status?: serviceOrderStatusEnum;
   addressId?: number;
   equipmentId: number;
