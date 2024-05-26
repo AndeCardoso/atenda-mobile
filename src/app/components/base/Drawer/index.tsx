@@ -10,12 +10,18 @@ import { Spacer } from "../Spacer";
 interface IDrawerProps extends PropsWithChildren {
   title?: string;
   visible: boolean;
+  presentationStyle?:
+    | "pageSheet"
+    | "fullScreen"
+    | "formSheet"
+    | "overFullScreen";
   onDismiss: () => void;
 }
 
 export const Drawer = ({
   title,
   visible,
+  presentationStyle = "pageSheet",
   onDismiss,
   children,
 }: IDrawerProps) => {
@@ -32,7 +38,7 @@ export const Drawer = ({
 
   return (
     <Modal
-      presentationStyle="pageSheet"
+      presentationStyle={presentationStyle}
       animationType={"slide"}
       visible={visible}
       onDismiss={onDismiss}
