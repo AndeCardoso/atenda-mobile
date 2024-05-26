@@ -59,6 +59,7 @@ export const ControlledDateTimePicker = ({
             placeholder={placeholder}
             onChange={onChange}
             required={required}
+            disabled={disabled}
             minDate={minDate}
             maxDate={maxDate}
           />

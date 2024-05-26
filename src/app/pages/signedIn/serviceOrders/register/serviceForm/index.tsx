@@ -18,8 +18,6 @@ import { AbandonmentModal } from "../../components/AbandonmentModal";
 import { getNowDateTime } from "@utils/createDateTime";
 
 export const ServiceFormPage = () => {
-  const { createToast } = useToast();
-
   const {
     addressList,
     handleGoBack,
@@ -41,6 +39,7 @@ export const ServiceFormPage = () => {
       orderedServices: "",
       executedServices: "",
       observations: "",
+      totalValue: "",
       openedAt: getNowDateTime(),
       status: serviceOrderStatusList.find(
         (item) => item.value === serviceOrderStatusEnum.OPENED

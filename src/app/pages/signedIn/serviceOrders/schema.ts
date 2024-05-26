@@ -13,7 +13,7 @@ export interface IServiceForm {
   status: IOption;
   openedAt: Date;
   closedAt?: Date;
-  totalValue?: number;
+  totalValue?: number | string;
   address?: IAddressForm | IAddressModel;
 }
 
@@ -35,7 +35,7 @@ export const serviceFormSchema: yup.ObjectSchema<IServiceForm> = yup
     observations: yup.string(),
     openedAt: yup.date().required("Campo obrigatório"),
     closedAt: yup.date().notRequired(),
-    totalValue: yup.number().notRequired(),
+    totalValue: yup.string().notRequired(),
     status: yup
       .mixed()
       .test("is-object-or-string", (value) => {

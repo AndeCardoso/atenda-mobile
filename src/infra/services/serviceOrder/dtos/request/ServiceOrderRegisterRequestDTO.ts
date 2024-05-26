@@ -11,7 +11,7 @@ export interface ServiceOrderRegisterRequestDTO
   observations?: string;
   openedAt: Date;
   closedAt?: Date;
-  valueTotal?: number;
+  totalValue?: number | string;
   status?: serviceOrderStatusEnum;
   addressId?: number;
   equipmentId: number;

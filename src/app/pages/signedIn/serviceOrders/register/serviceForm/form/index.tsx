@@ -161,7 +161,7 @@ export const ServiceForm = ({
       <ControlledInput
         label="Custo total"
         placeholder="Ex.: R$80,00"
-        name="valueTotal"
+        name="totalValue"
         control={control}
         mask={Masks.BRL_CURRENCY}
         widthType="half"

@@ -6,6 +6,8 @@ import { IServiceForm } from "../../schema";
 import { ControlledSelect } from "@components/controlleds/ControlledSelect";
 import { serviceOrderStatusList } from "../../constants";
 import { equipmentVoltageList } from "@pages/signedIn/equipments/constants";
+import { ControlledDateTimePicker } from "@components/controlleds/ControlledDateTimePicker";
+import { Masks } from "react-native-mask-input";
 
 interface IServiceOrderFormProps {
   control: Control<IServiceForm>;
@@ -14,6 +16,15 @@ interface IServiceOrderFormProps {
 export const UpdateServiceOrderForm = ({ control }: IServiceOrderFormProps) => {
   return (
     <Container>
+      <ControlledDateTimePicker
+        name="openedAt"
+        label="Abertura"
+        placeholder="Ex.: 10/10/2024 12:00"
+        control={control}
+        widthType="half"
+        disabled
+        required
+      />
       <ControlledSelect
         label="Status"
         placeholder="Selecione o status"
@@ -65,6 +76,22 @@ export const UpdateServiceOrderForm = ({ control }: IServiceOrderFormProps) => {
         name="observations"
         control={control}
         longText
+      />
+      <ControlledDateTimePicker
+        name="closedAt"
+        label="Conclusão"
+        placeholder="Ex.: 10/10/2024 14:00"
+        control={control}
+        widthType="half"
+      />
+      <ControlledInput
+        label="Custo total"
+        placeholder="Ex.: R$80,00"
+        name="totalValue"
+        control={control}
+        mask={Masks.BRL_CURRENCY}
+        widthType="half"
+        keyboardTypes="number-pad"
       />
     </Container>
   );

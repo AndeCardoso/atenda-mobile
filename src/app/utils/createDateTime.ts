@@ -24,18 +24,20 @@ export const getTime = (value: Date) => {
   return { hours: Number(hours), minutes: Number(minutes) };
 };
 
-export const convertDateTimeToString = (datetime: Date) => {
-  if (!datetime) {
+export const convertDateTimeToString = (datetime?: Date | string) => {
+  if (!datetime || datetime === `00/00/0000 00:00`) {
     return `00/00/0000 00:00`;
   }
 
-  const year = datetime.getFullYear();
-  const month = String(datetime.getMonth() + 1).padStart(2, "0");
-  const day = String(datetime.getDate()).padStart(2, "0");
+  const newDate = new Date(datetime);
+
+  const year = newDate?.getFullYear();
+  const month = String(newDate?.getMonth() + 1).padStart(2, "0");
+  const day = String(newDate?.getDate()).padStart(2, "0");
   const hours = String(
-    datetime.toISOString().split("T")[1].slice(0, 2)
+    newDate?.toISOString().split("T")[1].slice(0, 2)
   ).padStart(2, "0");
-  const minutes = String(datetime.getMinutes()).padStart(2, "0");
+  const minutes = String(newDate?.getMinutes()).padStart(2, "0");
 
   return `${day}/${month}/${year} ${hours}:${minutes}`;
 };

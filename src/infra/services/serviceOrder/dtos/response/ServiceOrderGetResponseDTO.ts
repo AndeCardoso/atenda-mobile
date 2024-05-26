@@ -13,6 +13,9 @@ export interface ServiceOrderGetResponseDTO {
   executedServices?: string;
   observations?: string;
   closed_at?: Date;
+  opened_at: Date;
+  totalValue: number;
+  signatureUrl: string;
   status?: serviceOrderStatusEnum;
   address: IAddressModel;
   equipment: IEquipmentModel;
