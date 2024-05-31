@@ -8,7 +8,6 @@ import {
   equipmentStatusList,
   equipmentVoltageList,
 } from "@pages/signedIn/equipments/constants";
-import { Row } from "@components/base/Row";
 
 interface IEquipmentFormProps {
   getValues: UseFormGetValues<IEquipmentForm>;
@@ -48,23 +47,20 @@ export const RegisterEquipmentForm = ({ control }: IEquipmentFormProps) => {
         name="description"
         control={control}
       />
-      <Row>
-        <ControlledSelect
-          label="Voltagem"
-          placeholder="Selecione a voltagem"
-          options={equipmentVoltageList}
-          name="voltage"
-          control={control}
-          widthType="half"
-        />
-        <ControlledInput
-          label="Cor"
-          placeholder="Ex.: Cinza"
-          name="color"
-          control={control}
-          widthType="half"
-        />
-      </Row>
+      <ControlledSelect
+        label="Voltagem"
+        placeholder="Selecionar voltagem"
+        options={equipmentVoltageList}
+        name="voltage"
+        control={control}
+      />
+      <ControlledInput
+        label="Cor"
+        placeholder="Ex.: Cinza"
+        name="color"
+        control={control}
+        widthType="half"
+      />
       <ControlledInput
         label="Acessórios"
         placeholder="Ex.: Carregador, mouse sem fio"
