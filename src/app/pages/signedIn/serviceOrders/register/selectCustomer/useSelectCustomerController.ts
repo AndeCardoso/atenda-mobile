@@ -92,7 +92,7 @@ export const useSelectCustomerController = () => {
 
   useFocusEffect(
     useCallback(() => {
-      queryClient.invalidateQueries("customers");
+      queryClient.resetQueries("customers");
     }, [])
   );
 

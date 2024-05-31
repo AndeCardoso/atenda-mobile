@@ -20,6 +20,8 @@ import { IOption } from "@components/base/Select";
 import { ControlledRadioGroup } from "@components/controlleds/ControlledRadioGroup";
 import { equipmentVoltageList } from "@pages/signedIn/equipments/constants";
 import { HelperText } from "react-native-paper";
+import { ControlledDateTimePicker } from "@components/controlleds/ControlledDateTimePicker";
+import { Masks } from "react-native-mask-input";
 
 interface IServiceOrderFormProps {
   control: Control<IServiceForm>;
@@ -43,13 +45,13 @@ export const ServiceForm = ({
     control: addressControl,
     getValues: addressGetValues,
     setValue: addressSetValue,
-    watch,
+    watch: addressWatch,
     reset,
   } = useForm<IAddressForm>({
     resolver: yupResolver(addressSchema),
   });
 
-  const stateField = watch("state");
+  const stateField = addressWatch("state");
 
   useEffect(() => {
     addressSetValue("city", {} as IOption);
@@ -141,6 +143,30 @@ export const ServiceForm = ({
           itemList={addressList}
         />
       )}
+      <ControlledDateTimePicker
+        name="openedAt"
+        label="Abertura"
+        placeholder="Ex.: 10/10/2024 12:00"
+        control={control}
+        widthType="half"
+        required
+      />
+      <ControlledDateTimePicker
+        name="closedAt"
+        label="Conclusão"
+        placeholder="Ex.: 10/10/2024 14:00"
+        control={control}
+        widthType="half"
+      />
+      <ControlledInput
+        label="Custo total"
+        placeholder="Ex.: R$80,00"
+        name="totalValue"
+        control={control}
+        mask={Masks.BRL_CURRENCY}
+        widthType="half"
+        keyboardTypes="number-pad"
+      />
     </Container>
   );
 };

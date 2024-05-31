@@ -12,6 +12,8 @@ import { SignatureRequestDTO } from "@services/serviceOrder/dtos/request/Signatu
 import { SuperConsole } from "@tools/indentedConsole";
 import { captureRef } from "react-native-view-shot";
 import * as MediaLibrary from "expo-media-library";
+import { serviceOrderStatusEnum } from "../../constants";
+import { convertCurrencyToNumber } from "@utils/convertCurrency";
 
 export const useServiceOrderRegisterReview = () => {
   const signatureRef = useRef();
@@ -59,7 +61,10 @@ export const useServiceOrderRegisterReview = () => {
             executedServices: data.serviceForm.executedServices,
             foundDefect: data.serviceForm.foundDefect,
             observations: data.serviceForm.observations,
-            status: data.serviceForm.status.value,
+            openedAt: data.serviceForm.openedAt,
+            closedAt: data.serviceForm.closedAt,
+            totalValue: convertCurrencyToNumber(data.totalValue),
+            status: data.serviceForm.status.value as serviceOrderStatusEnum,
           };
           return await serviceOrderService.register(body);
         }
@@ -73,7 +78,10 @@ export const useServiceOrderRegisterReview = () => {
           executedServices: data.serviceForm.executedServices,
           foundDefect: data.serviceForm.foundDefect,
           observations: data.serviceForm.observations,
-          status: data.serviceForm.status.value,
+          openedAt: data.serviceForm.openedAt,
+          closedAt: data.serviceForm.closedAt,
+          totalValue: data.serviceForm.totalValue,
+          status: data.serviceForm.status.value as serviceOrderStatusEnum,
           cep: data.address.cep,
           city: data.address.city,
           complement: data.address.complement,
@@ -163,7 +171,7 @@ export const useServiceOrderRegisterReview = () => {
         fileName: `signature-${serviceOrderData?.customer.name}-${serviceOrderResponse.body.id}.jpg`,
       });
 
-      if (signatureRegisterResponse.statusCode === HttpStatusCode.Ok) {
+      if (signatureRegisterResponse.statusCode === HttpStatusCode.Created) {
         navigate(SignedInNavigators.SERVICE_ORDERS, {
           screen: SignedInScreens.SERVICE_ORDERS,
         });

@@ -11,6 +11,9 @@ export interface IServiceForm {
   executedServices?: string;
   observations?: string;
   status: IOption;
+  openedAt: Date;
+  closedAt?: Date;
+  totalValue?: number | string;
   address?: IAddressForm | IAddressModel;
 }
 
@@ -30,6 +33,9 @@ export const serviceFormSchema: yup.ObjectSchema<IServiceForm> = yup
     orderedServices: yup.string().required("Campo obrigatório"),
     executedServices: yup.string(),
     observations: yup.string(),
+    openedAt: yup.date().required("Campo obrigatório"),
+    closedAt: yup.date().notRequired(),
+    totalValue: yup.string().notRequired(),
     status: yup
       .mixed()
       .test("is-object-or-string", (value) => {

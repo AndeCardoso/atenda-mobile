@@ -1,5 +1,5 @@
 import { Text } from "@components/base/Text";
-import React from "react";
+import React, { memo } from "react";
 import { Card } from "@components/base/Card";
 import { Row } from "@components/base/Row";
 import { Chip } from "@components/base/Chip";
@@ -17,50 +17,56 @@ interface IEquipmentCardProps {
   onPress?: (e: GestureResponderEvent) => void;
 }
 
-export const EquipmentCard = ({
-  data: { nickname, brand, model, voltage, accessories, status },
-  footerLabel,
-  onPress,
-}: IEquipmentCardProps) => {
-  const { colors } = useTheme();
-  return (
-    <Card
-      footerLabel={footerLabel}
-      onPress={onPress && onPress}
-      style={{ backgroundColor: colors.SECONDARY_INACTIVE }}
-    >
-      <CardContainer>
-        <Row space="space-between">
-          <Text
-            color="WHITE"
-            size={24}
-            weight="700"
-            numberOfLines={1}
-            fullwidth
-          >
-            {nickname}
-          </Text>
+export const EquipmentCard = memo(
+  ({
+    data: { nickname, brand, model, voltage, accessories, status },
+    footerLabel,
+    onPress,
+  }: IEquipmentCardProps) => {
+    const { colors } = useTheme();
+    return (
+      <Card
+        footerLabel={footerLabel}
+        onPress={onPress && onPress}
+        style={{ backgroundColor: colors.SECONDARY_INACTIVE }}
+      >
+        <CardContainer>
+          <Row space="space-between">
+            <Text
+              color="WHITE"
+              size={24}
+              weight="700"
+              numberOfLines={1}
+              fullwidth
+            >
+              {nickname}
+            </Text>
 
-          {status ? (
-            <Chip
-              text={equipmentStatusDisplay[status]}
-              color="PRIMARY"
-              textColor="SECONDARY"
-            />
-          ) : null}
-        </Row>
-        <Divider color="WHITE" />
-        <BottomContainer>
-          <Row>
-            <DisplayField text="Marca" value={brand} color="WHITE" />
-            <DisplayField text="Modelo" value={model} color="WHITE" />
+            {status ? (
+              <Chip
+                text={equipmentStatusDisplay[status]}
+                color="PRIMARY"
+                textColor="SECONDARY"
+              />
+            ) : null}
           </Row>
-          <Row>
-            <DisplayField text="Acessórios" value={accessories} color="WHITE" />
-            <DisplayField text="Voltagem" value={voltage} color="WHITE" />
-          </Row>
-        </BottomContainer>
-      </CardContainer>
-    </Card>
-  );
-};
+          <Divider color="WHITE" />
+          <BottomContainer>
+            <Row>
+              <DisplayField text="Marca" value={brand} color="WHITE" />
+              <DisplayField text="Modelo" value={model} color="WHITE" />
+            </Row>
+            <Row>
+              <DisplayField
+                text="Acessórios"
+                value={accessories}
+                color="WHITE"
+              />
+              <DisplayField text="Voltagem" value={voltage} color="WHITE" />
+            </Row>
+          </BottomContainer>
+        </CardContainer>
+      </Card>
+    );
+  }
+);

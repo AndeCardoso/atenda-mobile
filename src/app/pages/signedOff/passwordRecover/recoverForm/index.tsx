@@ -27,25 +27,25 @@ export const RecoverPasswordForm = ({ control }: IRecoverPasswordFormProps) => {
         control={control}
       />
       <ControlledInput
-        label="Senha"
+        label="Nova senha"
         labelStyle={{
           color: colors.WHITE,
           fontWeight: "600",
           fontSize: 20,
         }}
-        placeholder="Digite sua senha"
+        placeholder="Digite sua senha nova"
         name="password"
         password
         control={control}
       />
       <ControlledInput
-        label="Confirmar senha"
+        label="Confirmar nova senha"
         labelStyle={{
           color: colors.WHITE,
           fontWeight: "600",
           fontSize: 20,
         }}
-        placeholder="Digite novamente sua senha"
+        placeholder="Digite novamente sua senha nova"
         name="passwordConfirm"
         password
         control={control}

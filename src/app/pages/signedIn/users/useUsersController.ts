@@ -85,7 +85,7 @@ export const useUsersController = () => {
 
   useFocusEffect(
     useCallback(() => {
-      queryClient.invalidateQueries("users");
+      queryClient.resetQueries("users");
     }, [])
   );
 

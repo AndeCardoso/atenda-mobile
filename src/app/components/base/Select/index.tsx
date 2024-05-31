@@ -43,14 +43,11 @@ export const Select = ({
   onSearch,
   onNextPage,
 }: ISelectProps) => {
-  const { colors } = useTheme();
   const [modalVisible, setModalVisible] = useState(false);
   const [searchValue, setSearchValue] = useState<string | undefined>("");
   const [seletedValueState, setSelectedValueState] = useState<
     IOption | string | undefined
   >(value);
-
-  const inputRef = useRef<TextInputRN>(null);
 
   useEffect(() => {
     if (value) setSelectedValueState(value);
@@ -82,11 +79,10 @@ export const Select = ({
     onToggleModal();
   };
 
-  function handleClear() {
-    inputRef.current?.clear();
+  const handleClear = () => {
     setSelectedValueState(undefined);
     onSelect?.("");
-  }
+  };
 
   const isSelected =
     (seletedValueState?.text && seletedValueState?.text?.length > 0) ||
@@ -147,7 +143,7 @@ export const Select = ({
                 data={options}
                 keyExtractor={(item) => item.id.toString()}
                 ItemSeparatorComponent={() => <Spacer spaceVertical={16} />}
-                onTouchEnd={onNextPage}
+                onEndReached={onNextPage}
                 contentContainerStyle={{ padding: 16 }}
                 ListEmptyComponent={() => (
                   <EmptyState

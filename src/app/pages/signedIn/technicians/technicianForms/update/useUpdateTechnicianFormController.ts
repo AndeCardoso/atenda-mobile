@@ -100,7 +100,7 @@ export const useUpdateTechnicianFormController = () => {
 
   useFocusEffect(
     useCallback(() => {
-      queryClient.invalidateQueries("getTechnicianUpdate");
+      queryClient.resetQueries("getTechnicianUpdate");
     }, [])
   );
 

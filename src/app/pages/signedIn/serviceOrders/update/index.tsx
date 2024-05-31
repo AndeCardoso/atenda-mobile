@@ -17,6 +17,8 @@ import { Divider } from "@components/base/Separator";
 import { Row } from "@components/base/Row";
 import { TechnicianAccordion } from "@components/accordions/TechnicianAccordion";
 import { IServiceForm, serviceFormSchema } from "../schema";
+import { Image } from "react-native";
+import { convertNumberToCurrency } from "@utils/convertCurrency";
 
 export const ServiceOrderUpdateFormPage = () => {
   const { goBack } = useNavigation();
@@ -36,6 +38,9 @@ export const ServiceOrderUpdateFormPage = () => {
       status: serviceOrderStatusList.find(
         (item) => item.value === serviceOrderData?.status
       ),
+      openedAt: serviceOrderData?.opened_at,
+      closedAt: serviceOrderData?.closed_at,
+      totalValue: convertNumberToCurrency(serviceOrderData?.totalValue),
     };
     reset(fixedData);
   }, [serviceOrderData]);
@@ -94,6 +99,16 @@ export const ServiceOrderUpdateFormPage = () => {
             Técnico:
           </Text>
           <TechnicianAccordion data={serviceOrderData?.technician!!} />
+          <Divider />
+          <Text color="WHITE_TEXT" size={14}>
+            Assinatura:
+          </Text>
+          <Image
+            src={serviceOrderData?.signatureUrl}
+            alt="Assinatura do cliente"
+            resizeMode="contain"
+            resizeMethod="scale"
+          />
         </Container>
       )}
     </Layout>

@@ -107,7 +107,7 @@ export const useHomeController = () => {
 
   useFocusEffect(
     useCallback(() => {
-      queryClient.invalidateQueries("advertise");
+      queryClient.resetQueries("advertise");
     }, [])
   );
 

@@ -66,7 +66,7 @@ export const useEquipmentDetailController = () => {
   const fabActions = [
     {
       icon: "file-edit",
-      label: "Editar cadastro",
+      label: "Atualizar cadastro",
       onPress: handleGoToUpdateEquipment,
       color: colors.PRIMARY,
       style: actionStyles,
@@ -75,7 +75,7 @@ export const useEquipmentDetailController = () => {
 
   useFocusEffect(
     useCallback(() => {
-      queryClient.invalidateQueries("equipmentDetails");
+      queryClient.resetQueries("equipmentDetails");
     }, [])
   );
 

@@ -50,7 +50,7 @@ export const TechniciansPage = () => {
             showsVerticalScrollIndicator={false}
             ListFooterComponent={() =>
               loadingNextPage ? (
-                <Loader size={32} />
+                <Loader size={62} padding={64} />
               ) : (
                 <Spacer spaceVertical={64} />
               )
@@ -63,7 +63,7 @@ export const TechniciansPage = () => {
                 error={listState === requestStateEnum.ERROR}
               />
             )}
-            onTouchEnd={() => fetchNextPage()}
+            onEndReached={() => fetchNextPage()}
             refreshControl={
               !reloading ? (
                 <RefreshControl

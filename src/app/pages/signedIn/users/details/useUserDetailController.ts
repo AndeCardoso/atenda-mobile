@@ -67,7 +67,7 @@ export const useUserDetailController = () => {
   const fabActions = [
     {
       icon: "file-edit",
-      label: "Editar cadastro",
+      label: "Atualizar cadastro",
       onPress: handleGoToUpdateUser,
       color: colors.PRIMARY,
       style: actionStyles,
@@ -76,7 +76,7 @@ export const useUserDetailController = () => {
 
   useFocusEffect(
     useCallback(() => {
-      queryClient.invalidateQueries("userDetails");
+      queryClient.resetQueries("userDetails");
     }, [])
   );
 

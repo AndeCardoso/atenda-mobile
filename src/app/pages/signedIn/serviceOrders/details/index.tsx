@@ -13,10 +13,11 @@ import { Layout } from "@components/Layout";
 import { Row } from "@components/base/Row";
 import { formatDateToBrazilian } from "@utils/formatDate";
 import { serviceOrderStatusDisplay } from "../constants";
-import { formatCep } from "@utils/formatString";
-import { Accordion } from "@components/base/Accordion";
 import { AddressAccordion } from "@components/accordions/AddressAccordion";
 import { EquipmentAccordion } from "@components/accordions/EquipmentAccordion";
+import { Image } from "react-native";
+import { convertDateTimeToString } from "@utils/createDateTime";
+import { convertNumberToCurrency } from "@utils/convertCurrency";
 
 export const ServiceOrderDetailPage = () => {
   const isFocused = useIsFocused();
@@ -59,11 +60,11 @@ export const ServiceOrderDetailPage = () => {
             <Row>
               <DisplayField
                 text="Data de entrada"
-                value={formatDateToBrazilian(serviceOrderData?.created_at!!)}
+                value={convertDateTimeToString(serviceOrderData?.opened_at!!)}
               />
               <DisplayField
                 text="Data de conclusão"
-                value={formatDateToBrazilian(serviceOrderData?.closed_at!!)}
+                value={convertDateTimeToString(serviceOrderData?.closed_at!!)}
               />
             </Row>
             <Divider />
@@ -125,6 +126,21 @@ export const ServiceOrderDetailPage = () => {
                   serviceOrderData?.technician.id!! as number
                 )
               }
+            />
+            <Divider />
+            <DisplayField
+              text="Valor total"
+              value={convertNumberToCurrency(serviceOrderData?.totalValue)}
+            />
+            <Divider />
+            <Text color="WHITE_TEXT" size={14}>
+              Assinatura:
+            </Text>
+            <Image
+              src={serviceOrderData?.signatureUrl}
+              alt="Assinatura do cliente"
+              resizeMode="contain"
+              resizeMethod="scale"
             />
           </Container>
           <FabGroup

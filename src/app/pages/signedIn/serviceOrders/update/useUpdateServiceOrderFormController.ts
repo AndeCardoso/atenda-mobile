@@ -12,6 +12,7 @@ import ServiceOrderService from "@services/serviceOrder";
 import { IServiceForm } from "../schema";
 import { IServiceOrderModel } from "@model/entities/serviceOrder";
 import { useToast } from "@hooks/useToast";
+import { convertCurrencyToNumber } from "@utils/convertCurrency";
 
 export const useUpdateServiceOrderFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
@@ -52,7 +53,6 @@ export const useUpdateServiceOrderFormController = () => {
     useMutation(
       ["updateServiceOrder"],
       async (data: IServiceOrderModel) => {
-        SuperConsole(data, "aqui");
         const body: ServiceOrderRegisterRequestDTO = {
           addressId: Number(data.address.id),
           customerId: Number(data.customer.id),
@@ -64,6 +64,9 @@ export const useUpdateServiceOrderFormController = () => {
           executedServices: data.executedServices,
           foundDefect: data.foundDefect,
           observations: data.observations,
+          openedAt: data.openedAt,
+          closedAt: data.closedAt,
+          totalValue: convertCurrencyToNumber(data.totalValue),
           status: data.status.value || data.status,
         };
         return await serviceOrderService.update(
@@ -104,7 +107,7 @@ export const useUpdateServiceOrderFormController = () => {
 
   useFocusEffect(
     useCallback(() => {
-      queryClient.invalidateQueries("getServiceOrderUpdate");
+      queryClient.resetQueries("getServiceOrderUpdate");
     }, [])
   );
 

@@ -88,7 +88,7 @@ export const useServiceOrderController = () => {
 
   useFocusEffect(
     useCallback(() => {
-      queryClient.invalidateQueries("serviceOrders");
+      queryClient.resetQueries("serviceOrders");
     }, [])
   );
 

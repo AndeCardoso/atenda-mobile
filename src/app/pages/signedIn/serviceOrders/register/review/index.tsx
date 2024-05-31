@@ -11,6 +11,8 @@ import { Divider } from "@components/base/Separator";
 import { Button } from "@components/base/Button";
 import { Text } from "@components/base/Text";
 import { AbandonmentModal } from "../../components/AbandonmentModal";
+import { Row } from "@components/base/Row";
+import { convertDateTimeToString } from "@utils/createDateTime";
 
 export const ServiceOrderRegisterReviewPage = () => {
   const {
@@ -73,6 +75,22 @@ export const ServiceOrderRegisterReviewPage = () => {
         <DisplayField
           text="Observações"
           value={data?.serviceForm.observations}
+        />
+        <Divider />
+        <Row>
+          <DisplayField
+            text="Abertura"
+            value={convertDateTimeToString(data?.serviceForm?.openedAt)}
+          />
+          <DisplayField
+            text="Conclusão"
+            value={convertDateTimeToString(data?.serviceForm?.closedAt)}
+          />
+        </Row>
+        <Divider />
+        <DisplayField
+          text="Valor total"
+          value={data?.serviceForm?.totalValue}
         />
         <Divider />
         <Text color="WHITE_TEXT" size={14}>

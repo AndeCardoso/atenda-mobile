@@ -93,7 +93,7 @@ export const useUpdateEquipmentFormController = () => {
 
   useFocusEffect(
     useCallback(() => {
-      queryClient.invalidateQueries("getEquipmentUpdate");
+      queryClient.resetQueries("getEquipmentUpdate");
     }, [])
   );
 

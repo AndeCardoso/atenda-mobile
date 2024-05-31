@@ -15,10 +15,9 @@ import {
   serviceOrderStatusList,
 } from "../../constants";
 import { AbandonmentModal } from "../../components/AbandonmentModal";
+import { getNowDateTime } from "@utils/createDateTime";
 
 export const ServiceFormPage = () => {
-  const { createToast } = useToast();
-
   const {
     addressList,
     handleGoBack,
@@ -40,6 +39,8 @@ export const ServiceFormPage = () => {
       orderedServices: "",
       executedServices: "",
       observations: "",
+      totalValue: "",
+      openedAt: getNowDateTime(),
       status: serviceOrderStatusList.find(
         (item) => item.value === serviceOrderStatusEnum.OPENED
       ),
@@ -100,7 +101,7 @@ export const ServiceFormPage = () => {
         </WrapperButtons>
       }
       hasScroll
-      steps={{ total: 4, current: 3 }}
+      steps={{ total: 4, current: 4 }}
     >
       <Container>
         <ServiceForm

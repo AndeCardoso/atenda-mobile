@@ -71,7 +71,7 @@ export const useTechnicianDetailController = () => {
   const fabActions = [
     {
       icon: "file-edit",
-      label: "Editar cadastro",
+      label: "Atualizar cadastro",
       onPress: handleGoToUpdateTechnician,
       color: colors.PRIMARY,
       style: actionStyles,
@@ -87,7 +87,7 @@ export const useTechnicianDetailController = () => {
 
   useFocusEffect(
     useCallback(() => {
-      queryClient.invalidateQueries("technicianDetails");
+      queryClient.resetQueries("technicianDetails");
     }, [])
   );
 

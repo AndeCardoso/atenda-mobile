@@ -103,7 +103,7 @@ export const useSelectTechnicianController = () => {
 
   useFocusEffect(
     useCallback(() => {
-      queryClient.invalidateQueries("technicians");
+      queryClient.resetQueries("technicians");
     }, [])
   );
 
