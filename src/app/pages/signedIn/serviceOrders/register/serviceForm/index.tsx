@@ -101,7 +101,7 @@ export const ServiceFormPage = () => {
         </WrapperButtons>
       }
       hasScroll
-      steps={{ total: 4, current: 3 }}
+      steps={{ total: 4, current: 4 }}
     >
       <Container>
         <ServiceForm

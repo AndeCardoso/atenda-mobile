@@ -44,7 +44,7 @@ export const SelectTechnicianPage = () => {
       textSearch={textSearch}
       goBack={handleGoBack}
       close={onAbandomentModalToggle}
-      steps={{ total: 4, current: 4 }}
+      steps={{ total: 4, current: 3 }}
     >
       {loading ? (
         <LoaderBox>
