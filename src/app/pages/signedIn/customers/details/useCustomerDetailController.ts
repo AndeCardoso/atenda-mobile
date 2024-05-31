@@ -85,7 +85,7 @@ export const useCustomerDetailController = () => {
     },
     {
       icon: "file-edit",
-      label: "Editar cadastro",
+      label: "Atualizar cadastro",
       onPress: handleGoToUpdateCustomer,
       color: colors.PRIMARY,
       style: actionStyles,

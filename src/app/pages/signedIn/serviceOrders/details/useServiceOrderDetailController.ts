@@ -81,7 +81,7 @@ export const useServiceOrderDetailController = () => {
   const fabActions = [
     {
       icon: "file-edit",
-      label: "Editar cadastro",
+      label: "Atualizar cadastro",
       onPress: handleGoToUpdateServiceOrder,
       color: colors.PRIMARY,
       style: actionStyles,
