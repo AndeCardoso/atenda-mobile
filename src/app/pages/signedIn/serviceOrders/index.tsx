@@ -26,7 +26,13 @@ export const ServiceOrdersPage = () => {
     fetchNextPage,
     textSearch,
     refetch,
-    viewState: { loading, reloading, loadingNextPage, listState },
+    viewState: {
+      loading,
+      reloading,
+      loadingNextPage,
+      listState,
+      showNewRegisterButton,
+    },
   } = useServiceOrderController();
 
   return (
@@ -82,12 +88,14 @@ export const ServiceOrdersPage = () => {
               />
             )}
           />
-          <FabGroup
-            isSingle
-            isFocused={isFocused}
-            icon="plus"
-            onPress={handleGoToRegister}
-          />
+          {showNewRegisterButton ? (
+            <FabGroup
+              isSingle
+              isFocused={isFocused}
+              icon="plus"
+              onPress={handleGoToRegister}
+            />
+          ) : null}
         </>
       )}
     </Layout>

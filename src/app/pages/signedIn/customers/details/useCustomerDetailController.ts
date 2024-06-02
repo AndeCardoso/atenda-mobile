@@ -11,6 +11,7 @@ import { HttpStatusCode } from "axios";
 import { SuperConsole } from "@tools/indentedConsole";
 import { useCallback } from "react";
 import { useToast } from "@hooks/useToast";
+import { serviceOrderFilteredByEnum } from "@pages/signedIn/serviceOrders/constants";
 
 export const useCustomerDetailController = () => {
   const { colors } = useTheme();
@@ -65,8 +66,14 @@ export const useCustomerDetailController = () => {
     });
   };
 
-  const handleServiceOrderReport = () => {
-    console.log("report");
+  const handleGoToServiceOrderList = () => {
+    navigate(SignedInNavigators.SERVICE_ORDERS, {
+      screen: SignedInScreens.SERVICE_ORDERS,
+      params: {
+        id: customerId,
+        filteredBy: serviceOrderFilteredByEnum.CUSTOMER,
+      },
+    });
   };
 
   const actionStyles = {
@@ -90,13 +97,13 @@ export const useCustomerDetailController = () => {
       color: colors.PRIMARY,
       style: actionStyles,
     },
-    // {
-    //   icon: "file-table",
-    //   label: "Relatorio de ordens de serviço",
-    //   onPress: handleServiceOrderReport,
-    //   color: colors.PRIMARY,
-    //   style: actionStyles,
-    // },
+    {
+      icon: "file-table",
+      label: "Histórico de ordens de serviço",
+      onPress: handleGoToServiceOrderList,
+      color: colors.PRIMARY,
+      style: actionStyles,
+    },
   ];
 
   useFocusEffect(

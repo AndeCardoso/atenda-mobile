@@ -4,6 +4,9 @@ export interface IPaginationParams<T> {
   order?: TOrderTypes;
   column?: T;
   search?: string;
+  customer?: number;
+  equipment?: number;
+  technician?: number;
 }
 
 export type TOrderTypes = "asc" | "desc";
