@@ -23,14 +23,14 @@ export default class ServiceOrderService {
   }
 
   public async registerSignature({
-    image,
+    signatureImage,
     fileName,
     serviceOrderId,
   }: SignatureRequestDTO): Promise<HttpResponse<SignatureResponseDTO>> {
     const formData = new FormData();
 
-    formData.append("image", {
-      uri: image,
+    formData.append("signatureImage", {
+      uri: signatureImage,
       name: fileName,
       type: "image/jpeg",
     });
@@ -71,13 +71,25 @@ export default class ServiceOrderService {
     column,
     order,
     search,
+    customer,
+    equipment,
+    technician,
   }: IPaginationParams<"id" | "status" | "created_at">): Promise<
     HttpResponse<IPaginationResponse<ServiceOrderRegisterResponseDTO>>
   > {
     return await new AxiosHttpClient().request({
       method: "get",
       url: "service-order/list",
-      params: { limit, page, column, order, search },
+      params: {
+        limit,
+        page,
+        column,
+        order,
+        search,
+        customer,
+        equipment,
+        technician,
+      },
     });
   }
 }

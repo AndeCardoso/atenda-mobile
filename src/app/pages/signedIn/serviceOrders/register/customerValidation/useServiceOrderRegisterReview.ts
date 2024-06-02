@@ -118,10 +118,14 @@ export const useServiceOrderRegisterReview = () => {
     isLoading: signatureRegisterLoading,
   } = useMutation(
     ["signatureRegister"],
-    async ({ serviceOrderId, image, fileName }: SignatureRequestDTO) => {
+    async ({
+      serviceOrderId,
+      signatureImage,
+      fileName,
+    }: SignatureRequestDTO) => {
       const body: SignatureRequestDTO = {
         serviceOrderId,
-        image,
+        signatureImage,
         fileName,
       };
       return await serviceOrderService.registerSignature(body);
@@ -167,7 +171,7 @@ export const useServiceOrderRegisterReview = () => {
       const signatureImage = await handleTakeSignatureSnapshot();
       const signatureRegisterResponse = await mutateAsyncSignatureRegister({
         serviceOrderId: serviceOrderResponse.body.id,
-        image: signatureImage!!,
+        signatureImage: signatureImage!!,
         fileName: `signature-${serviceOrderData?.customer.name}-${serviceOrderResponse.body.id}.jpg`,
       });
 
