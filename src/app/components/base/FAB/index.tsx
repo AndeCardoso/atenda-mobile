@@ -47,7 +47,7 @@ export const FabGroup = (props: TFabComponentType) => {
     const fabStyle: ViewStyle = {
       borderRadius: 50,
       marginRight: 32,
-      marginBottom: android ? 48 : undefined,
+      marginBottom: android ? 48 : 32,
       backgroundColor: colors.PRIMARY,
     };
 
@@ -73,7 +73,7 @@ export const FabGroup = (props: TFabComponentType) => {
   const fabStyle: ViewStyle = {
     borderRadius: 50,
     marginRight: 32,
-    marginBottom: android ? 48 : undefined,
+    marginBottom: android ? 48 : 32,
     backgroundColor: open ? colors.SECONDARY : colors.PRIMARY,
   };
 
