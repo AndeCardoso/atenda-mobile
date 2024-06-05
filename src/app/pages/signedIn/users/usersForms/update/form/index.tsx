@@ -12,27 +12,27 @@ export const UpdateUserForm = ({ control }: IUserFormProps) => {
   return (
     <Container>
       <ControlledInput
-        label="Nome"
+        label="Nome*"
         placeholder="Digite o nome"
         name="name"
         control={control}
       />
       <ControlledInput
-        label="E-mail"
+        label="E-mail*"
         placeholder="Digite o e-mail"
         name="email"
         control={control}
         disabled
       />
       <ControlledInput
-        label="Senha"
+        label="Senha*"
         placeholder="Digite a senha"
         name="password"
         password
         control={control}
       />
       <ControlledInput
-        label="Confirmar senha"
+        label="Confirmar senha*"
         placeholder="Digite novamente a senha"
         name="passwordConfirm"
         password
