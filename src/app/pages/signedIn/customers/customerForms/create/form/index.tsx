@@ -94,13 +94,13 @@ export const RegisterCustomerForm = ({
   return (
     <Container>
       <ControlledInput
-        label="Nome"
+        label="Nome*"
         placeholder="Ex.: João Paulo"
         name="name"
         control={controlProp}
       />
       <ControlledInput
-        label="Documento"
+        label="Documento*"
         placeholder="Ex.: 999.999.999-99"
         name="document"
         control={controlProp}
@@ -108,7 +108,7 @@ export const RegisterCustomerForm = ({
         keyboardTypes="number-pad"
       />
       <ControlledInput
-        label="Celular"
+        label="Celular*"
         placeholder="Ex.: (00) 99999-9999"
         name="phone"
         control={controlProp}
@@ -124,7 +124,7 @@ export const RegisterCustomerForm = ({
         keyboardTypes="number-pad"
       />
       <ControlledInput
-        label="E-mail"
+        label="E-mail*"
         placeholder="Ex.: usuario@provedor.com"
         name="email"
         control={controlProp}
@@ -152,7 +152,7 @@ export const RegisterCustomerForm = ({
         <>
           <Divider spaceVertical={16} />
           <Text size={18} weight="600" color="WHITE">
-            Lista de endereços
+            Lista de endereços*
           </Text>
           <Divider spaceVertical={16} />
           <Spacer />

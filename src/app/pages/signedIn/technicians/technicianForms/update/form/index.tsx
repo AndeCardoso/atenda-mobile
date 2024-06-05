@@ -24,13 +24,13 @@ export const UpdateTechnicianForm = ({
   return (
     <Container>
       <ControlledInput
-        label="Nome"
+        label="Nome*"
         placeholder="Ex.: João Paulo"
         name="name"
         control={control}
       />
       <ControlledInput
-        label="Cpf"
+        label="Cpf*"
         placeholder="Ex.: 999.999.999-99"
         name="cpf"
         disabled
@@ -39,7 +39,7 @@ export const UpdateTechnicianForm = ({
         keyboardTypes="number-pad"
       />
       <ControlledInput
-        label="Celular"
+        label="Celular*"
         placeholder="Ex.: (00) 99999-9999"
         name="phone"
         control={control}
@@ -47,7 +47,7 @@ export const UpdateTechnicianForm = ({
         keyboardTypes="number-pad"
       />
       <ControlledSelect
-        label="Cargo"
+        label="Cargo*"
         placeholder="Selecione o cargo"
         options={technicianPositionList}
         name="position"

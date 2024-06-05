@@ -49,7 +49,7 @@ export const AddressForm = ({
         />
       ) : null}
       <ControlledInput
-        label="Cep"
+        label="Cep*"
         widthType="half"
         placeholder="Ex.: 99999-999"
         name="cep"
@@ -59,7 +59,7 @@ export const AddressForm = ({
       />
       <ControlledSelect
         options={stateList}
-        label="Estado"
+        label="Estado*"
         placeholder="Selecione o estado"
         name="state"
         control={control}
@@ -68,7 +68,7 @@ export const AddressForm = ({
       />
       <ControlledSelect
         options={citiesList}
-        label="Cidade"
+        label="Cidade*"
         placeholder="Selecione a cidade"
         name="city"
         control={control}
@@ -78,20 +78,20 @@ export const AddressForm = ({
         disabled={getValues && !Boolean(getValues().state)}
       />
       <ControlledInput
-        label="Bairro"
+        label="Bairro*"
         placeholder="Ex.: Centro"
         name="district"
         control={control}
       />
       <ControlledInput
-        label="Logradouro"
+        label="Logradouro*"
         placeholder="Ex.: Rua Olmiro Lima"
         name="street"
         control={control}
       />
       <Row gap={16}>
         <ControlledInput
-          label="Número"
+          label="Número*"
           widthType="half"
           placeholder="Ex.: 123"
           name="number"
