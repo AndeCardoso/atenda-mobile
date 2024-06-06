@@ -34,10 +34,7 @@ export const HomePage = () => {
         {isLodingAdvertise ? (
           <Loader size={64} />
         ) : advertiseData ? (
-          <Section
-            title="Notificações"
-            action={{ text: "Ver mais", onPress: () => console.log("teste") }}
-          >
+          <Section title="Notificações">
             <Card color="SECONDARY_INACTIVE">
               <Text weight="600" size={24} color="WHITE">
                 {advertiseData?.message}
