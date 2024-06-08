@@ -8,8 +8,6 @@ import React, {
   useState,
 } from "react";
 
-import { useQueryClient } from "react-query";
-
 interface AuthContextProps {
   user: string | null;
   userData: IUserData | null;
@@ -34,16 +32,8 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
   const [userState, setUserState] = useState<string | null>(null);
   const [tokenState, setTokenState] = useState<string | null>(null);
 
-  const queryClient = useQueryClient();
-
   const resetAuthStates = () => {
     setTokenState(null);
-  };
-
-  const cleanQuery = () => {
-    queryClient.resetQueries({
-      queryKey: ["token"],
-    });
   };
 
   const changeTokenState = async (value: string) => {
