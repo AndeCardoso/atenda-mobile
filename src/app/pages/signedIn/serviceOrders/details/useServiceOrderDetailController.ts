@@ -1,3 +1,6 @@
+import { useCallback } from "react";
+import { HttpStatusCode } from "axios";
+import { useQuery, useQueryClient } from "react-query";
 import {
   useFocusEffect,
   useNavigation,
@@ -5,10 +8,7 @@ import {
 } from "@react-navigation/native";
 import { useTheme } from "styled-components";
 import { SignedInNavigators, SignedInScreens } from "@routes/screens";
-import { useQuery, useQueryClient } from "react-query";
-import { HttpStatusCode } from "axios";
 import { SuperConsole } from "@tools/indentedConsole";
-import { useCallback } from "react";
 import ServiceOrderService from "@services/serviceOrder";
 import { useToast } from "@hooks/useToast";
 
@@ -62,6 +62,12 @@ export const useServiceOrderDetailController = () => {
     });
   };
 
+  const handleGoToPdfView = async () => {
+    navigate(SignedInScreens.SERVICE_ORDERS_REPORT, {
+      serviceOrderId,
+    });
+  };
+
   const handleGoBack = () => {
     canGoBack && goBack();
   };
@@ -79,6 +85,13 @@ export const useServiceOrderDetailController = () => {
   };
 
   const fabActions = [
+    {
+      icon: "file-pdf-box",
+      label: "Emitir PDF",
+      onPress: handleGoToPdfView,
+      color: colors.PRIMARY,
+      style: actionStyles,
+    },
     {
       icon: "file-edit",
       label: "Atualizar cadastro",

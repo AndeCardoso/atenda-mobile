@@ -54,6 +54,15 @@ export default class ServiceOrderService {
     });
   }
 
+  public async getPdfReport(
+    serviceOrderId: number
+  ): Promise<HttpResponse<any>> {
+    return await new AxiosHttpClient().request({
+      method: "get",
+      url: `service-order/report/${serviceOrderId}`,
+    });
+  }
+
   public async get({
     serviceOrderId,
   }: ServiceOrderGetRequestDTO): Promise<

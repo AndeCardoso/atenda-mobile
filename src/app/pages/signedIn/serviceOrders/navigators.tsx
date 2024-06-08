@@ -5,6 +5,7 @@ import { ServiceOrdersPage } from ".";
 import { ServiceOrderDetailPage } from "./details";
 import { ServiceOrderUpdateFormPage } from "./update";
 import { ServiceOrderRegisterFlowNavigator } from "./register/navigators";
+import { ReportPage } from "./report";
 
 export enum RegisterServiceOrderScreens {
   SELECT_CUSTOMER = "SelectCustomer",
@@ -22,6 +23,7 @@ export const ServiceOrdersNavigator = () => {
     [SignedInScreens.SERVICE_ORDERS_REGISTER_FLOW]: undefined;
     [SignedInScreens.SERVICE_ORDERS_UPDATE_FORM]: undefined;
     [SignedInScreens.SERVICE_ORDERS_DETAILS]: undefined;
+    [SignedInScreens.SERVICE_ORDERS_REPORT]: undefined;
   };
 
   const { Navigator, Screen } = createStackNavigator<RootStackParamList>();
@@ -46,6 +48,10 @@ export const ServiceOrdersNavigator = () => {
       <Screen
         name={SignedInScreens.SERVICE_ORDERS_DETAILS}
         component={ServiceOrderDetailPage}
+      />
+      <Screen
+        name={SignedInScreens.SERVICE_ORDERS_REPORT}
+        component={ReportPage}
       />
     </Navigator>
   );
