@@ -40,8 +40,6 @@ export const TechnicianAccordion = ({
           value={formatCellphoneNumber(phone)}
           hasCall
         />
-        <Divider />
-
         <Spacer spaceVertical={8} />
       </Content>
     </Accordion>
