@@ -13,7 +13,25 @@ export interface IAddressForm {
 }
 
 export const addressObjectSchema = {
-  nickname: yup.string().notRequired(),
+  nickname: yup
+    .string()
+    .test({
+      name: "min",
+      test: (value) => {
+        if (!value) return true;
+        return value.length >= 4;
+      },
+      message: "Apelido deve ter no minímo 4 caracteres",
+    })
+    .test({
+      name: "max",
+      test: (value) => {
+        if (!value) return true;
+        return value.length <= 32;
+      },
+      message: "Apelido deve ter no máximo de 32 caracteres",
+    })
+    .notRequired(),
   cep: yup.string().required("Campo obrigatório"),
   street: yup.string().required("Campo obrigatório"),
   number: yup.string().required("Campo obrigatório"),

@@ -99,16 +99,6 @@ export const ServiceOrderUpdateFormPage = () => {
             Técnico:
           </Text>
           <TechnicianAccordion data={serviceOrderData?.technician!!} />
-          <Divider />
-          <Text color="WHITE_TEXT" size={14}>
-            Assinatura:
-          </Text>
-          <Image
-            src={serviceOrderData?.signatureUrl}
-            alt="Assinatura do cliente"
-            resizeMode="contain"
-            resizeMethod="scale"
-          />
         </Container>
       )}
     </Layout>

@@ -36,3 +36,9 @@ export const serviceOrderStatusList: IOption[] = [
     value: serviceOrderStatusEnum.CLOSED,
   },
 ];
+
+export enum serviceOrderFilteredByEnum {
+  CUSTOMER = "customer",
+  TECHNICIAN = "technician",
+  EQUIPMENT = "equipment",
+}

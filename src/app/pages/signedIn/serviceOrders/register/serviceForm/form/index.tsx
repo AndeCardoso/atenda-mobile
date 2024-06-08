@@ -64,14 +64,14 @@ export const ServiceForm = ({
   return (
     <Container>
       <ControlledSelect
-        label="Voltagem selecionada"
+        label="Voltagem selecionada*"
         placeholder="Selecione a voltagem"
         options={equipmentVoltageList}
         name="selectedVoltage"
         control={control}
       />
       <ControlledInput
-        label="Defeitos informados"
+        label="Defeitos informados*"
         placeholder="Informe os defeitos reportados pelo cliente"
         name="reportedDefect"
         control={control}
@@ -85,7 +85,7 @@ export const ServiceForm = ({
         longText
       />
       <ControlledInput
-        label="Serviços requisitados"
+        label="Serviços requisitados*"
         placeholder="Informe os serviços requisitados pelo cliente"
         name="orderedServices"
         control={control}
@@ -106,7 +106,7 @@ export const ServiceForm = ({
         longText
       />
       <ControlledSelect
-        label="Status"
+        label="Status*"
         placeholder="Selecione o status"
         options={serviceOrderStatusList}
         name="status"
@@ -114,7 +114,7 @@ export const ServiceForm = ({
       />
       <Row space="space-between">
         <Text color="WHITE" weight="700">
-          Endereço
+          Endereço*
         </Text>
         <Button mode="text" onPress={handleShowAddressToggle}>
           {!showAddress ? "Adicionar novo" : "Selecionar existente"}
@@ -145,7 +145,7 @@ export const ServiceForm = ({
       )}
       <ControlledDateTimePicker
         name="openedAt"
-        label="Abertura"
+        label="Abertura*"
         placeholder="Ex.: 10/10/2024 12:00"
         control={control}
         widthType="half"

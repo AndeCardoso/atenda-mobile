@@ -17,6 +17,7 @@ export enum SignedInScreens {
   SERVICE_ORDERS_REGISTER_FLOW = "ServiceOrderRegisterFlow",
   SERVICE_ORDERS_UPDATE_FORM = "ServiceOrderUpdateForm",
   SERVICE_ORDERS_DETAILS = "ServiceOrderDetails",
+  SERVICE_ORDERS_REPORT = "Report",
 
   CUSTOMERS = "Customers",
   CUSTOMERS_REGISTER_FORM = "CustomerRegisterForm",

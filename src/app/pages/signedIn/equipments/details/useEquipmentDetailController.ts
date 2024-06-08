@@ -4,13 +4,14 @@ import {
   useRoute,
 } from "@react-navigation/native";
 import { useTheme } from "styled-components";
-import { SignedInScreens } from "@routes/screens";
+import { SignedInNavigators, SignedInScreens } from "@routes/screens";
 import { useQuery, useQueryClient } from "react-query";
 import { HttpStatusCode } from "axios";
 import EquipmentService from "@services/equipment";
 import { SuperConsole } from "@tools/indentedConsole";
 import { useCallback } from "react";
 import { useToast } from "@hooks/useToast";
+import { serviceOrderFilteredByEnum } from "@pages/signedIn/serviceOrders/constants";
 
 export const useEquipmentDetailController = () => {
   const { colors } = useTheme();
@@ -57,6 +58,13 @@ export const useEquipmentDetailController = () => {
     });
   };
 
+  const handleGoToServiceOrderList = () => {
+    navigate(SignedInNavigators.SERVICE_ORDERS, {
+      id: equipmentId,
+      filterBy: serviceOrderFilteredByEnum.EQUIPMENT,
+    });
+  };
+
   const actionStyles = {
     borderRadius: 50,
     marginRight: 16,
@@ -68,6 +76,13 @@ export const useEquipmentDetailController = () => {
       icon: "file-edit",
       label: "Atualizar cadastro",
       onPress: handleGoToUpdateEquipment,
+      color: colors.PRIMARY,
+      style: actionStyles,
+    },
+    {
+      icon: "file-table",
+      label: "Histórico de ordens de serviço",
+      onPress: handleGoToServiceOrderList,
       color: colors.PRIMARY,
       style: actionStyles,
     },

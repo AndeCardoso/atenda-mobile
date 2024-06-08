@@ -24,13 +24,13 @@ export const UpdateEquipmentForm = ({ control }: IEquipmentFormProps) => {
         control={control}
       />
       <ControlledInput
-        label="Marca"
+        label="Marca*"
         placeholder="Ex.: Dell"
         name="brand"
         control={control}
       />
       <ControlledInput
-        label="Modelo"
+        label="Modelo*"
         placeholder="Ex.: Vostro 14"
         name="model"
         control={control}
@@ -62,7 +62,7 @@ export const UpdateEquipmentForm = ({ control }: IEquipmentFormProps) => {
         control={control}
       />
       <ControlledSelect
-        label="Status"
+        label="Status*"
         placeholder="Selecione o status"
         options={equipmentStatusList}
         name="status"

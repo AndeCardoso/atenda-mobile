@@ -68,6 +68,7 @@ export const useHomeController = () => {
   const fabActions = [
     {
       icon: "logout",
+      label: "Sair",
       onPress: logout,
       color: colors.PRIMARY,
       style: actionStyles,
@@ -87,7 +88,7 @@ export const useHomeController = () => {
       style: actionStyles,
     },
     {
-      icon: "file-plus",
+      icon: "file-cabinet",
       label: "Ordens de serviço",
       onPress: handleGoToServiceOrders,
       color: colors.PRIMARY,

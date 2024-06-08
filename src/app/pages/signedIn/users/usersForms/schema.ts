@@ -16,7 +16,7 @@ export const userSchemaObject = {
         if (!value) return true;
         return value.length >= 4;
       },
-      message: "Nome da empresa deve ter no minímo 4 caracteres",
+      message: "Nome de usuário deve ter no minímo 4 caracteres",
     })
     .test({
       name: "max",
@@ -24,8 +24,9 @@ export const userSchemaObject = {
         if (!value) return true;
         return value.length <= 32;
       },
-      message: "Nome da empresa deve ter no máximo de 32 caracteres",
-    }),
+      message: "Nome de usuário deve ter no máximo de 32 caracteres",
+    })
+    .required("Campo obrigatório"),
   email: yup.string().email("E-mail inválido").required("Campo obrigatório"),
   password: yup
     .string()

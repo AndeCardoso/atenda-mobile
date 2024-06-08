@@ -11,13 +11,14 @@ import { Chip } from "@components/base/Chip";
 import { Text } from "@components/base/Text";
 import { Layout } from "@components/Layout";
 import { Row } from "@components/base/Row";
-import { formatDateToBrazilian } from "@utils/formatDate";
 import { serviceOrderStatusDisplay } from "../constants";
 import { AddressAccordion } from "@components/accordions/AddressAccordion";
 import { EquipmentAccordion } from "@components/accordions/EquipmentAccordion";
-import { Image } from "react-native";
+import { Dimensions, Image } from "react-native";
 import { convertDateTimeToString } from "@utils/createDateTime";
 import { convertNumberToCurrency } from "@utils/convertCurrency";
+
+const width = Dimensions.get("window").width;
 
 export const ServiceOrderDetailPage = () => {
   const isFocused = useIsFocused();
@@ -137,10 +138,19 @@ export const ServiceOrderDetailPage = () => {
               Assinatura:
             </Text>
             <Image
-              src={serviceOrderData?.signatureUrl}
+              source={{
+                uri: `${serviceOrderData?.signatureUrl}`,
+              }}
               alt="Assinatura do cliente"
               resizeMode="contain"
               resizeMethod="scale"
+              style={{
+                transform: [{ rotate: "90deg" }],
+                alignSelf: "center",
+                marginTop: -74,
+              }}
+              width={265}
+              height={width - 32}
             />
           </Container>
           <FabGroup

@@ -1,4 +1,8 @@
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import { SignedInScreens } from "@routes/screens";
 import { useInfiniteQuery, useQueryClient } from "react-query";
 import { HttpStatusCode } from "axios";
@@ -14,6 +18,9 @@ export const useServiceOrderController = () => {
   const { unexpectedErrorToast } = useToast();
   const { navigate, canGoBack, goBack } = useNavigation<any>();
   const queryClient = useQueryClient();
+  const { params } = useRoute<any>();
+  const id = params?.id;
+  const filteredBy = params?.filteredBy;
 
   const serviceOrderService = new ServiceOrderService();
 
@@ -28,7 +35,7 @@ export const useServiceOrderController = () => {
     isRefetching,
     isFetchingNextPage,
   } = useInfiniteQuery(
-    ["serviceOrders", serviceOrderSearch],
+    ["serviceOrders", serviceOrderSearch, id, filteredBy],
     async ({ pageParam }) => {
       const { statusCode, body } = await serviceOrderService.list({
         limit: 10,
@@ -36,6 +43,7 @@ export const useServiceOrderController = () => {
         column: "created_at",
         order: "desc",
         search: serviceOrderSearch,
+        [filteredBy]: id,
       });
       switch (statusCode) {
         case HttpStatusCode.Ok:
@@ -124,6 +132,7 @@ export const useServiceOrderController = () => {
       loading: isLoading,
       reloading: isRefetching,
       loadingNextPage: isFetchingNextPage,
+      showNewRegisterButton: !Boolean(params),
       listState,
     },
   };
