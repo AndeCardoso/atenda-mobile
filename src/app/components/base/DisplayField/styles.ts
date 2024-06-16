@@ -6,5 +6,6 @@ export const Container = styled.View`
   gap: 4px;
 `;
 export const TextValue = styled(Text)<{ isEmpty: boolean }>`
+  text-overflow: ellipsis;
   margin-left: ${({ isEmpty }) => (isEmpty ? "24px" : 0)};
 `;

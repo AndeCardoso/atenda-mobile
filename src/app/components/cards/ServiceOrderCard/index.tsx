@@ -20,7 +20,7 @@ interface IServiceOrderCardProps {
 
 export const ServiceOrderCard = memo(
   ({
-    data: { id, created_at, customer, equipment, status },
+    data: { id, opened_at, customer, equipment, status },
     footerLabel,
     onPress,
   }: IServiceOrderCardProps) => {
@@ -58,28 +58,33 @@ export const ServiceOrderCard = memo(
                 text="Cliente"
                 value={customer?.name}
                 color="WHITE"
+                unbreakable
               />
               <DisplayField
                 text="Aberto em"
-                value={formatDateToBrazilian(created_at!!)}
+                value={formatDateToBrazilian(opened_at!!)}
                 color="WHITE"
+                unbreakable
               />
             </Row>
             <DisplayField
               text="Equipamento"
               value={equipment?.nickname}
               color="WHITE"
+              unbreakable
             />
             <Row>
               <DisplayField
                 text="Marca"
                 value={equipment?.brand}
                 color="WHITE"
+                unbreakable
               />
               <DisplayField
                 text="Modelo"
                 value={equipment?.model}
                 color="WHITE"
+                unbreakable
               />
             </Row>
           </BottomContainer>

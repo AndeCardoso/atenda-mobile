@@ -1,5 +1,5 @@
-import React, { PropsWithChildren } from "react";
-import { View, ViewProps, ViewStyle } from "react-native";
+import React from "react";
+import { ViewProps, ViewStyle } from "react-native";
 import { StyledRow } from "./styles";
 
 interface IRowProps extends ViewProps {

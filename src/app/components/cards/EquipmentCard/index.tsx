@@ -53,8 +53,18 @@ export const EquipmentCard = memo(
           <Divider color="WHITE" />
           <BottomContainer>
             <Row>
-              <DisplayField text="Marca" value={brand} color="WHITE" />
-              <DisplayField text="Modelo" value={model} color="WHITE" />
+              <DisplayField
+                text="Marca"
+                value={brand}
+                color="WHITE"
+                unbreakable
+              />
+              <DisplayField
+                text="Modelo"
+                value={model}
+                color="WHITE"
+                unbreakable
+              />
             </Row>
             <Row>
               <DisplayField
@@ -62,7 +72,12 @@ export const EquipmentCard = memo(
                 value={accessories}
                 color="WHITE"
               />
-              <DisplayField text="Voltagem" value={voltage} color="WHITE" />
+              <DisplayField
+                text="Voltagem"
+                value={voltage}
+                color="WHITE"
+                unbreakable
+              />
             </Row>
           </BottomContainer>
         </CardContainer>

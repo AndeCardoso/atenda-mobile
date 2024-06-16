@@ -23,6 +23,7 @@ export const Accordion = ({ title, children }: IAccordionProps) => {
   const textStyles: TextStyle = {
     fontSize: 18,
     fontWeight: "700",
+    color: colors.WHITE,
   };
 
   return (

@@ -23,12 +23,13 @@ export const AddressListItem = ({
   return (
     <Card>
       <Row space="space-between">
-        <Text color="BLACK" size={16} weight="600">
+        <Text color="WHITE" size={16} weight="600">
           {data?.nickname}
         </Text>
         <Row widthType="auto" gap={4}>
           <IconButton
             name="file-edit"
+            color="PRIMARY"
             onPress={() => handleEditAddressByIndex(index)}
           />
           {isEditing ? (
@@ -36,6 +37,7 @@ export const AddressListItem = ({
               <Text size={18}>|</Text>
               <IconButton
                 name="close-box"
+                color="WARNING"
                 onPress={() => handleDecreaseAddressByIndex(index)}
               />
             </>

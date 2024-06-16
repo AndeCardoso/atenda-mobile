@@ -16,7 +16,7 @@ export const useUpdateEquipmentFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
   const { unexpectedErrorToast } = useToast();
   const { params } = useRoute<any>();
-  const { equipmentId, customerId } = params;
+  const { equipmentId } = params;
   const queryClient = useQueryClient();
 
   const equipmentService = new EquipmentService();
@@ -53,7 +53,6 @@ export const useUpdateEquipmentFormController = () => {
           ...data,
           voltage: data.voltage?.text,
           status: data.status?.value,
-          customerId,
         };
         return await equipmentService.update(
           equipmentId,

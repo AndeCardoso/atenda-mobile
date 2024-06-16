@@ -35,6 +35,7 @@ export const SelectCustomerPage = () => {
       textSearch={textSearch}
       goBack={handleGoBack}
       close={handleGoBack}
+      contextIcon={"head"}
       steps={{ total: 4, current: 1 }}
     >
       {loading ? (

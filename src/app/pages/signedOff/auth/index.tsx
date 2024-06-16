@@ -28,14 +28,15 @@ export const AuthPage = () => {
     viewState: { loading },
   } = useAuthController();
 
-  const { control, handleSubmit, setError, watch } = useForm<IAuthForm>({
-    defaultValues: {
-      email: "admin@test.com",
-      password: "123456",
-    },
-    mode: "onSubmit",
-    resolver: yupResolver(authSchema),
-  });
+  const { control, handleSubmit, setError, watch, clearErrors } =
+    useForm<IAuthForm>({
+      defaultValues: {
+        email: "andersoncardoso.dev@gmail.com",
+        password: "123456",
+      },
+      mode: "onSubmit",
+      resolver: yupResolver(authSchema),
+    });
 
   const email = watch("email");
   const password = watch("password");
@@ -48,6 +49,10 @@ export const AuthPage = () => {
     if (loginErrorState)
       setError("email", { message: loginErrorState, type: "validate" });
   }, [loginErrorState]);
+
+  useEffect(() => {
+    clearErrors();
+  }, []);
 
   return (
     <KeyboardAvoidingView

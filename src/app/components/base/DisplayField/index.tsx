@@ -13,6 +13,7 @@ interface IDisplayFieldProps {
   color?: Colors;
   hasCopy?: boolean;
   hasCall?: boolean;
+  unbreakable?: boolean;
   goToButton?: () => void;
 }
 
@@ -23,6 +24,7 @@ export const DisplayField = ({
   hasCopy,
   hasCall,
   goToButton,
+  unbreakable,
 }: IDisplayFieldProps) => {
   const { createToast } = useToast();
 
@@ -54,7 +56,13 @@ export const DisplayField = ({
         {text}:
       </Text>
       <Row>
-        <TextValue color={color} size={18} weight="700" isEmpty={!value}>
+        <TextValue
+          color={color}
+          size={18}
+          weight="700"
+          isEmpty={!value}
+          numberOfLines={unbreakable ? 1 : 0}
+        >
           {value || "--"}
         </TextValue>
         {goToButton ? (

@@ -10,6 +10,8 @@ import { IconButton } from "@components/base/IconButton";
 import { Row } from "@components/base/Row";
 import { IStepperProps, Stepper } from "@components/base/Stepper";
 import debounce from "lodash.debounce";
+import { Icon } from "@components/base/Icon";
+import { TIconNames } from "@components/base/Icon/types";
 
 interface IHeaderProps {
   text?: string;
@@ -18,6 +20,7 @@ interface IHeaderProps {
   hasBrand?: boolean;
   steps?: IStepperProps;
   searchPlaceholder?: string;
+  contextIcon?: TIconNames;
   onRegister?: () => void;
   onSearch?: (value?: string) => void;
   goBack?: () => void;
@@ -32,6 +35,7 @@ export const Header = ({
   textSearch,
   searchPlaceholder = "Buscar",
   showProfile,
+  contextIcon,
   onRegister,
   hasBrand,
   onSearch,
@@ -74,6 +78,7 @@ export const Header = ({
               {text}
             </Text>
           ) : null}
+          {contextIcon ? <Icon name={contextIcon} color="SECONDARY" /> : null}
         </StyledRow>
 
         {showProfile && userData ? <Profile data={userData} /> : null}

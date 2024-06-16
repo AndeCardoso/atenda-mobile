@@ -3,10 +3,11 @@ import styled from "styled-components/native";
 
 export const Container = styled.View`
   width: 100%;
-  padding: 24px;
   margin: 16px 0;
-  border-radius: 16px;
-  background-color: ${({ theme }) => theme.colors.SECONDARY_INACTIVE_OPACITY};
+  padding: 24px;
+  border-radius: 4px;
+  background-color: ${({ theme }) =>
+    theme.colors.SECONDARY_INACTIVE_OPACITY_50};
 `;
 
 export const PasswordWrapper = styled.View`

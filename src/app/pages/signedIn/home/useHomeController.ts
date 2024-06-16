@@ -18,7 +18,7 @@ export const useHomeController = () => {
 
   const homeService = new HomeService();
 
-  const { data: advertiseData, isLoading: isLodingAdvertise } = useQuery(
+  const { data: advertiseData, isLoading: isLoadingAdvertise } = useQuery(
     ["advertise"],
     async () => {
       const { statusCode, body } = await homeService.getAdvertise();
@@ -43,6 +43,85 @@ export const useHomeController = () => {
     }
   );
 
+  const {
+    data: serviceOrderOpenedListData,
+    isLoading: isLoadingServiceOrderOpenedList,
+  } = useQuery(
+    ["serviceOrderOpenedList"],
+    async () => {
+      const { statusCode, body } = await homeService.getServiceOrderList();
+      switch (statusCode) {
+        case HttpStatusCode.Ok:
+          return body;
+        case HttpStatusCode.NoContent:
+          return;
+        case HttpStatusCode.BadRequest:
+        default:
+          SuperConsole(body, "serviceOrderOpenedList");
+          unexpectedErrorToast();
+          return;
+      }
+    },
+    {
+      onError: async (error) => {
+        SuperConsole(error, "serviceOrderOpenedList");
+        unexpectedErrorToast();
+        return;
+      },
+    }
+  );
+
+  const { data: equipmentQueueData, isLoading: isLoadingEquipmentQueue } =
+    useQuery(
+      ["equipmentQueue"],
+      async () => {
+        const { statusCode, body } = await homeService.getEquipmentQueue();
+        switch (statusCode) {
+          case HttpStatusCode.Ok:
+            return body;
+          case HttpStatusCode.NoContent:
+            return;
+          case HttpStatusCode.BadRequest:
+          default:
+            SuperConsole(body, "equipmentQueue");
+            unexpectedErrorToast();
+            return;
+        }
+      },
+      {
+        onError: async (error) => {
+          SuperConsole(error, "equipmentQueue");
+          unexpectedErrorToast();
+          return;
+        },
+      }
+    );
+
+  const { data: dataInfosData, isLoading: isLoadingDataInfos } = useQuery(
+    ["getDatasInfo"],
+    async () => {
+      const { statusCode, body } = await homeService.getDatasInfo();
+      switch (statusCode) {
+        case HttpStatusCode.Ok:
+          return body;
+        case HttpStatusCode.NoContent:
+          return;
+        case HttpStatusCode.BadRequest:
+        default:
+          SuperConsole(body, "getDatasInfo");
+          unexpectedErrorToast();
+          return;
+      }
+    },
+    {
+      onError: async (error) => {
+        SuperConsole(error, "getDatasInfo");
+        unexpectedErrorToast();
+        return;
+      },
+    }
+  );
+
   const actionStyles = {
     borderRadius: 50,
     marginRight: 16,
@@ -61,8 +140,28 @@ export const useHomeController = () => {
     navigate(SignedInNavigators.SERVICE_ORDERS);
   };
 
+  const handleGoToServiceOrdersRegister = () => {
+    navigate(SignedInNavigators.SERVICE_ORDERS, {
+      screen: SignedInScreens.SERVICE_ORDERS_REGISTER_FLOW,
+    });
+  };
+
   const handleGoToUsers = () => {
     navigate(SignedInNavigators.USERS);
+  };
+
+  const handleGoToEquipmentDetails = (equipmentId: number) => {
+    navigate(SignedInNavigators.EQUIPMENTS, {
+      screen: SignedInScreens.EQUIPMENTS_DETAILS,
+      params: { equipmentId },
+    });
+  };
+
+  const handleGoToServiceOrderDetails = (serviceOrderId: number) => {
+    navigate(SignedInNavigators.SERVICE_ORDERS, {
+      screen: SignedInScreens.SERVICE_ORDERS_DETAILS,
+      params: { serviceOrderId },
+    });
   };
 
   const fabActions = [
@@ -108,16 +207,29 @@ export const useHomeController = () => {
 
   useFocusEffect(
     useCallback(() => {
-      queryClient.resetQueries("advertise");
+      queryClient.resetQueries(["advertise"]);
+      queryClient.resetQueries(["getDatasInfo"]);
+      queryClient.resetQueries(["equipmentQueue"]);
+      queryClient.resetQueries(["serviceOrderOpenedList"]);
     }, [])
   );
 
   return {
     userData,
-    advertiseData,
     fabActions,
+    dataInfosData,
+    advertiseData,
+    equipmentQueueData,
+    serviceOrderOpenedListData,
+    handleGoToServiceOrders,
+    handleGoToEquipmentDetails,
+    handleGoToServiceOrderDetails,
+    handleGoToServiceOrdersRegister,
     viewState: {
-      isLodingAdvertise,
+      isLoadingAdvertise,
+      isLoadingDataInfos,
+      isLoadingEquipmentQueue,
+      isLoadingServiceOrderOpenedList,
     },
   };
 };

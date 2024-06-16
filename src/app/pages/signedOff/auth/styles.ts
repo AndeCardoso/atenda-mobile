@@ -16,6 +16,7 @@ export const WrapperTop = styled.View`
   flex: 1;
   width: 100%;
   justify-content: center;
+  align-items: center;
 `;
 
 export const WrapperButtons = styled(Row)<{ ios: boolean }>`
