@@ -7,7 +7,7 @@ export const useToast = () => {
     return createToast({
       message: `Ocorreu um erro inesperado! \nTente novamente.`,
       alertType: "error",
-      duration: 5000,
+      duration: 3000,
     });
   };
 
