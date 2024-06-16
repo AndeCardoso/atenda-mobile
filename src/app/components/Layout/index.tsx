@@ -18,6 +18,7 @@ import { useTheme } from "styled-components";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { FooterContainer } from "./styles";
 import { IStepperProps } from "@components/base/Stepper";
+import { TIconNames } from "@components/base/Icon/types";
 
 interface ILayoutProps extends PropsWithChildren {
   header?: string;
@@ -27,6 +28,7 @@ interface ILayoutProps extends PropsWithChildren {
   hasScroll?: boolean;
   showProfile?: boolean;
   steps?: IStepperProps;
+  contextIcon?: TIconNames;
   searchPlaceholder?: string;
   onRegister?: () => void;
   onSearch?: (value?: string) => void;
@@ -44,6 +46,7 @@ export const Layout = ({
   hasScroll,
   showProfile,
   searchPlaceholder,
+  contextIcon,
   textSearch,
   onRegister,
   onSearch,
@@ -98,6 +101,7 @@ export const Layout = ({
         onRegister={onRegister}
         textSearch={textSearch}
         searchPlaceholder={searchPlaceholder}
+        contextIcon={contextIcon}
         goBack={goBack}
         steps={steps}
         close={close}

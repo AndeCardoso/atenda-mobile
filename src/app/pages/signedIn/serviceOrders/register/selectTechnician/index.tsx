@@ -43,6 +43,7 @@ export const SelectTechnicianPage = () => {
       onSearch={onTechnicianSearch}
       textSearch={textSearch}
       goBack={handleGoBack}
+      contextIcon="tools"
       close={onAbandomentModalToggle}
       steps={{ total: 4, current: 3 }}
     >
