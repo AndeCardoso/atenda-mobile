@@ -15,7 +15,7 @@ import { EquipmentGetResponseDTO } from "@services/equipment/dtos/response/Equip
 import { EmptyStateSection } from "./components/EmptyStateSection";
 import { DatasSection } from "./components/DatasSection";
 import { Divider } from "@components/base/Separator";
-import { Container } from "./styles";
+import { AdvertiseCard, Container } from "./styles";
 
 export const HomePage = () => {
   const isFocused = useIsFocused();
@@ -30,6 +30,7 @@ export const HomePage = () => {
     handleGoToServiceOrders,
     handleGoToEquipmentDetails,
     handleGoToServiceOrderDetails,
+    handleGoToServiceOrdersRegister,
     viewState: {
       isLoadingAdvertise,
       isLoadingServiceOrderOpenedList,
@@ -54,12 +55,12 @@ export const HomePage = () => {
           <Loader size={64} />
         ) : advertiseData ? (
           <>
-            <Section title="Notificações">
-              <Card color="SECONDARY_INACTIVE">
+            <Section title="Notificações" fullwidth>
+              <AdvertiseCard color="SECONDARY_INACTIVE">
                 <Text weight="600" size={24} color="WHITE">
                   {advertiseData?.message}
                 </Text>
-              </Card>
+              </AdvertiseCard>
             </Section>
             <Divider spaceVertical={16} horizontalPadding={16} />
           </>
@@ -72,7 +73,6 @@ export const HomePage = () => {
             <DatasSection data={dataInfosData} />
           ) : null}
         </Section>
-
         <Divider spaceVertical={16} horizontalPadding={16} />
         <Section
           title="Próximas O.S. em aberto"
@@ -81,7 +81,8 @@ export const HomePage = () => {
         >
           {isLoadingServiceOrderOpenedList ? (
             <Loader size={64} />
-          ) : serviceOrderOpenedListData ? (
+          ) : serviceOrderOpenedListData &&
+            serviceOrderOpenedListData.length > 0 ? (
             <Carousel
               height={238}
               data={serviceOrderOpenedListData}
@@ -100,7 +101,7 @@ export const HomePage = () => {
               subtitle="Abra uma nova ordem de serviço pelo botão abaixo"
               action={{
                 text: "Cadastrar nova O.S.",
-                onPress: () => console.log("first"),
+                onPress: handleGoToServiceOrdersRegister,
               }}
             />
           )}
@@ -109,7 +110,7 @@ export const HomePage = () => {
         <Section title="Equipamentos na fila" fullwidth>
           {isLoadingEquipmentQueue ? (
             <Loader size={64} />
-          ) : equipmentQueueData ? (
+          ) : equipmentQueueData && equipmentQueueData.length > 0 ? (
             <Carousel
               height={238}
               data={equipmentQueueData}
