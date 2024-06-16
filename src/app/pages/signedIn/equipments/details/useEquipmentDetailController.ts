@@ -18,7 +18,7 @@ export const useEquipmentDetailController = () => {
   const { unexpectedErrorToast } = useToast();
   const { navigate, canGoBack, goBack } = useNavigation<any>();
   const { params } = useRoute<any>();
-  const { equipmentId, customerId } = params;
+  const { equipmentId } = params;
   const queryClient = useQueryClient();
 
   const equipmentService = new EquipmentService();
@@ -54,7 +54,6 @@ export const useEquipmentDetailController = () => {
   const handleGoToUpdateEquipment = () => {
     navigate(SignedInScreens.EQUIPMENTS_UPDATE_FORM, {
       equipmentId,
-      customerId,
     });
   };
 
