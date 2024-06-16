@@ -143,6 +143,7 @@ export const RegisterCustomerForm = ({
         onPress={handleSubmit(
           isEditing ? handleUpdateAddressList : handleIncreaseAddressList
         )}
+        mode="outlined"
       >
         {isEditing ? "Atualizar " : "Adicionar "}
         endereço

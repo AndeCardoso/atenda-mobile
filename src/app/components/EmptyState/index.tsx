@@ -66,7 +66,9 @@ export const EmptyState = ({
         </Text>
       ) : null}
       {!error && action ? (
-        <Button onPress={() => action.onPress()}>{action.text}</Button>
+        <Button onPress={() => action.onPress()} mode="outlined">
+          {action.text}
+        </Button>
       ) : null}
     </Container>
   );
