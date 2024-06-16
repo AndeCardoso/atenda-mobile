@@ -26,13 +26,22 @@ export const EquipmentsPage = () => {
     fetchNextPage,
     textSearch,
     refetch,
-    viewState: { loading, reloading, loadingNextPage, listState },
+    viewState: {
+      loading,
+      reloading,
+      loadingNextPage,
+      listState,
+      isGeneralList,
+    },
   } = useEquipmentsController();
 
   return (
     <Layout
       header="Equipamentos"
       onSearch={onEquipmentSearch}
+      searchPlaceholder={
+        isGeneralList ? "Busca por cliente" : "Busca por apelido"
+      }
       textSearch={textSearch}
       close={handleGoBack}
     >

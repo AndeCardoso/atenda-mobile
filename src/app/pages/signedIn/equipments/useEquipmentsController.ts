@@ -20,6 +20,8 @@ export const useEquipmentsController = () => {
   const queryClient = useQueryClient();
   const { params } = useRoute<any>();
 
+  const isGeneralList = !Boolean(params?.customerId);
+
   const equipmentService = new EquipmentService();
 
   const [equipmentSearch, setEquipmentSearch] = useState("");
@@ -132,6 +134,7 @@ export const useEquipmentsController = () => {
       reloading: isRefetching,
       loadingNextPage: isFetchingNextPage,
       listState,
+      isGeneralList,
     },
   };
 };
