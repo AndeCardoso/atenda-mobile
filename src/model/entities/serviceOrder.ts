@@ -13,6 +13,8 @@ export interface IServiceOrderModel {
   equipment: IEquipmentModel;
   customer: ICustomerModel;
   technician: ITechnicianModel;
+  totalValue: number;
+  opened_at: Date;
   closed_at?: Date;
   created_at?: Date;
   updated_at?: Date;
