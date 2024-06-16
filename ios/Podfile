@@ -37,6 +37,8 @@ prepare_react_native_project!
 #   end
 # end
 
+pod 'react-native-pager-view', :path => '../node_modules/react-native-pager-view'
+
 target 'atendamobile' do
   use_expo_modules!
   config = use_native_modules!
