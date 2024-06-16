@@ -19,7 +19,7 @@ interface IEquipmentCardProps {
 
 export const EquipmentCard = memo(
   ({
-    data: { nickname, brand, model, voltage, accessories, status },
+    data: { nickname, brand, model, voltage, accessories, status, customer },
     footerLabel,
     onPress,
   }: IEquipmentCardProps) => {
@@ -52,6 +52,17 @@ export const EquipmentCard = memo(
           </Row>
           <Divider color="WHITE" />
           <BottomContainer>
+            {customer ? (
+              <>
+                <DisplayField
+                  text="Cliente"
+                  value={customer.name}
+                  color="WHITE"
+                  unbreakable
+                />
+                <Divider color="WHITE" />
+              </>
+            ) : null}
             <Row>
               <DisplayField
                 text="Marca"

@@ -136,6 +136,10 @@ export const useHomeController = () => {
     navigate(SignedInNavigators.CUSTOMERS);
   };
 
+  const handleGoToEquipments = () => {
+    navigate(SignedInNavigators.EQUIPMENTS);
+  };
+
   const handleGoToServiceOrders = () => {
     navigate(SignedInNavigators.SERVICE_ORDERS);
   };
@@ -183,6 +187,13 @@ export const useHomeController = () => {
       icon: "head",
       label: "Clientes",
       onPress: handleGoToCustomers,
+      color: colors.PRIMARY,
+      style: actionStyles,
+    },
+    {
+      icon: "laptop",
+      label: "Equipamentos",
+      onPress: handleGoToEquipments,
       color: colors.PRIMARY,
       style: actionStyles,
     },
