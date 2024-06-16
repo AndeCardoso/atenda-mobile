@@ -5,5 +5,5 @@ export const CardContainer = styled.View`
 `;
 
 export const BottomContainer = styled.View`
-  gap: 16px;
+  gap: 8px;
 `;
