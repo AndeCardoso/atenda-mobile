@@ -12,4 +12,7 @@ export interface IEquipmentModel {
   color?: string;
   accessories?: string;
   status: equipmentStatusEnum;
+  customer?: {
+    name: string;
+  };
 }

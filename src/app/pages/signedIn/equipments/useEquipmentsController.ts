@@ -12,13 +12,15 @@ import { reducePages } from "@utils/reducePages";
 import { requestStateEnum } from "app/constants/requestStates";
 import { useToast } from "@hooks/useToast";
 import { SuperConsole } from "@tools/indentedConsole";
+import { GetEquipmentListRequestDTO } from "@services/equipment/dtos/request/GetEquipmentListRequestDTO";
 
 export const useEquipmentsController = () => {
   const { unexpectedErrorToast } = useToast();
   const { navigate, canGoBack, goBack } = useNavigation<any>();
   const queryClient = useQueryClient();
   const { params } = useRoute<any>();
-  const { customerId } = params;
+
+  const isGeneralList = !Boolean(params?.customerId);
 
   const equipmentService = new EquipmentService();
 
@@ -33,16 +35,18 @@ export const useEquipmentsController = () => {
     isLoading,
     isRefetching,
   } = useInfiniteQuery(
-    ["equipments", equipmentSearch, customerId],
+    ["equipments", equipmentSearch, params?.customerId],
     async ({ pageParam }) => {
-      const { statusCode, body } = await equipmentService.list({
+      const dataParams: GetEquipmentListRequestDTO = {
         limit: 10,
         page: pageParam,
         column: "nickname",
         order: "asc",
         search: equipmentSearch,
-        customerId: customerId,
-      });
+        searchType: params?.customerId ? "nickname" : "customerName",
+        customerId: params?.customerId,
+      };
+      const { statusCode, body } = await equipmentService.list(dataParams);
       switch (statusCode) {
         case HttpStatusCode.Ok:
           return body;
@@ -82,14 +86,14 @@ export const useEquipmentsController = () => {
 
   const handleGoToRegister = () => {
     navigate(SignedInScreens.EQUIPMENTS_REGISTER_FORM, {
-      customerId,
+      customerId: params?.customerId,
     });
   };
 
   const handleGoToDetails = (equipmentId: number) => {
     navigate(SignedInScreens.EQUIPMENTS_DETAILS, {
       equipmentId,
-      customerId,
+      customerId: params?.customerId,
     });
   };
 
@@ -130,6 +134,7 @@ export const useEquipmentsController = () => {
       reloading: isRefetching,
       loadingNextPage: isFetchingNextPage,
       listState,
+      isGeneralList,
     },
   };
 };
