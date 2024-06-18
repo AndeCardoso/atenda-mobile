@@ -83,6 +83,7 @@ export default class ServiceOrderService {
     customer,
     equipment,
     technician,
+    statusFilter,
   }: IPaginationParams<"id" | "status" | "created_at">): Promise<
     HttpResponse<IPaginationResponse<ServiceOrderRegisterResponseDTO>>
   > {
@@ -98,6 +99,7 @@ export default class ServiceOrderService {
         customer,
         equipment,
         technician,
+        status: statusFilter,
       },
     });
   }

@@ -8,6 +8,7 @@ import { reducePages } from "@utils/reducePages";
 import { requestStateEnum } from "app/constants/requestStates";
 import { useToast } from "@hooks/useToast";
 import { SuperConsole } from "@tools/indentedConsole";
+import { technicianStatusEnum } from "./constants";
 
 export const useTechniciansController = () => {
   const { unexpectedErrorToast } = useToast();
@@ -16,6 +17,7 @@ export const useTechniciansController = () => {
 
   const technicianService = new TechnicianService();
 
+  const [statusFilter, setStatusFilter] = useState<technicianStatusEnum>();
   const [technicianSearch, setTechnicianSearch] = useState("");
   const [listState, setListState] = useState<requestStateEnum | undefined>();
 
@@ -27,14 +29,15 @@ export const useTechniciansController = () => {
     isLoading,
     isRefetching,
   } = useInfiniteQuery(
-    ["technicians", technicianSearch],
+    ["technicians", technicianSearch, statusFilter],
     async ({ pageParam }) => {
       const { statusCode, body } = await technicianService.list({
         limit: 10,
-        page: pageParam,
+        page: pageParam ?? 1,
         column: "name",
         order: "asc",
         search: technicianSearch,
+        statusFilter,
       });
       switch (statusCode) {
         case HttpStatusCode.Ok:
@@ -69,6 +72,10 @@ export const useTechniciansController = () => {
     setTechnicianSearch(value ?? "");
   };
 
+  const onFilterStatus = (value?: technicianStatusEnum) => {
+    setStatusFilter(value);
+  };
+
   const handleGoBack = () => {
     canGoBack && goBack();
   };
@@ -90,14 +97,24 @@ export const useTechniciansController = () => {
   );
 
   const emptyStateTexts = {
-    title: technicianSearch
-      ? "Nenhum técnico encontrado"
-      : "Ainda não há clientes",
-    subtitle: !technicianSearch ? "Cadastre novos clientes" : undefined,
+    title:
+      technicianSearch || statusFilter
+        ? "Nenhum técnico encontrado"
+        : "Ainda não há técnicos",
+    subtitle: technicianSearch
+      ? undefined
+      : statusFilter
+      ? "Não há técnicos com este status"
+      : "Cadastre novos técnicos",
     action: technicianSearch
       ? {
           text: "Limpar busca",
           onPress: () => onTechnicianSearch(""),
+        }
+      : statusFilter
+      ? {
+          text: "Limpar filtro",
+          onPress: () => onFilterStatus(),
         }
       : {
           text: "Cadastrar técnico",
@@ -112,8 +129,10 @@ export const useTechniciansController = () => {
     handleGoToRegister,
     handleGoToDetails,
     emptyStateTexts,
+    onFilterStatus,
     fetchNextPage,
     handleGoBack,
+    statusFilter,
     refetch,
     viewState: {
       loading: isLoading,

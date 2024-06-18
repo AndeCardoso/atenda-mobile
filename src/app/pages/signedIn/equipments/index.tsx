@@ -11,6 +11,9 @@ import { EquipmentCard } from "@components/cards/EquipmentCard";
 import { FabGroup } from "@components/base/FAB";
 import { EmptyState } from "@components/EmptyState";
 import { requestStateEnum } from "app/constants/requestStates";
+import { StatusFilter } from "@components/base/StatusFilter";
+import { equipmentStatusList } from "./constants";
+import { Container } from "./styles";
 
 export const EquipmentsPage = () => {
   const { colors } = useTheme();
@@ -23,7 +26,9 @@ export const EquipmentsPage = () => {
     onEquipmentSearch,
     handleGoToDetails,
     emptyStateTexts,
+    onFilterStatus,
     fetchNextPage,
+    statusFilter,
     textSearch,
     refetch,
     viewState: {
@@ -50,7 +55,12 @@ export const EquipmentsPage = () => {
           <Loader size={64} />
         </LoaderBox>
       ) : (
-        <>
+        <Container>
+          <StatusFilter
+            options={equipmentStatusList}
+            selected={statusFilter as number}
+            onSelected={onFilterStatus}
+          />
           <FlatList
             data={equipmentList}
             keyExtractor={(item) => item.serialNumber.toString()}
@@ -96,7 +106,7 @@ export const EquipmentsPage = () => {
             icon="plus"
             onPress={handleGoToRegister}
           />
-        </>
+        </Container>
       )}
     </Layout>
   );

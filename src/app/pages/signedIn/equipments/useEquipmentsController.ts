@@ -13,6 +13,7 @@ import { requestStateEnum } from "app/constants/requestStates";
 import { useToast } from "@hooks/useToast";
 import { SuperConsole } from "@tools/indentedConsole";
 import { GetEquipmentListRequestDTO } from "@services/equipment/dtos/request/GetEquipmentListRequestDTO";
+import { equipmentStatusEnum } from "./constants";
 
 export const useEquipmentsController = () => {
   const { unexpectedErrorToast } = useToast();
@@ -24,6 +25,7 @@ export const useEquipmentsController = () => {
 
   const equipmentService = new EquipmentService();
 
+  const [statusFilter, setStatusFilter] = useState<equipmentStatusEnum>();
   const [equipmentSearch, setEquipmentSearch] = useState("");
   const [listState, setListState] = useState<requestStateEnum | undefined>();
 
@@ -35,16 +37,17 @@ export const useEquipmentsController = () => {
     isLoading,
     isRefetching,
   } = useInfiniteQuery(
-    ["equipments", equipmentSearch, params?.customerId],
+    ["equipments", equipmentSearch, params?.customerId, statusFilter],
     async ({ pageParam }) => {
       const dataParams: GetEquipmentListRequestDTO = {
         limit: 10,
-        page: pageParam,
+        page: pageParam ?? 1,
         column: "nickname",
         order: "asc",
         search: equipmentSearch,
         searchType: params?.customerId ? "nickname" : "customerName",
         customerId: params?.customerId,
+        statusFilter,
       };
       const { statusCode, body } = await equipmentService.list(dataParams);
       switch (statusCode) {
@@ -80,6 +83,10 @@ export const useEquipmentsController = () => {
     setEquipmentSearch(value ?? "");
   };
 
+  const onFilterStatus = (value?: equipmentStatusEnum) => {
+    setStatusFilter(value);
+  };
+
   const handleGoBack = () => {
     canGoBack && goBack();
   };
@@ -104,14 +111,24 @@ export const useEquipmentsController = () => {
   );
 
   const emptyStateTexts = {
-    title: equipmentSearch
-      ? "Nenhum equipamento encontrado"
-      : "Ainda não há equipamentos para este cliente",
-    subtitle: !equipmentSearch ? "Cadastre novos equipamentos" : undefined,
+    title:
+      equipmentSearch || statusFilter
+        ? "Nenhum equipamento encontrado"
+        : "Ainda não há equipamentos para este cliente",
+    subtitle: equipmentSearch
+      ? undefined
+      : statusFilter
+      ? "Não há equipamentos com este status"
+      : "Cadastre novos equipamentos",
     action: equipmentSearch
       ? {
           text: "Limpar busca",
           onPress: () => onEquipmentSearch(""),
+        }
+      : statusFilter
+      ? {
+          text: "Limpar filtro",
+          onPress: () => onFilterStatus(),
         }
       : {
           text: "Cadastrar equipamento",
@@ -126,8 +143,10 @@ export const useEquipmentsController = () => {
     onEquipmentSearch,
     handleGoToDetails,
     emptyStateTexts,
+    onFilterStatus,
     fetchNextPage,
     handleGoBack,
+    statusFilter,
     refetch,
     viewState: {
       loading: isLoading,

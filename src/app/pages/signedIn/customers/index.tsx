@@ -12,6 +12,9 @@ import { ICustomerModel } from "@model/entities/customer";
 import { FabGroup } from "@components/base/FAB";
 import { EmptyState } from "@components/EmptyState";
 import { requestStateEnum } from "app/constants/requestStates";
+import { StatusFilter } from "@components/base/StatusFilter";
+import { customerStatusList } from "./constants";
+import { Container } from "./styles";
 
 export const CustomersPage = () => {
   const { colors } = useTheme();
@@ -24,7 +27,9 @@ export const CustomersPage = () => {
     handleGoToDetails,
     onCustomerSearch,
     emptyStateTexts,
+    onFilterStatus,
     fetchNextPage,
+    statusFilter,
     textSearch,
     refetch,
     viewState: { loading, reloading, loadingNextPage, listState },
@@ -42,7 +47,12 @@ export const CustomersPage = () => {
           <Loader size={64} />
         </LoaderBox>
       ) : (
-        <>
+        <Container>
+          <StatusFilter
+            options={customerStatusList}
+            selected={statusFilter as number}
+            onSelected={onFilterStatus}
+          />
           <FlatList
             data={customerList}
             keyExtractor={(item) => item.id.toString()}
@@ -88,7 +98,7 @@ export const CustomersPage = () => {
             icon="plus"
             onPress={handleGoToRegister}
           />
-        </>
+        </Container>
       )}
     </Layout>
   );

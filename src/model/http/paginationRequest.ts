@@ -7,6 +7,7 @@ export interface IPaginationParams<T> {
   customer?: number;
   equipment?: number;
   technician?: number;
+  statusFilter?: number;
 }
 
 export type TOrderTypes = "asc" | "desc";

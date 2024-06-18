@@ -11,6 +11,9 @@ import { FabGroup } from "@components/base/FAB";
 import { EmptyState } from "@components/EmptyState";
 import { requestStateEnum } from "app/constants/requestStates";
 import { ServiceOrderCard } from "@components/cards/ServiceOrderCard";
+import { StatusFilter } from "@components/base/StatusFilter";
+import { serviceOrderStatusList } from "./constants";
+import { Container } from "./styles";
 
 export const ServiceOrdersPage = () => {
   const { colors } = useTheme();
@@ -23,7 +26,9 @@ export const ServiceOrdersPage = () => {
     handleGoToRegister,
     handleGoToDetails,
     emptyStateTexts,
+    onFilterStatus,
     fetchNextPage,
+    statusFilter,
     textSearch,
     refetch,
     viewState: {
@@ -48,7 +53,12 @@ export const ServiceOrdersPage = () => {
           <Loader size={64} />
         </LoaderBox>
       ) : (
-        <>
+        <Container>
+          <StatusFilter
+            options={serviceOrderStatusList}
+            selected={statusFilter as number}
+            onSelected={onFilterStatus}
+          />
           <FlatList
             data={serviceOrderList}
             showsVerticalScrollIndicator={false}
@@ -59,7 +69,7 @@ export const ServiceOrdersPage = () => {
               loadingNextPage ? (
                 <Loader size={62} padding={64} />
               ) : (
-                <Spacer spaceVertical={64} />
+                <Spacer spaceVertical={128} />
               )
             }
             ListEmptyComponent={() => (
@@ -96,7 +106,7 @@ export const ServiceOrdersPage = () => {
               onPress={handleGoToRegister}
             />
           ) : null}
-        </>
+        </Container>
       )}
     </Layout>
   );

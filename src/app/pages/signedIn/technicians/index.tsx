@@ -11,6 +11,9 @@ import { TechnicianCard } from "@components/cards/TechnicianCard";
 import { FabGroup } from "@components/base/FAB";
 import { EmptyState } from "@components/EmptyState";
 import { requestStateEnum } from "app/constants/requestStates";
+import { StatusFilter } from "@components/base/StatusFilter";
+import { technicianStatusList } from "./constants";
+import { Container } from "./styles";
 
 export const TechniciansPage = () => {
   const { colors } = useTheme();
@@ -23,7 +26,9 @@ export const TechniciansPage = () => {
     onTechnicianSearch,
     handleGoToDetails,
     emptyStateTexts,
+    onFilterStatus,
     fetchNextPage,
+    statusFilter,
     textSearch,
     refetch,
     viewState: { loading, reloading, loadingNextPage, listState },
@@ -41,7 +46,12 @@ export const TechniciansPage = () => {
           <Loader size={64} />
         </LoaderBox>
       ) : (
-        <>
+        <Container>
+          <StatusFilter
+            options={technicianStatusList}
+            selected={statusFilter as number}
+            onSelected={onFilterStatus}
+          />
           <FlatList
             data={technicianList}
             keyExtractor={(item) => item.cpf.toString()}
@@ -52,7 +62,7 @@ export const TechniciansPage = () => {
               loadingNextPage ? (
                 <Loader size={62} padding={64} />
               ) : (
-                <Spacer spaceVertical={64} />
+                <Spacer spaceVertical={128} />
               )
             }
             ListEmptyComponent={() => (
@@ -87,7 +97,7 @@ export const TechniciansPage = () => {
             icon="plus"
             onPress={handleGoToRegister}
           />
-        </>
+        </Container>
       )}
     </Layout>
   );
