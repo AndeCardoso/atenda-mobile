@@ -5,7 +5,7 @@ import { Row } from "@components/base/Row";
 import { Chip } from "@components/base/Chip";
 import { Divider } from "@components/base/Separator";
 import { DisplayField } from "@components/base/DisplayField";
-import { formatCellphoneNumber, formatCpf } from "@utils/formatString";
+import { formatCellphoneNumber, formatDocument } from "@utils/formatString";
 import { customerStatusDisplay } from "@pages/signedIn/customers/constants";
 import { BottomContainer, CardContainer } from "./styles";
 import { GestureResponderEvent } from "react-native";
@@ -55,7 +55,7 @@ export const CustomerCard = memo(
           <BottomContainer>
             <DisplayField
               text="Documento"
-              value={formatCpf(document)}
+              value={formatDocument(document)}
               color="WHITE"
             />
             <Row>

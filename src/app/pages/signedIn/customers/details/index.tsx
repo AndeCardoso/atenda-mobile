@@ -1,15 +1,10 @@
 import React from "react";
 import { Layout } from "@components/Layout";
-import { useTheme } from "styled-components";
 import { useCustomerDetailController } from "./useCustomerDetailController";
 import { Text } from "@components/base/Text";
-import {
-  formatCellphoneNumber,
-  formatCep,
-  formatCpf,
-} from "@utils/formatString";
+import { formatCellphoneNumber, formatDocument } from "@utils/formatString";
 import { DisplayField } from "@components/base/DisplayField";
-import { AddressContent, Container } from "./styles";
+import { Container } from "./styles";
 import { Row } from "@components/base/Row";
 import { Spacer } from "@components/base/Spacer";
 import { Icon } from "@components/base/Icon";
@@ -17,7 +12,6 @@ import { Divider } from "@components/base/Separator";
 import { Loader } from "@components/base/Loader";
 import { useIsFocused } from "@react-navigation/native";
 import { customerStatusDisplay } from "../constants";
-import { Accordion } from "@components/base/Accordion";
 import { Chip } from "@components/base/Chip";
 import { FabGroup } from "@components/base/FAB";
 import { AddressAccordion } from "@components/accordions/AddressAccordion";
@@ -59,7 +53,7 @@ export const CustomerDetailPage = () => {
             <Divider />
             <DisplayField
               text="Documento"
-              value={formatCpf(customerData?.document)}
+              value={formatDocument(customerData?.document)}
               hasCopy
             />
             <Divider />
