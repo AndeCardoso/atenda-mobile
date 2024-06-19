@@ -85,9 +85,7 @@ export const SelectEquipmentPage = () => {
             ) : undefined
           }
           renderItem={({ item }) => {
-            const disabled =
-              item.status === equipmentStatusEnum.IN_LINE ||
-              item.status === equipmentStatusEnum.ON_BENCH;
+            const disabled = item.status === equipmentStatusEnum.ON_BENCH;
             return (
               <EquipmentCard
                 data={item as Partial<IEquipmentModel>}
