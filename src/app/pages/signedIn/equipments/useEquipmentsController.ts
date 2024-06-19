@@ -25,7 +25,7 @@ export const useEquipmentsController = () => {
 
   const equipmentService = new EquipmentService();
 
-  const [statusFilter, setStatusFilter] = useState<equipmentStatusEnum>();
+  const [statusFilter, setStatusFilter] = useState<equipmentStatusEnum[]>();
   const [equipmentSearch, setEquipmentSearch] = useState("");
   const [listState, setListState] = useState<requestStateEnum | undefined>();
 
@@ -83,8 +83,12 @@ export const useEquipmentsController = () => {
     setEquipmentSearch(value ?? "");
   };
 
-  const onFilterStatus = (value?: equipmentStatusEnum) => {
-    setStatusFilter(value);
+  const onFilterStatus = (value: equipmentStatusEnum) => {
+    if (statusFilter && statusFilter?.length > 0 && value === statusFilter[0]) {
+      setStatusFilter(undefined);
+    } else {
+      setStatusFilter([value]);
+    }
   };
 
   const handleGoBack = () => {
@@ -146,7 +150,10 @@ export const useEquipmentsController = () => {
     onFilterStatus,
     fetchNextPage,
     handleGoBack,
-    statusFilter,
+    statusFilter:
+      statusFilter && statusFilter.length > 0
+        ? (statusFilter[0] as number)
+        : undefined,
     refetch,
     viewState: {
       loading: isLoading,

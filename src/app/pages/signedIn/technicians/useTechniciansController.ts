@@ -17,7 +17,7 @@ export const useTechniciansController = () => {
 
   const technicianService = new TechnicianService();
 
-  const [statusFilter, setStatusFilter] = useState<technicianStatusEnum>();
+  const [statusFilter, setStatusFilter] = useState<technicianStatusEnum[]>();
   const [technicianSearch, setTechnicianSearch] = useState("");
   const [listState, setListState] = useState<requestStateEnum | undefined>();
 
@@ -72,8 +72,12 @@ export const useTechniciansController = () => {
     setTechnicianSearch(value ?? "");
   };
 
-  const onFilterStatus = (value?: technicianStatusEnum) => {
-    setStatusFilter(value);
+  const onFilterStatus = (value: technicianStatusEnum) => {
+    if (statusFilter && statusFilter?.length > 0 && value === statusFilter[0]) {
+      setStatusFilter(undefined);
+    } else {
+      setStatusFilter([value]);
+    }
   };
 
   const handleGoBack = () => {
@@ -132,7 +136,10 @@ export const useTechniciansController = () => {
     onFilterStatus,
     fetchNextPage,
     handleGoBack,
-    statusFilter,
+    statusFilter:
+      statusFilter && statusFilter.length > 0
+        ? (statusFilter[0] as number)
+        : undefined,
     refetch,
     viewState: {
       loading: isLoading,

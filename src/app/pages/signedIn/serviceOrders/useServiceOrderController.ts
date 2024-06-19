@@ -25,7 +25,7 @@ export const useServiceOrderController = () => {
 
   const serviceOrderService = new ServiceOrderService();
 
-  const [statusFilter, setStatusFilter] = useState<serviceOrderStatusEnum>();
+  const [statusFilter, setStatusFilter] = useState<serviceOrderStatusEnum[]>();
   const [serviceOrderSearch, setServiceOrderSearch] = useState("");
   const [listState, setListState] = useState<requestStateEnum | undefined>();
 
@@ -81,8 +81,12 @@ export const useServiceOrderController = () => {
     setServiceOrderSearch(value ?? "");
   };
 
-  const onFilterStatus = (value?: serviceOrderStatusEnum) => {
-    setStatusFilter(value);
+  const onFilterStatus = (value: serviceOrderStatusEnum) => {
+    if (statusFilter && statusFilter?.length > 0 && value === statusFilter[0]) {
+      setStatusFilter(undefined);
+    } else {
+      setStatusFilter([value]);
+    }
   };
 
   const handleGoBack = () => {
@@ -142,7 +146,10 @@ export const useServiceOrderController = () => {
     emptyStateTexts,
     onFilterStatus,
     fetchNextPage,
-    statusFilter,
+    statusFilter:
+      statusFilter && statusFilter.length > 0
+        ? (statusFilter[0] as number)
+        : undefined,
     handleGoBack,
     refetch,
     viewState: {

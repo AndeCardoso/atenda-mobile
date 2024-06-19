@@ -17,7 +17,9 @@ export const useCustomersController = () => {
 
   const customerService = new CustomerService();
 
-  const [statusFilter, setStatusFilter] = useState<customerStatusEnum>();
+  const [statusFilter, setStatusFilter] = useState<
+    customerStatusEnum[] | undefined
+  >();
   const [customersSearch, setCustomerSearch] = useState("");
   const [listState, setListState] = useState<requestStateEnum | undefined>();
 
@@ -72,8 +74,12 @@ export const useCustomersController = () => {
     setCustomerSearch(value ?? "");
   };
 
-  const onFilterStatus = (value?: customerStatusEnum) => {
-    setStatusFilter(value);
+  const onFilterStatus = (value: customerStatusEnum) => {
+    if (statusFilter && statusFilter?.length > 0 && value === statusFilter[0]) {
+      setStatusFilter(undefined);
+    } else {
+      setStatusFilter([value]);
+    }
   };
 
   const handleGoBack = () => {
@@ -127,7 +133,10 @@ export const useCustomersController = () => {
     onFilterStatus,
     fetchNextPage,
     handleGoBack,
-    statusFilter,
+    statusFilter:
+      statusFilter && statusFilter.length > 0
+        ? (statusFilter[0] as number)
+        : undefined,
     refetch,
     viewState: {
       loading: isLoading,

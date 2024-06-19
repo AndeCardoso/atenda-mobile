@@ -42,64 +42,66 @@ export const CustomersPage = () => {
       textSearch={textSearch}
       close={handleGoBack}
     >
-      {loading ? (
-        <LoaderBox>
-          <Loader size={64} />
-        </LoaderBox>
-      ) : (
-        <Container>
-          <StatusFilter
-            options={customerStatusList}
-            selected={statusFilter as number}
-            onSelected={onFilterStatus}
-          />
-          <FlatList
-            data={customerList}
-            keyExtractor={(item) => item.id.toString()}
-            ItemSeparatorComponent={() => <Spacer spaceVertical={16} />}
-            contentContainerStyle={{ padding: 16 }}
-            ListFooterComponent={() =>
-              loadingNextPage ? (
-                <Loader size={62} padding={64} />
-              ) : (
-                <Spacer spaceVertical={64} />
-              )
-            }
-            onEndReached={() => fetchNextPage()}
-            showsVerticalScrollIndicator={false}
-            ListEmptyComponent={() => (
-              <EmptyState
-                title={emptyStateTexts.title}
-                subtitle={emptyStateTexts.subtitle}
-                action={emptyStateTexts.action}
-                error={listState === requestStateEnum.ERROR}
-              />
-            )}
-            refreshControl={
-              !reloading ? (
-                <RefreshControl
-                  onRefresh={refetch}
-                  refreshing={reloading}
-                  tintColor={colors.PRIMARY}
+      <Container>
+        <StatusFilter
+          options={customerStatusList}
+          selected={statusFilter as number}
+          onSelected={onFilterStatus}
+        />
+        {loading ? (
+          <LoaderBox>
+            <Loader size={64} />
+          </LoaderBox>
+        ) : (
+          <>
+            <FlatList
+              data={customerList}
+              keyExtractor={(item) => item.id.toString()}
+              ItemSeparatorComponent={() => <Spacer spaceVertical={16} />}
+              contentContainerStyle={{ padding: 16 }}
+              ListFooterComponent={() =>
+                loadingNextPage ? (
+                  <Loader size={62} padding={64} />
+                ) : (
+                  <Spacer spaceVertical={64} />
+                )
+              }
+              onEndReached={() => fetchNextPage()}
+              showsVerticalScrollIndicator={false}
+              ListEmptyComponent={() => (
+                <EmptyState
+                  title={emptyStateTexts.title}
+                  subtitle={emptyStateTexts.subtitle}
+                  action={emptyStateTexts.action}
+                  error={listState === requestStateEnum.ERROR}
                 />
-              ) : undefined
-            }
-            renderItem={({ item }) => (
-              <CustomerCard
-                data={item as Partial<ICustomerModel>}
-                footerLabel="Detalhes"
-                onPress={() => handleGoToDetails(item.id)}
-              />
-            )}
-          />
-          <FabGroup
-            isSingle
-            isFocused={isFocused}
-            icon="plus"
-            onPress={handleGoToRegister}
-          />
-        </Container>
-      )}
+              )}
+              refreshControl={
+                !reloading ? (
+                  <RefreshControl
+                    onRefresh={refetch}
+                    refreshing={reloading}
+                    tintColor={colors.PRIMARY}
+                  />
+                ) : undefined
+              }
+              renderItem={({ item }) => (
+                <CustomerCard
+                  data={item as Partial<ICustomerModel>}
+                  footerLabel="Detalhes"
+                  onPress={() => handleGoToDetails(item.id)}
+                />
+              )}
+            />
+            <FabGroup
+              isSingle
+              isFocused={isFocused}
+              icon="plus"
+              onPress={handleGoToRegister}
+            />
+          </>
+        )}
+      </Container>
     </Layout>
   );
 };

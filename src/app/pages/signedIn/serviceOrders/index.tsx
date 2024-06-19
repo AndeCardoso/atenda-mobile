@@ -48,66 +48,68 @@ export const ServiceOrdersPage = () => {
       textSearch={textSearch}
       close={handleGoBack}
     >
-      {loading ? (
-        <LoaderBox>
-          <Loader size={64} />
-        </LoaderBox>
-      ) : (
-        <Container>
-          <StatusFilter
-            options={serviceOrderStatusList}
-            selected={statusFilter as number}
-            onSelected={onFilterStatus}
-          />
-          <FlatList
-            data={serviceOrderList}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ padding: 16 }}
-            keyExtractor={(item) => item.id.toString()}
-            ItemSeparatorComponent={() => <Spacer spaceVertical={16} />}
-            ListFooterComponent={() =>
-              loadingNextPage ? (
-                <Loader size={62} padding={64} />
-              ) : (
-                <Spacer spaceVertical={128} />
-              )
-            }
-            ListEmptyComponent={() => (
-              <EmptyState
-                title={emptyStateTexts.title}
-                subtitle={emptyStateTexts.subtitle}
-                action={emptyStateTexts.action}
-                error={listState === requestStateEnum.ERROR}
-              />
-            )}
-            onEndReached={() => fetchNextPage()}
-            refreshControl={
-              !reloading ? (
-                <RefreshControl
-                  onRefresh={refetch}
-                  refreshing={reloading}
-                  tintColor={colors.PRIMARY}
+      <Container>
+        <StatusFilter
+          options={serviceOrderStatusList}
+          selected={statusFilter as number}
+          onSelected={onFilterStatus}
+        />
+        {loading ? (
+          <LoaderBox>
+            <Loader size={64} />
+          </LoaderBox>
+        ) : (
+          <>
+            <FlatList
+              data={serviceOrderList}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{ padding: 16 }}
+              keyExtractor={(item) => item.id.toString()}
+              ItemSeparatorComponent={() => <Spacer spaceVertical={16} />}
+              ListFooterComponent={() =>
+                loadingNextPage ? (
+                  <Loader size={62} padding={64} />
+                ) : (
+                  <Spacer spaceVertical={128} />
+                )
+              }
+              ListEmptyComponent={() => (
+                <EmptyState
+                  title={emptyStateTexts.title}
+                  subtitle={emptyStateTexts.subtitle}
+                  action={emptyStateTexts.action}
+                  error={listState === requestStateEnum.ERROR}
                 />
-              ) : undefined
-            }
-            renderItem={({ item }) => (
-              <ServiceOrderCard
-                data={item}
-                onPress={() => handleGoToDetails(item.id)}
-                footerLabel="Detalhes"
-              />
-            )}
-          />
-          {showNewRegisterButton ? (
-            <FabGroup
-              isSingle
-              isFocused={isFocused}
-              icon="plus"
-              onPress={handleGoToRegister}
+              )}
+              onEndReached={() => fetchNextPage()}
+              refreshControl={
+                !reloading ? (
+                  <RefreshControl
+                    onRefresh={refetch}
+                    refreshing={reloading}
+                    tintColor={colors.PRIMARY}
+                  />
+                ) : undefined
+              }
+              renderItem={({ item }) => (
+                <ServiceOrderCard
+                  data={item}
+                  onPress={() => handleGoToDetails(item.id)}
+                  footerLabel="Detalhes"
+                />
+              )}
             />
-          ) : null}
-        </Container>
-      )}
+            {showNewRegisterButton ? (
+              <FabGroup
+                isSingle
+                isFocused={isFocused}
+                icon="plus"
+                onPress={handleGoToRegister}
+              />
+            ) : null}
+          </>
+        )}
+      </Container>
     </Layout>
   );
 };
