@@ -129,7 +129,7 @@ export const ServiceForm = ({
             hasNickname
             hasNoHeader
           />
-          <Button onPress={handleSubmit(handleSaveNewAddress)}>
+          <Button mode="outlined" onPress={handleSubmit(handleSaveNewAddress)}>
             Usar novo endereço
           </Button>
           <HelperText type="error" visible={newAddressError}>
