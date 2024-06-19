@@ -10,6 +10,7 @@ import { CustomerCard } from "@components/cards/CustomerCard";
 import { ICustomerModel } from "@model/entities/customer";
 import { EmptyState } from "@components/EmptyState";
 import { requestStateEnum } from "app/constants/requestStates";
+import { customerStatusEnum } from "@pages/signedIn/customers/constants";
 
 export const SelectCustomerPage = () => {
   const { colors } = useTheme();
@@ -74,13 +75,17 @@ export const SelectCustomerPage = () => {
               />
             ) : undefined
           }
-          renderItem={({ item }) => (
-            <CustomerCard
-              data={item as Partial<ICustomerModel>}
-              footerLabel="Selecionar"
-              onPress={() => handleSelect(item)}
-            />
-          )}
+          renderItem={({ item }) => {
+            const disabled = item.status === customerStatusEnum.DEFAULTER;
+            return (
+              <CustomerCard
+                data={item as Partial<ICustomerModel>}
+                footerLabel="Selecionar"
+                onPress={() => handleSelect(item)}
+                disabled={disabled}
+              />
+            );
+          }}
         />
       )}
     </Layout>

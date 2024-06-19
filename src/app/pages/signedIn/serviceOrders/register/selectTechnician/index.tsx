@@ -11,6 +11,7 @@ import { ITechnicianModel } from "@model/entities/technician";
 import { EmptyState } from "@components/EmptyState";
 import { requestStateEnum } from "app/constants/requestStates";
 import { AbandonmentModal } from "../../components/AbandonmentModal";
+import { technicianStatusEnum } from "@pages/signedIn/technicians/constants";
 
 export const SelectTechnicianPage = () => {
   const { colors } = useTheme();
@@ -83,13 +84,19 @@ export const SelectTechnicianPage = () => {
               />
             ) : undefined
           }
-          renderItem={({ item }) => (
-            <TechnicianCard
-              data={item as Partial<ITechnicianModel>}
-              footerLabel="Selecionar"
-              onPress={() => handleSelect(item)}
-            />
-          )}
+          renderItem={({ item }) => {
+            const disabled =
+              item.status === technicianStatusEnum.EXONERATED ||
+              item.status === technicianStatusEnum.OFF;
+            return (
+              <TechnicianCard
+                data={item as Partial<ITechnicianModel>}
+                footerLabel="Selecionar"
+                onPress={() => handleSelect(item)}
+                disabled={disabled}
+              />
+            );
+          }}
         />
       )}
       <AbandonmentModal

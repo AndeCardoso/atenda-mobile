@@ -14,6 +14,7 @@ import { IEquipmentModel } from "@model/entities/equipment";
 interface IEquipmentCardProps {
   data: Partial<IEquipmentModel>;
   footerLabel?: string;
+  disabled?: boolean;
   onPress?: (e: GestureResponderEvent) => void;
 }
 
@@ -21,6 +22,7 @@ export const EquipmentCard = memo(
   ({
     data: { nickname, brand, model, voltage, accessories, status, customer },
     footerLabel,
+    disabled,
     onPress,
   }: IEquipmentCardProps) => {
     const { colors } = useTheme();
@@ -29,6 +31,7 @@ export const EquipmentCard = memo(
         footerLabel={footerLabel}
         onPress={onPress && onPress}
         style={{ backgroundColor: colors.SECONDARY_INACTIVE }}
+        disabled={disabled}
       >
         <CardContainer>
           <Row space="space-between">

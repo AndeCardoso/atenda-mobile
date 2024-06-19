@@ -11,6 +11,7 @@ import { IEquipmentModel } from "@model/entities/equipment";
 import { EmptyState } from "@components/EmptyState";
 import { requestStateEnum } from "app/constants/requestStates";
 import { AbandonmentModal } from "../../components/AbandonmentModal";
+import { equipmentStatusEnum } from "@pages/signedIn/equipments/constants";
 
 export const SelectEquipmentPage = () => {
   const { colors } = useTheme();
@@ -83,13 +84,19 @@ export const SelectEquipmentPage = () => {
               />
             ) : undefined
           }
-          renderItem={({ item }) => (
-            <EquipmentCard
-              data={item as Partial<IEquipmentModel>}
-              footerLabel="Selecionar"
-              onPress={() => handleSelect(item)}
-            />
-          )}
+          renderItem={({ item }) => {
+            const disabled =
+              item.status === equipmentStatusEnum.IN_LINE ||
+              item.status === equipmentStatusEnum.ON_BENCH;
+            return (
+              <EquipmentCard
+                data={item as Partial<IEquipmentModel>}
+                footerLabel="Selecionar"
+                onPress={() => handleSelect(item)}
+                disabled={disabled}
+              />
+            );
+          }}
         />
       )}
       <AbandonmentModal

@@ -15,6 +15,7 @@ import { ICustomerModel } from "@model/entities/customer";
 interface ICustomerCardProps {
   data: Partial<ICustomerModel>;
   footerLabel?: string;
+  disabled?: boolean;
   onPress?: (e: GestureResponderEvent) => void;
 }
 
@@ -22,6 +23,7 @@ export const CustomerCard = memo(
   ({
     data: { name, document, phone, email, status },
     footerLabel,
+    disabled,
     onPress,
   }: ICustomerCardProps) => {
     const { colors } = useTheme();
@@ -30,6 +32,7 @@ export const CustomerCard = memo(
         footerLabel={footerLabel}
         onPress={onPress && onPress}
         style={{ backgroundColor: colors.SECONDARY_INACTIVE }}
+        disabled={disabled}
       >
         <CardContainer>
           <Row space="space-between">
