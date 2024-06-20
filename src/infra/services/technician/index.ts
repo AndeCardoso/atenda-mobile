@@ -46,13 +46,16 @@ export default class TechnicianService {
     column,
     order,
     search,
+    statusFilter,
   }: IPaginationParams<"name" | "cpf">): Promise<
     HttpResponse<IPaginationResponse<TechnicianRegisterResponseDTO>>
   > {
+    const filter = statusFilter && statusFilter[0];
+
     return await new AxiosHttpClient().request({
       method: "get",
       url: "technician/list",
-      params: { limit, page, column, order, search },
+      params: { limit, page, column, order, search, status: filter },
     });
   }
 }

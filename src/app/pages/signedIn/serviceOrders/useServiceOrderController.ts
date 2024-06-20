@@ -13,6 +13,7 @@ import { useToast } from "@hooks/useToast";
 import ServiceOrderService from "@services/serviceOrder";
 import { RegisterServiceOrderScreens } from "./navigators";
 import { SuperConsole } from "@tools/indentedConsole";
+import { serviceOrderStatusEnum } from "./constants";
 
 export const useServiceOrderController = () => {
   const { unexpectedErrorToast } = useToast();
@@ -24,6 +25,7 @@ export const useServiceOrderController = () => {
 
   const serviceOrderService = new ServiceOrderService();
 
+  const [statusFilter, setStatusFilter] = useState<serviceOrderStatusEnum[]>();
   const [serviceOrderSearch, setServiceOrderSearch] = useState("");
   const [listState, setListState] = useState<requestStateEnum | undefined>();
 
@@ -35,15 +37,16 @@ export const useServiceOrderController = () => {
     isRefetching,
     isFetchingNextPage,
   } = useInfiniteQuery(
-    ["serviceOrders", serviceOrderSearch, id, filteredBy],
+    ["serviceOrders", serviceOrderSearch, id, filteredBy, statusFilter],
     async ({ pageParam }) => {
       const { statusCode, body } = await serviceOrderService.list({
         limit: 10,
-        page: pageParam,
+        page: pageParam ?? 1,
         column: "created_at",
         order: "desc",
         search: serviceOrderSearch,
         [filteredBy]: id,
+        statusFilter,
       });
       switch (statusCode) {
         case HttpStatusCode.Ok:
@@ -78,6 +81,14 @@ export const useServiceOrderController = () => {
     setServiceOrderSearch(value ?? "");
   };
 
+  const onFilterStatus = (value: serviceOrderStatusEnum) => {
+    if (statusFilter && statusFilter?.length > 0 && value === statusFilter[0]) {
+      setStatusFilter(undefined);
+    } else {
+      setStatusFilter([value]);
+    }
+  };
+
   const handleGoBack = () => {
     canGoBack && goBack();
   };
@@ -101,16 +112,24 @@ export const useServiceOrderController = () => {
   );
 
   const emptyStateTexts = {
-    title: serviceOrderSearch
-      ? "Nenhuma ordem de serviço encontrado"
-      : "Ainda não há ordem de serviços",
-    subtitle: !serviceOrderSearch
-      ? "Cadastre novas ordem de serviços"
-      : undefined,
+    title:
+      serviceOrderSearch || statusFilter
+        ? "Nenhuma O.S. encontrada"
+        : "Ainda não há ordem de serviços",
+    subtitle: serviceOrderSearch
+      ? undefined
+      : statusFilter
+      ? "Não há O.S. com este status"
+      : "Cadastre novas ordens de serviço",
     action: serviceOrderSearch
       ? {
           text: "Limpar busca",
           onPress: () => onServiceOrderSearch(""),
+        }
+      : statusFilter
+      ? {
+          text: "Limpar filtro",
+          onPress: () => onFilterStatus(),
         }
       : {
           text: "Cadastrar ordem de serviço",
@@ -125,7 +144,12 @@ export const useServiceOrderController = () => {
     handleGoToRegister,
     handleGoToDetails,
     emptyStateTexts,
+    onFilterStatus,
     fetchNextPage,
+    statusFilter:
+      statusFilter && statusFilter.length > 0
+        ? (statusFilter[0] as number)
+        : undefined,
     handleGoBack,
     refetch,
     viewState: {

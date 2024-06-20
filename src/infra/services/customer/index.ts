@@ -46,13 +46,15 @@ export default class CustomerService {
     column,
     order,
     search,
+    statusFilter,
   }: IPaginationParams<"name" | "document">): Promise<
     HttpResponse<IPaginationResponse<CustomerRegisterResponseDTO>>
   > {
+    const filter = statusFilter && statusFilter[0];
     return await new AxiosHttpClient().request({
       method: "get",
       url: "customer/list",
-      params: { limit, page, column, order, search },
+      params: { limit, page, column, order, search, status: filter },
     });
   }
 }

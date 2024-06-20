@@ -18,6 +18,7 @@ import { useTheme } from "styled-components";
 interface ITechnicianCardProps {
   data: Partial<ITechnicianModel>;
   footerLabel?: string;
+  disabled?: boolean;
   onPress?: (e: GestureResponderEvent) => void;
 }
 
@@ -25,6 +26,7 @@ export const TechnicianCard = memo(
   ({
     data: { name, cpf, phone, position, status },
     footerLabel,
+    disabled,
     onPress,
   }: ITechnicianCardProps) => {
     const { colors } = useTheme();
@@ -33,6 +35,7 @@ export const TechnicianCard = memo(
         footerLabel={footerLabel}
         onPress={onPress && onPress}
         style={{ backgroundColor: colors.SECONDARY_INACTIVE }}
+        disabled={disabled}
       >
         <CardContainer>
           <Row space="space-between">

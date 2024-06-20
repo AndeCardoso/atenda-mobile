@@ -10,6 +10,7 @@ interface ICardProps extends PropsWithChildren {
   color?: Colors;
   style?: StyleProp<ViewStyle>;
   footerLabel?: string;
+  disabled?: boolean;
   onPress?: (e: GestureResponderEvent) => void;
 }
 
@@ -18,6 +19,7 @@ export const Card = ({
   onPress,
   style,
   footerLabel,
+  disabled,
   color = "PRIMARY",
 }: ICardProps) => {
   const { colors } = useTheme();
@@ -26,12 +28,17 @@ export const Card = ({
     backgroundColor: colors.SECONDARY_INACTIVE,
     borderRadius: 8,
     borderLeftWidth: 6,
-    borderLeftColor: colors[color],
+    borderLeftColor: colors[disabled ? "ALERT" : color],
+    opacity: disabled ? 0.6 : 1,
     ...(style as object),
   };
 
   return (
-    <Container style={styles} onPress={onPress && onPress}>
+    <Container
+      style={styles}
+      onPress={onPress && !disabled ? onPress : undefined}
+      disabled={disabled}
+    >
       {children}
       {footerLabel ? (
         <ButtonLabel>

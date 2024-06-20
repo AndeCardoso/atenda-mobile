@@ -12,6 +12,9 @@ import { ICustomerModel } from "@model/entities/customer";
 import { FabGroup } from "@components/base/FAB";
 import { EmptyState } from "@components/EmptyState";
 import { requestStateEnum } from "app/constants/requestStates";
+import { StatusFilter } from "@components/base/StatusFilter";
+import { customerStatusList } from "./constants";
+import { Container } from "./styles";
 
 export const CustomersPage = () => {
   const { colors } = useTheme();
@@ -24,7 +27,9 @@ export const CustomersPage = () => {
     handleGoToDetails,
     onCustomerSearch,
     emptyStateTexts,
+    onFilterStatus,
     fetchNextPage,
+    statusFilter,
     textSearch,
     refetch,
     viewState: { loading, reloading, loadingNextPage, listState },
@@ -37,59 +42,66 @@ export const CustomersPage = () => {
       textSearch={textSearch}
       close={handleGoBack}
     >
-      {loading ? (
-        <LoaderBox>
-          <Loader size={64} />
-        </LoaderBox>
-      ) : (
-        <>
-          <FlatList
-            data={customerList}
-            keyExtractor={(item) => item.id.toString()}
-            ItemSeparatorComponent={() => <Spacer spaceVertical={16} />}
-            contentContainerStyle={{ padding: 16 }}
-            ListFooterComponent={() =>
-              loadingNextPage ? (
-                <Loader size={62} padding={64} />
-              ) : (
-                <Spacer spaceVertical={64} />
-              )
-            }
-            onEndReached={() => fetchNextPage()}
-            showsVerticalScrollIndicator={false}
-            ListEmptyComponent={() => (
-              <EmptyState
-                title={emptyStateTexts.title}
-                subtitle={emptyStateTexts.subtitle}
-                action={emptyStateTexts.action}
-                error={listState === requestStateEnum.ERROR}
-              />
-            )}
-            refreshControl={
-              !reloading ? (
-                <RefreshControl
-                  onRefresh={refetch}
-                  refreshing={reloading}
-                  tintColor={colors.PRIMARY}
+      <Container>
+        <StatusFilter
+          options={customerStatusList}
+          selected={statusFilter as number}
+          onSelected={onFilterStatus}
+        />
+        {loading ? (
+          <LoaderBox>
+            <Loader size={64} />
+          </LoaderBox>
+        ) : (
+          <>
+            <FlatList
+              data={customerList}
+              keyExtractor={(item) => item.id.toString()}
+              ItemSeparatorComponent={() => <Spacer spaceVertical={16} />}
+              contentContainerStyle={{ padding: 16 }}
+              ListFooterComponent={() =>
+                loadingNextPage ? (
+                  <Loader size={62} padding={64} />
+                ) : (
+                  <Spacer spaceVertical={64} />
+                )
+              }
+              onEndReached={() => fetchNextPage()}
+              showsVerticalScrollIndicator={false}
+              ListEmptyComponent={() => (
+                <EmptyState
+                  title={emptyStateTexts.title}
+                  subtitle={emptyStateTexts.subtitle}
+                  action={emptyStateTexts.action}
+                  error={listState === requestStateEnum.ERROR}
                 />
-              ) : undefined
-            }
-            renderItem={({ item }) => (
-              <CustomerCard
-                data={item as Partial<ICustomerModel>}
-                footerLabel="Detalhes"
-                onPress={() => handleGoToDetails(item.id)}
-              />
-            )}
-          />
-          <FabGroup
-            isSingle
-            isFocused={isFocused}
-            icon="plus"
-            onPress={handleGoToRegister}
-          />
-        </>
-      )}
+              )}
+              refreshControl={
+                !reloading ? (
+                  <RefreshControl
+                    onRefresh={refetch}
+                    refreshing={reloading}
+                    tintColor={colors.PRIMARY}
+                  />
+                ) : undefined
+              }
+              renderItem={({ item }) => (
+                <CustomerCard
+                  data={item as Partial<ICustomerModel>}
+                  footerLabel="Detalhes"
+                  onPress={() => handleGoToDetails(item.id)}
+                />
+              )}
+            />
+            <FabGroup
+              isSingle
+              isFocused={isFocused}
+              icon="plus"
+              onPress={handleGoToRegister}
+            />
+          </>
+        )}
+      </Container>
     </Layout>
   );
 };

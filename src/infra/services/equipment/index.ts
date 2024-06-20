@@ -44,14 +44,26 @@ export default class EquipmentService {
     order,
     search,
     searchType,
+    statusFilter,
     customerId,
   }: GetEquipmentListRequestDTO): Promise<
     HttpResponse<IPaginationResponse<EquipmentRegisterResponseDTO>>
   > {
+    const filter = statusFilter && statusFilter[0];
+
     return await new AxiosHttpClient().request({
       method: "get",
       url: "equipment/list",
-      params: { limit, page, column, order, search, searchType, customerId },
+      params: {
+        limit,
+        page,
+        column,
+        order,
+        search,
+        searchType,
+        status: filter,
+        customerId,
+      },
     });
   }
 }

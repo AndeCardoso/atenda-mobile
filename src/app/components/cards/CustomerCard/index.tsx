@@ -5,7 +5,7 @@ import { Row } from "@components/base/Row";
 import { Chip } from "@components/base/Chip";
 import { Divider } from "@components/base/Separator";
 import { DisplayField } from "@components/base/DisplayField";
-import { formatCellphoneNumber, formatCpf } from "@utils/formatString";
+import { formatCellphoneNumber, formatDocument } from "@utils/formatString";
 import { customerStatusDisplay } from "@pages/signedIn/customers/constants";
 import { BottomContainer, CardContainer } from "./styles";
 import { GestureResponderEvent } from "react-native";
@@ -15,6 +15,7 @@ import { ICustomerModel } from "@model/entities/customer";
 interface ICustomerCardProps {
   data: Partial<ICustomerModel>;
   footerLabel?: string;
+  disabled?: boolean;
   onPress?: (e: GestureResponderEvent) => void;
 }
 
@@ -22,6 +23,7 @@ export const CustomerCard = memo(
   ({
     data: { name, document, phone, email, status },
     footerLabel,
+    disabled,
     onPress,
   }: ICustomerCardProps) => {
     const { colors } = useTheme();
@@ -30,6 +32,7 @@ export const CustomerCard = memo(
         footerLabel={footerLabel}
         onPress={onPress && onPress}
         style={{ backgroundColor: colors.SECONDARY_INACTIVE }}
+        disabled={disabled}
       >
         <CardContainer>
           <Row space="space-between">
@@ -55,7 +58,7 @@ export const CustomerCard = memo(
           <BottomContainer>
             <DisplayField
               text="Documento"
-              value={formatCpf(document)}
+              value={formatDocument(document)}
               color="WHITE"
             />
             <Row>

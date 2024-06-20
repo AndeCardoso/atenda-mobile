@@ -83,9 +83,12 @@ export default class ServiceOrderService {
     customer,
     equipment,
     technician,
+    statusFilter,
   }: IPaginationParams<"id" | "status" | "created_at">): Promise<
     HttpResponse<IPaginationResponse<ServiceOrderRegisterResponseDTO>>
   > {
+    const filter = statusFilter && statusFilter[0];
+
     return await new AxiosHttpClient().request({
       method: "get",
       url: "service-order/list",
@@ -98,6 +101,7 @@ export default class ServiceOrderService {
         customer,
         equipment,
         technician,
+        status: filter,
       },
     });
   }

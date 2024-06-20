@@ -8,6 +8,7 @@ import { reducePages } from "@utils/reducePages";
 import { useToast } from "@hooks/useToast";
 import { requestStateEnum } from "app/constants/requestStates";
 import { SuperConsole } from "@tools/indentedConsole";
+import { customerStatusEnum } from "./constants";
 
 export const useCustomersController = () => {
   const { unexpectedErrorToast } = useToast();
@@ -16,6 +17,9 @@ export const useCustomersController = () => {
 
   const customerService = new CustomerService();
 
+  const [statusFilter, setStatusFilter] = useState<
+    customerStatusEnum[] | undefined
+  >();
   const [customersSearch, setCustomerSearch] = useState("");
   const [listState, setListState] = useState<requestStateEnum | undefined>();
 
@@ -27,14 +31,15 @@ export const useCustomersController = () => {
     isLoading,
     isRefetching,
   } = useInfiniteQuery(
-    ["customers", customersSearch],
+    ["customers", customersSearch, statusFilter],
     async ({ pageParam }) => {
       const { statusCode, body } = await customerService.list({
         limit: 10,
-        page: pageParam,
+        page: pageParam ?? 1,
         column: "name",
         order: "asc",
         search: customersSearch,
+        statusFilter,
       });
       switch (statusCode) {
         case HttpStatusCode.Ok:
@@ -69,6 +74,14 @@ export const useCustomersController = () => {
     setCustomerSearch(value ?? "");
   };
 
+  const onFilterStatus = (value: customerStatusEnum) => {
+    if (statusFilter && statusFilter?.length > 0 && value === statusFilter[0]) {
+      setStatusFilter(undefined);
+    } else {
+      setStatusFilter([value]);
+    }
+  };
+
   const handleGoBack = () => {
     canGoBack && goBack();
   };
@@ -90,10 +103,15 @@ export const useCustomersController = () => {
   );
 
   const emptyStateTexts = {
-    title: customersSearch
-      ? "Nenhum cliente encontrado"
-      : "Ainda não há clientes",
-    subtitle: !customersSearch ? "Cadastre novos clientes" : undefined,
+    title:
+      customersSearch || statusFilter
+        ? "Nenhum cliente encontrado"
+        : "Ainda não há clientes",
+    subtitle: customersSearch
+      ? undefined
+      : statusFilter
+      ? "Não há clientes com este status"
+      : "Cadastre novos clientes",
     action: customersSearch
       ? {
           text: "Limpar busca",
@@ -112,8 +130,13 @@ export const useCustomersController = () => {
     handleGoToDetails,
     onCustomerSearch,
     emptyStateTexts,
+    onFilterStatus,
     fetchNextPage,
     handleGoBack,
+    statusFilter:
+      statusFilter && statusFilter.length > 0
+        ? (statusFilter[0] as number)
+        : undefined,
     refetch,
     viewState: {
       loading: isLoading,
