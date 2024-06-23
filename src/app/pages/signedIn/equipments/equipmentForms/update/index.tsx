@@ -10,6 +10,7 @@ import { IEquipmentForm, equipmentSchema } from "../schema";
 import { UpdateEquipmentForm } from "./form";
 import { equipmentStatusList, equipmentVoltageList } from "../../constants";
 import { useUpdateEquipmentFormController } from "./useUpdateEquipmentFormController";
+import { LoaderBox } from "@components/base/Loader/styles";
 
 export const EquipmentUpdateFormPage = () => {
   const { goBack } = useNavigation();
@@ -55,7 +56,9 @@ export const EquipmentUpdateFormPage = () => {
       hasScroll
     >
       {dataLoading ? (
-        <Loader />
+        <LoaderBox>
+          <Loader size={64} />
+        </LoaderBox>
       ) : (
         <Container>
           <UpdateEquipmentForm control={control} getValues={getValues} />

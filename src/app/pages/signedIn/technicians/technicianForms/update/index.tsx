@@ -11,6 +11,7 @@ import { ITechnicianForm, technicianSchema } from "../schema";
 import { UpdateTechnicianForm } from "./form";
 import { technicianPositionList, technicianStatusList } from "../../constants";
 import { IOption } from "@components/base/Select";
+import { LoaderBox } from "@components/base/Loader/styles";
 
 export const TechnicianUpdateFormPage = () => {
   const { goBack } = useNavigation();
@@ -68,7 +69,9 @@ export const TechnicianUpdateFormPage = () => {
       hasScroll
     >
       {dataLoading ? (
-        <Loader />
+        <LoaderBox>
+          <Loader size={64} />
+        </LoaderBox>
       ) : (
         <Container>
           <UpdateTechnicianForm control={control} getValues={getValues} />

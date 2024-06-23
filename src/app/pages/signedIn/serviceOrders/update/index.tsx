@@ -19,6 +19,7 @@ import { TechnicianAccordion } from "@components/accordions/TechnicianAccordion"
 import { IServiceForm, serviceFormSchema } from "../schema";
 import { Image } from "react-native";
 import { convertNumberToCurrency } from "@utils/convertCurrency";
+import { LoaderBox } from "@components/base/Loader/styles";
 
 export const ServiceOrderUpdateFormPage = () => {
   const { goBack } = useNavigation();
@@ -63,7 +64,9 @@ export const ServiceOrderUpdateFormPage = () => {
       hasScroll
     >
       {dataLoading ? (
-        <Loader />
+        <LoaderBox>
+          <Loader size={64} />
+        </LoaderBox>
       ) : (
         <Container>
           <Row widthType="auto">

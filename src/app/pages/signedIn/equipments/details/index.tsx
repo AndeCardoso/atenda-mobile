@@ -13,6 +13,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { Chip } from "@components/base/Chip";
 import { Divider } from "@components/base/Separator";
 import { FabGroup } from "@components/base/FAB";
+import { LoaderBox } from "@components/base/Loader/styles";
 
 export const EquipmentDetailPage = () => {
   const isFocused = useIsFocused();
@@ -27,7 +28,9 @@ export const EquipmentDetailPage = () => {
   return (
     <Layout header="Detalhes do equipamento" goBack={handleGoBack} hasScroll>
       {loading ? (
-        <Loader />
+        <LoaderBox>
+          <Loader size={64} />
+        </LoaderBox>
       ) : (
         <>
           <Container>

@@ -15,6 +15,7 @@ import { customerStatusDisplay } from "../constants";
 import { Chip } from "@components/base/Chip";
 import { FabGroup } from "@components/base/FAB";
 import { AddressAccordion } from "@components/accordions/AddressAccordion";
+import { LoaderBox } from "@components/base/Loader/styles";
 
 export const CustomerDetailPage = () => {
   const isFocused = useIsFocused();
@@ -29,7 +30,9 @@ export const CustomerDetailPage = () => {
   return (
     <Layout header="Detalhes do cliente" goBack={handleGoBack} hasScroll>
       {loading ? (
-        <Loader />
+        <LoaderBox>
+          <Loader size={64} />
+        </LoaderBox>
       ) : (
         <>
           <Container>

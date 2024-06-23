@@ -9,6 +9,7 @@ import { Loader } from "@components/base/Loader";
 import { IUserForm, userSchema } from "../schema";
 import { UpdateUserForm } from "./form";
 import { useUpdateUserFormController } from "./useUpdateUserFormController";
+import { LoaderBox } from "@components/base/Loader/styles";
 
 export const UserUpdateFormPage = () => {
   const { goBack } = useNavigation();
@@ -45,7 +46,9 @@ export const UserUpdateFormPage = () => {
       hasScroll
     >
       {dataLoading ? (
-        <Loader />
+        <LoaderBox>
+          <Loader size={64} />
+        </LoaderBox>
       ) : (
         <Container>
           <UpdateUserForm control={control} />

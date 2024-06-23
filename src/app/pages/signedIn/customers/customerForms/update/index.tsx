@@ -9,6 +9,7 @@ import { Loader } from "@components/base/Loader";
 import { ICustomerForm, customerSchema } from "../schema";
 import { UpdateCustomerForm } from "./form";
 import { customerStatusList } from "../../constants";
+import { LoaderBox } from "@components/base/Loader/styles";
 
 export const CustomerUpdateFormPage = () => {
   const {
@@ -52,7 +53,9 @@ export const CustomerUpdateFormPage = () => {
       hasScroll
     >
       {dataLoading ? (
-        <Loader />
+        <LoaderBox>
+          <Loader size={64} />
+        </LoaderBox>
       ) : (
         <Container>
           <UpdateCustomerForm

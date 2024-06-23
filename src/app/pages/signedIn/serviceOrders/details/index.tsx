@@ -17,6 +17,7 @@ import { EquipmentAccordion } from "@components/accordions/EquipmentAccordion";
 import { Dimensions, Image } from "react-native";
 import { convertDateTimeToString } from "@utils/createDateTime";
 import { convertNumberToCurrency } from "@utils/convertCurrency";
+import { LoaderBox } from "@components/base/Loader/styles";
 
 const width = Dimensions.get("window").width;
 
@@ -35,7 +36,9 @@ export const ServiceOrderDetailPage = () => {
   return (
     <Layout header="Detalhes da O.S." goBack={handleGoBack} hasScroll>
       {loading ? (
-        <Loader />
+        <LoaderBox>
+          <Loader size={64} />
+        </LoaderBox>
       ) : (
         <>
           <Container>
