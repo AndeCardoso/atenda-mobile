@@ -15,6 +15,7 @@ interface IEquipmentCardProps {
   data: Partial<IEquipmentModel>;
   footerLabel?: string;
   disabled?: boolean;
+  unbreakable?: boolean;
   onPress?: (e: GestureResponderEvent) => void;
 }
 
@@ -22,10 +23,12 @@ export const EquipmentCard = memo(
   ({
     data: { nickname, brand, model, voltage, accessories, status, customer },
     footerLabel,
+    unbreakable,
     disabled,
     onPress,
   }: IEquipmentCardProps) => {
     const { colors } = useTheme();
+
     return (
       <Card
         footerLabel={footerLabel}
@@ -55,14 +58,16 @@ export const EquipmentCard = memo(
           </Row>
           <Divider color="WHITE" />
           <BottomContainer>
-            {customer ? (
+            {customer && customer?.name ? (
               <>
-                <DisplayField
-                  text="Cliente"
-                  value={customer.name}
-                  color="WHITE"
-                  unbreakable
-                />
+                <Row>
+                  <DisplayField
+                    text="Cliente"
+                    value={customer.name}
+                    color="WHITE"
+                    unbreakable={unbreakable}
+                  />
+                </Row>
                 <Divider color="WHITE" />
               </>
             ) : null}
@@ -71,13 +76,13 @@ export const EquipmentCard = memo(
                 text="Marca"
                 value={brand}
                 color="WHITE"
-                unbreakable
+                unbreakable={unbreakable}
               />
               <DisplayField
                 text="Modelo"
                 value={model}
                 color="WHITE"
-                unbreakable
+                unbreakable={unbreakable}
               />
             </Row>
             <Row>
@@ -85,12 +90,13 @@ export const EquipmentCard = memo(
                 text="Acessórios"
                 value={accessories}
                 color="WHITE"
+                unbreakable={unbreakable}
               />
               <DisplayField
                 text="Voltagem"
                 value={voltage}
                 color="WHITE"
-                unbreakable
+                unbreakable={unbreakable}
               />
             </Row>
           </BottomContainer>
