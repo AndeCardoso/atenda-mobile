@@ -84,7 +84,7 @@ export const HomePage = () => {
           ) : serviceOrderOpenedListData &&
             serviceOrderOpenedListData.length > 0 ? (
             <Carousel
-              height={238}
+              height={248}
               data={serviceOrderOpenedListData}
               renderComponent={(item: ServiceOrderGetResponseDTO) => (
                 <ServiceOrderCard
@@ -112,13 +112,14 @@ export const HomePage = () => {
             <Loader size={64} />
           ) : equipmentQueueData && equipmentQueueData.length > 0 ? (
             <Carousel
-              height={238}
+              height={328}
               data={equipmentQueueData}
               renderComponent={(item: EquipmentGetResponseDTO) => (
                 <EquipmentCard
                   data={item}
                   footerLabel="Detalhes"
                   onPress={() => handleGoToEquipmentDetails(item.id)}
+                  unbreakable
                   key={item.id.toString()}
                 />
               )}
