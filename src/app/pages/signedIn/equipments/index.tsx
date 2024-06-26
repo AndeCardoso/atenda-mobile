@@ -97,6 +97,7 @@ export const EquipmentsPage = () => {
                 <EquipmentCard
                   data={item}
                   footerLabel="Detalhes"
+                  hasCustomer={isGeneralList}
                   onPress={() => handleGoToDetails(item.id)}
                 />
               )}

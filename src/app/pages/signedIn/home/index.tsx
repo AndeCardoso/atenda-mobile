@@ -116,11 +116,12 @@ export const HomePage = () => {
               data={equipmentQueueData}
               renderComponent={(item: EquipmentGetResponseDTO) => (
                 <EquipmentCard
+                  key={item.id.toString()}
                   data={item}
                   footerLabel="Detalhes"
                   onPress={() => handleGoToEquipmentDetails(item.id)}
                   unbreakable
-                  key={item.id.toString()}
+                  hasCustomer
                 />
               )}
             />
