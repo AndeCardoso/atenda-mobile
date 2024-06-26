@@ -12,6 +12,7 @@ import { useTheme } from "styled-components";
 import { Text } from "@components/base/Text";
 import { BaloonCard } from "@components/base/BaloonCard";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { images } from "@assets/index";
 
 const ios = Platform.OS === "ios";
 
@@ -59,15 +60,12 @@ export const AuthPage = () => {
       behavior={ios ? "padding" : "height"}
       style={{ flex: 1 }}
     >
-      <Layout
-        paddingTop={top}
-        source={require("../../../assets/background.png")}
-      >
+      <Layout paddingTop={top} source={images.background}>
         <WrapperTop>
           <Image
             resizeMode="center"
             style={{ width: 355, height: 100 }}
-            source={require("../../../assets/brand/brand-light.png")}
+            source={images.brand.light}
           />
           <LoginForm control={control} />
           {alertState ? (

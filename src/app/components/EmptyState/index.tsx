@@ -3,6 +3,7 @@ import { Container } from "./style";
 import { Image } from "react-native";
 import { Text } from "@components/base/Text";
 import { Button } from "@components/base/Button";
+import { images } from "@assets/index";
 interface IEmptyStateProps {
   title: string;
   subtitle?: string;
@@ -24,7 +25,7 @@ export const EmptyState = ({
     if (secondary) {
       return (
         <Image
-          source={require("../../assets/empty-state-secondary.png")}
+          source={images.feedback.emptyStateSecondary}
           resizeMode="contain"
           style={{ width: 150, height: 150 }}
         />
@@ -34,7 +35,7 @@ export const EmptyState = ({
     if (error) {
       return (
         <Image
-          source={require("../../assets/error-state.png")}
+          source={images.feedback.errorState}
           resizeMode="contain"
           style={{ width: 250, height: 250 }}
         />
@@ -43,7 +44,7 @@ export const EmptyState = ({
 
     return (
       <Image
-        source={require("../../assets/empty-state.png")}
+        source={images.feedback.emptyState}
         resizeMode="contain"
         style={{ width: 250, height: 250 }}
       />

@@ -12,6 +12,7 @@ import { IStepperProps, Stepper } from "@components/base/Stepper";
 import debounce from "lodash.debounce";
 import { Icon } from "@components/base/Icon";
 import { TIconNames } from "@components/base/Icon/types";
+import { images } from "@assets/index";
 
 interface IHeaderProps {
   text?: string;
@@ -66,11 +67,11 @@ export const Header = ({
               color="SECONDARY"
             />
           )}
-          {hasBrand ? (
+          {hasBrand && images.brand.dark !== "" ? (
             <Image
               resizeMode="contain"
               style={{ width: 150, height: 70 }}
-              source={require("../../../assets/brand/brand-dark.png")}
+              source={images.brand.dark}
             />
           ) : null}
           {Boolean(text) ? (
