@@ -8,5 +8,10 @@ interface IProgressBarProps {
 
 export const ProgressBar = ({ progressValue }: IProgressBarProps) => {
   const { colors } = useTheme();
-  return <ProgressBarPaper progress={progressValue} color={colors.PRIMARY} />;
+  return (
+    <ProgressBarPaper
+      progress={progressValue}
+      color={colors.PRIMARY_INACTIVE}
+    />
+  );
 };

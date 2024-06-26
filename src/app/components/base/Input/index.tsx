@@ -27,7 +27,7 @@ export const Input = ({
 
   const inputRef = useRef<TextInputRN>(null);
 
-  const handleToogleShowPassword = () => {
+  const handleToggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
@@ -101,7 +101,7 @@ export const Input = ({
           <TextInput.Icon
             icon={showPassword ? "eye-off" : "eye"}
             color={colors.WHITE}
-            onPress={handleToogleShowPassword}
+            onPress={handleToggleShowPassword}
           />
         )
       }
