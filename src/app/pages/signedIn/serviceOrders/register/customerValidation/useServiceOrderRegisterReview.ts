@@ -18,7 +18,7 @@ import { convertCurrencyToNumber } from "@utils/convertCurrency";
 export const useServiceOrderRegisterReview = () => {
   const signatureRef = useRef();
   const { navigate, canGoBack, goBack, getParent } = useNavigation<any>();
-  const { unexpectedErrorToast } = useToast();
+  const { unexpectedErrorToast, createToast } = useToast();
 
   const [permissionStatus, requestPermission] = MediaLibrary.usePermissions();
 
@@ -176,6 +176,10 @@ export const useServiceOrderRegisterReview = () => {
       });
 
       if (signatureRegisterResponse.statusCode === HttpStatusCode.Created) {
+        createToast({
+          message: "O.S. cadastrada com sucesso",
+          alertType: "success",
+        });
         navigate(SignedInNavigators.SERVICE_ORDERS, {
           screen: SignedInScreens.SERVICE_ORDERS,
         });

@@ -16,7 +16,7 @@ import { convertCurrencyToNumber } from "@utils/convertCurrency";
 
 export const useUpdateServiceOrderFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
-  const { unexpectedErrorToast } = useToast();
+  const { unexpectedErrorToast, createToast } = useToast();
   const { params } = useRoute<any>();
   const { serviceOrderId } = params;
   const queryClient = useQueryClient();
@@ -101,6 +101,10 @@ export const useUpdateServiceOrderFormController = () => {
   const handleRegister = async (values: IServiceForm) => {
     const res = await mutateAsyncRegister(values);
     if (res.statusCode === HttpStatusCode.Ok) {
+      createToast({
+        message: "O.S. atualizada com sucesso",
+        alertType: "success",
+      });
       handleGoBack();
     }
   };

@@ -8,7 +8,7 @@ import { useToast } from "@hooks/useToast";
 
 export const useRegisterUserFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
-  const { unexpectedErrorToast } = useToast();
+  const { unexpectedErrorToast, createToast } = useToast();
 
   const userService = new UserService();
 
@@ -45,6 +45,10 @@ export const useRegisterUserFormController = () => {
   const handleRegister = async (values: IUserForm) => {
     const res = await mutateAsyncRegister(values);
     if (res.statusCode === HttpStatusCode.Created) {
+      createToast({
+        message: "Usuário cadastrado com sucesso",
+        alertType: "success",
+      });
       handleGoBack();
     }
   };

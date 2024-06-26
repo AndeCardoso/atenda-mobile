@@ -8,8 +8,8 @@ import { unmask } from "@utils/formatString";
 import { useToast } from "@hooks/useToast";
 
 export const useRegisterTechnicianFormController = () => {
-  const { unexpectedErrorToast } = useToast();
   const { goBack, canGoBack } = useNavigation<any>();
+  const { unexpectedErrorToast, createToast } = useToast();
 
   const technicianService = new TechnicianService();
 
@@ -56,6 +56,10 @@ export const useRegisterTechnicianFormController = () => {
   const handleRegister = async (values: ITechnicianForm) => {
     const res = await mutateAsyncRegister(values);
     if (res.statusCode === HttpStatusCode.Created) {
+      createToast({
+        message: "Técnico cadastrado com sucesso",
+        alertType: "success",
+      });
       handleGoBack();
     }
   };
