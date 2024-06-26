@@ -15,6 +15,7 @@ interface IEquipmentCardProps {
   data: Partial<IEquipmentModel>;
   footerLabel?: string;
   disabled?: boolean;
+  hasCustomer?: boolean;
   unbreakable?: boolean;
   onPress?: (e: GestureResponderEvent) => void;
 }
@@ -24,6 +25,7 @@ export const EquipmentCard = memo(
     data: { nickname, brand, model, voltage, accessories, status, customer },
     footerLabel,
     unbreakable,
+    hasCustomer,
     disabled,
     onPress,
   }: IEquipmentCardProps) => {
@@ -58,7 +60,7 @@ export const EquipmentCard = memo(
           </Row>
           <Divider color="WHITE" />
           <BottomContainer>
-            {customer && customer?.name ? (
+            {hasCustomer && customer && customer?.name ? (
               <>
                 <Row>
                   <DisplayField
