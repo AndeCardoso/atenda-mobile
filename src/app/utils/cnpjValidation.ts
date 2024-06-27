@@ -8,21 +8,28 @@ export const cnpjValidation = (cnpj?: string) => {
     return false;
   }
 
-  const calcDv = (cnpj: string, pos: number) => {
+  const calcDv = (cnpj: string, length: number) => {
     let sum = 0;
-    let factor = pos === 1 ? 5 : pos;
-    for (let i = 0; i < 12 + pos; i++) {
+    let factor = length - 7;
+
+    for (let i = 0; i < length; i++) {
       sum += parseInt(cnpj[i]) * factor--;
-      if (factor === 1) factor = 9;
+      if (factor < 2) {
+        factor = 9;
+      }
     }
+
     const dv = 11 - (sum % 11);
     return dv > 9 ? 0 : dv;
   };
 
-  const dv1 = calcDv(cnpjOnlyNumber, 1);
-  const dv2 = calcDv(cnpjOnlyNumber, 2);
+  const dv1 = calcDv(cnpjOnlyNumber, 12);
+  const dv2 = calcDv(cnpjOnlyNumber, 13);
 
-  if (parseInt(cnpj[12]) === dv1 && parseInt(cnpj[13]) === dv2) {
+  if (
+    parseInt(cnpjOnlyNumber[12]) === dv1 &&
+    parseInt(cnpjOnlyNumber[13]) === dv2
+  ) {
     return true;
   } else {
     return false;

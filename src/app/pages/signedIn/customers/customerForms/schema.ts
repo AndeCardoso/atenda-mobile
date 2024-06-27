@@ -4,6 +4,8 @@ import {
   addressObjectSchema,
 } from "@components/forms/AddressForm/formSchema";
 import { IOption } from "@components/base/Select";
+import { cnpjValidation } from "@utils/cnpjValidation";
+import { cpfValidation } from "@utils/cpfValidation";
 
 export interface ICustomerForm {
   name: string;
@@ -23,7 +25,15 @@ export const customerSchema: yup.ObjectSchema<ICustomerForm> = yup
       .required("Campo obrigatório")
       .min(4, "Nome deve ter no minímo 4 caracteres")
       .max(32, "Nome deve ter no máximo de 32 caracteres"),
-    document: yup.string().required("Campo obrigatório"),
+    document: yup
+      .string()
+      .test("valid-document", "Documento inválido", (value) => {
+        if (value && value.length === 14) {
+          return cpfValidation(value);
+        }
+        return cnpjValidation(value);
+      })
+      .required("Campo obrigatório"),
     phone: yup.string().required("Campo obrigatório"),
     secondPhone: yup.string().notRequired(),
     email: yup.string().email().required("Campo obrigatório"),
