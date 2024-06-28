@@ -10,7 +10,11 @@ import { SuperConsole } from "@tools/indentedConsole";
 import { useCallback, useState } from "react";
 import ServiceOrderService from "@services/serviceOrder";
 import { useToast } from "@hooks/useToast";
-import { documentDirectory, getInfoAsync } from "expo-file-system";
+import {
+  createDownloadResumable,
+  documentDirectory,
+  getInfoAsync,
+} from "expo-file-system";
 import * as Sharing from "expo-sharing";
 
 export const useReportController = () => {
@@ -54,29 +58,64 @@ export const useReportController = () => {
   );
 
   const handleShare = async () => {
-    const fileInfo = await getInfoAsync(fileUri);
-    if (fileInfo.exists) {
-      await Sharing.shareAsync(fileUri);
-    } else {
+    try {
+      await Sharing.shareAsync(fileUri, { UTI: ".pdf" });
+      return;
+    } catch (error) {
       createToast({
         duration: 3000,
         alertType: "error",
         message: "Erro ao compartilhar relatório",
       });
     }
+    createToast({
+      duration: 3000,
+      alertType: "error",
+      message: "Erro ao compartilhar relatório",
+    });
   };
 
   const handleSave = async () => {
-    const fileInfo = await getInfoAsync(fileUri);
-    if (fileInfo.exists) {
-      await Sharing.shareAsync(fileUri, { UTI: ".pdf" });
-    } else {
-      createToast({
-        duration: 3000,
-        alertType: "error",
-        message: "Erro ao compartilhar relatório",
-      });
+    const callback = (downloadProgress: {
+      totalBytesWritten: number;
+      totalBytesExpectedToWrite: number;
+    }) => {
+      const progress =
+        downloadProgress.totalBytesWritten /
+        downloadProgress.totalBytesExpectedToWrite;
+      setDownloadProgress(progress);
+    };
+
+    const downloadResumable = createDownloadResumable(
+      data,
+      fileUri,
+      {},
+      callback
+    );
+
+    const downloadResponse = await downloadResumable.downloadAsync();
+
+    if (downloadResponse?.status === HttpStatusCode.Ok) {
+      const fileInfo = await getInfoAsync(downloadResponse?.uri);
+
+      if (fileInfo.exists) {
+        try {
+          await Sharing.shareAsync(downloadResponse.uri, { UTI: ".pdf" });
+        } catch (error) {
+          createToast({
+            duration: 3000,
+            alertType: "error",
+            message: "Erro ao salvar relatório",
+          });
+        }
+        return;
+      }
     }
+    createToast({
+      duration: 3000,
+      alertType: "error",
+      message: "Erro ao salvar relatório",
+    });
   };
 
   const handleGoBack = () => {
