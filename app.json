@@ -24,7 +24,6 @@
         "backgroundColor": "#293148"
       },
       "package": "com.anonymous.atendamobile",
-      "permissions": ["android.permissions.MANAGE_EXTERNAL_STORAGE"]
     },
     "web": {
       "favicon": "./assets/favicon.png"
