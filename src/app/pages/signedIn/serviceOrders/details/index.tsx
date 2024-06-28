@@ -140,21 +140,23 @@ export const ServiceOrderDetailPage = () => {
             <Text color="WHITE_TEXT" size={14}>
               Assinatura:
             </Text>
-            <Image
-              source={{
-                uri: `${serviceOrderData?.signatureUrl}`,
-              }}
-              alt="Assinatura do cliente"
-              resizeMode="contain"
-              resizeMethod="scale"
-              style={{
-                transform: [{ rotate: "90deg" }],
-                alignSelf: "center",
-                marginTop: -74,
-              }}
-              width={265}
-              height={width - 32}
-            />
+            {serviceOrderData?.signatureUrl ? (
+              <Image
+                source={{
+                  uri: `${serviceOrderData?.signatureUrl}`,
+                }}
+                alt="Assinatura do cliente"
+                resizeMode="contain"
+                resizeMethod="scale"
+                style={{
+                  transform: [{ rotate: "90deg" }],
+                  alignSelf: "center",
+                  marginTop: -74,
+                }}
+                width={265}
+                height={width - 32}
+              />
+            ) : null}
           </Container>
           <FabGroup
             isFocused={isFocused}
