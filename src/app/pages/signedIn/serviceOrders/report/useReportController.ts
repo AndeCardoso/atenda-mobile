@@ -10,11 +10,7 @@ import { SuperConsole } from "@tools/indentedConsole";
 import { useCallback, useState } from "react";
 import ServiceOrderService from "@services/serviceOrder";
 import { useToast } from "@hooks/useToast";
-import {
-  createDownloadResumable,
-  documentDirectory,
-  getInfoAsync,
-} from "expo-file-system";
+import { documentDirectory, getInfoAsync } from "expo-file-system";
 import * as Sharing from "expo-sharing";
 
 export const useReportController = () => {
@@ -60,51 +56,27 @@ export const useReportController = () => {
   const handleShare = async () => {
     const fileInfo = await getInfoAsync(fileUri);
     if (fileInfo.exists) {
-      await Sharing.shareAsync(fileUri, { mimeType: "pdf" });
+      await Sharing.shareAsync(fileUri);
     } else {
       createToast({
-        duration: 5000,
+        duration: 3000,
         alertType: "error",
-        message: "Erro ao salvar relatório",
+        message: "Erro ao compartilhar relatório",
       });
     }
   };
 
   const handleSave = async () => {
-    const callback = (downloadProgress: {
-      totalBytesWritten: number;
-      totalBytesExpectedToWrite: number;
-    }) => {
-      const progress =
-        downloadProgress.totalBytesWritten /
-        downloadProgress.totalBytesExpectedToWrite;
-      setDownloadProgress(progress);
-    };
-
-    const downloadResumable = createDownloadResumable(
-      data,
-      fileUri,
-      {},
-      callback
-    );
-
-    const downloadResponse = await downloadResumable.downloadAsync();
-
-    if (downloadResponse?.status === HttpStatusCode.Ok) {
-      await Sharing.shareAsync(downloadResponse.uri);
+    const fileInfo = await getInfoAsync(fileUri);
+    if (fileInfo.exists) {
+      await Sharing.shareAsync(fileUri, { UTI: ".pdf" });
+    } else {
       createToast({
-        duration: 5000,
-        alertType: "success",
-        message: "Relatório salvo com sucesso",
+        duration: 3000,
+        alertType: "error",
+        message: "Erro ao compartilhar relatório",
       });
-      return;
     }
-
-    createToast({
-      duration: 5000,
-      alertType: "error",
-      message: "Erro ao salvar relatório",
-    });
   };
 
   const handleGoBack = () => {
