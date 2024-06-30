@@ -40,6 +40,7 @@ export const Input = ({
     width: "100%",
     height: longText ? 220 : undefined,
     backgroundColor: colors.INPUT_BACKGROUND,
+    textAlign: "auto",
   };
 
   const disabledInputStyle: StyleProp<TextStyle> = {
