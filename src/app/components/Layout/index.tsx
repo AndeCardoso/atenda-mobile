@@ -1,6 +1,8 @@
 import React, {
+  MutableRefObject,
   PropsWithChildren,
   ReactNode,
+  Ref,
   useEffect,
   useState,
 } from "react";
@@ -35,6 +37,7 @@ interface ILayoutProps extends PropsWithChildren {
   goBack?: () => void;
   close?: () => void;
   headerComponent?: ReactNode;
+  scrollViewRef?: MutableRefObject<ScrollView | null>;
 }
 
 const ios = Platform.OS === "ios";
@@ -54,6 +57,7 @@ export const Layout = ({
   close,
   steps,
   children,
+  scrollViewRef,
   headerComponent,
 }: ILayoutProps) => {
   const { colors } = useTheme();
@@ -111,7 +115,11 @@ export const Layout = ({
       />
 
       {hasScroll ? (
-        <ScrollView style={containerStyle} showsVerticalScrollIndicator={false}>
+        <ScrollView
+          style={containerStyle}
+          showsVerticalScrollIndicator={false}
+          ref={scrollViewRef}
+        >
           {children}
         </ScrollView>
       ) : (
