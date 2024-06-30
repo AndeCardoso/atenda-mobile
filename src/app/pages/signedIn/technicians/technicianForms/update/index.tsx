@@ -12,10 +12,14 @@ import { UpdateTechnicianForm } from "./form";
 import { technicianPositionList, technicianStatusList } from "../../constants";
 import { IOption } from "@components/base/Select";
 import { LoaderBox } from "@components/base/Loader/styles";
+import { useFormErrorAlert } from "@hooks/useFormErrorAlert";
 
 export const TechnicianUpdateFormPage = () => {
   const { goBack } = useNavigation();
+  const { scrollViewFormRef, onFormError } = useFormErrorAlert();
+
   const stateRef = useRef<IOption | string>({} as IOption);
+
   const {
     technicianData,
     handleRegister,
@@ -58,7 +62,7 @@ export const TechnicianUpdateFormPage = () => {
       footer={
         <WrapperButtons>
           <Button
-            onPress={handleSubmit(handleRegister)}
+            onPress={handleSubmit(handleRegister, onFormError)}
             mode="contained"
             loading={registerLoading}
           >
@@ -67,6 +71,7 @@ export const TechnicianUpdateFormPage = () => {
         </WrapperButtons>
       }
       hasScroll
+      scrollViewRef={scrollViewFormRef}
     >
       {dataLoading ? (
         <LoaderBox>

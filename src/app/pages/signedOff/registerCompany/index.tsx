@@ -11,9 +11,12 @@ import {
 } from "./registerForm/formSchema";
 import { Button } from "@components/base/Button";
 import { useRegisterUserController } from "./useRegisterCompanyController";
+import { useFormErrorAlert } from "@hooks/useFormErrorAlert";
 
 export const RegisterCompanyPage = () => {
   const { goBack } = useNavigation();
+  const { scrollViewFormRef, onFormError } = useFormErrorAlert();
+
   const {
     handleRegister,
     viewState: { loading },
@@ -30,7 +33,7 @@ export const RegisterCompanyPage = () => {
       footer={
         <WrapperButtons>
           <Button
-            onPress={handleSubmit(handleRegister)}
+            onPress={handleSubmit(handleRegister, onFormError)}
             mode="contained"
             loading={loading}
           >
@@ -39,6 +42,7 @@ export const RegisterCompanyPage = () => {
         </WrapperButtons>
       }
       hasScroll
+      scrollViewRef={scrollViewFormRef}
     >
       <Container>
         <RegisterCompanyForm control={control} />

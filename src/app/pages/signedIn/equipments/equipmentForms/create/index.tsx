@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Layout } from "@components/Layout";
@@ -8,9 +8,11 @@ import { Button } from "@components/base/Button";
 import { useRegisterEquipmentFormController } from "./useRegisterEquipmentFormController";
 import { IEquipmentForm, equipmentSchema } from "../schema";
 import { RegisterEquipmentForm } from "./form";
+import { useFormErrorAlert } from "@hooks/useFormErrorAlert";
 
 export const EquipmentRegisterFormPage = () => {
   const { goBack } = useNavigation();
+  const { scrollViewFormRef, onFormError } = useFormErrorAlert();
 
   const {
     handleRegister,
@@ -39,7 +41,7 @@ export const EquipmentRegisterFormPage = () => {
       footer={
         <WrapperButtons>
           <Button
-            onPress={handleSubmit(handleRegister)}
+            onPress={handleSubmit(handleRegister, onFormError)}
             mode="contained"
             loading={registerLoading}
           >
@@ -48,6 +50,7 @@ export const EquipmentRegisterFormPage = () => {
         </WrapperButtons>
       }
       hasScroll
+      scrollViewRef={scrollViewFormRef}
     >
       <Container>
         <RegisterEquipmentForm control={control} getValues={getValues} />

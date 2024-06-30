@@ -11,9 +11,12 @@ import { UpdateEquipmentForm } from "./form";
 import { equipmentStatusList, equipmentVoltageList } from "../../constants";
 import { useUpdateEquipmentFormController } from "./useUpdateEquipmentFormController";
 import { LoaderBox } from "@components/base/Loader/styles";
+import { useFormErrorAlert } from "@hooks/useFormErrorAlert";
 
 export const EquipmentUpdateFormPage = () => {
   const { goBack } = useNavigation();
+  const { scrollViewFormRef, onFormError } = useFormErrorAlert();
+
   const {
     equipmentData,
     handleRegister,
@@ -45,7 +48,7 @@ export const EquipmentUpdateFormPage = () => {
       footer={
         <WrapperButtons>
           <Button
-            onPress={handleSubmit(handleRegister)}
+            onPress={handleSubmit(handleRegister, onFormError)}
             mode="contained"
             loading={registerLoading}
           >
@@ -54,6 +57,7 @@ export const EquipmentUpdateFormPage = () => {
         </WrapperButtons>
       }
       hasScroll
+      scrollViewRef={scrollViewFormRef}
     >
       {dataLoading ? (
         <LoaderBox>

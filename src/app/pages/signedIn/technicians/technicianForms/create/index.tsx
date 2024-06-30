@@ -8,9 +8,11 @@ import { Button } from "@components/base/Button";
 import { useRegisterTechnicianFormController } from "./useRegisterTechnicianFormController";
 import { ITechnicianForm, technicianSchema } from "../schema";
 import { RegisterTechnicianForm } from "./form";
+import { useFormErrorAlert } from "@hooks/useFormErrorAlert";
 
 export const TechnicianRegisterFormPage = () => {
   const { goBack } = useNavigation();
+  const { scrollViewFormRef, onFormError } = useFormErrorAlert();
 
   const {
     handleRegister,
@@ -50,7 +52,7 @@ export const TechnicianRegisterFormPage = () => {
       footer={
         <WrapperButtons>
           <Button
-            onPress={handleSubmit(handleRegister)}
+            onPress={handleSubmit(handleRegister, onFormError)}
             mode="contained"
             loading={registerLoading}
           >
@@ -59,6 +61,7 @@ export const TechnicianRegisterFormPage = () => {
         </WrapperButtons>
       }
       hasScroll
+      scrollViewRef={scrollViewFormRef}
     >
       <Container>
         <RegisterTechnicianForm control={control} getValues={getValues} />

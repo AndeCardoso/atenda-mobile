@@ -17,12 +17,14 @@ import { Divider } from "@components/base/Separator";
 import { Row } from "@components/base/Row";
 import { TechnicianAccordion } from "@components/accordions/TechnicianAccordion";
 import { IServiceForm, serviceFormSchema } from "../schema";
-import { Image } from "react-native";
 import { convertNumberToCurrency } from "@utils/convertCurrency";
 import { LoaderBox } from "@components/base/Loader/styles";
+import { useFormErrorAlert } from "@hooks/useFormErrorAlert";
 
 export const ServiceOrderUpdateFormPage = () => {
   const { goBack } = useNavigation();
+  const { scrollViewFormRef, onFormError } = useFormErrorAlert();
+
   const {
     serviceOrderData,
     handleRegister,
@@ -53,7 +55,7 @@ export const ServiceOrderUpdateFormPage = () => {
       footer={
         <WrapperButtons>
           <Button
-            onPress={handleSubmit(handleRegister)}
+            onPress={handleSubmit(handleRegister, onFormError)}
             mode="contained"
             loading={registerLoading}
           >
@@ -62,6 +64,7 @@ export const ServiceOrderUpdateFormPage = () => {
         </WrapperButtons>
       }
       hasScroll
+      scrollViewRef={scrollViewFormRef}
     >
       {dataLoading ? (
         <LoaderBox>

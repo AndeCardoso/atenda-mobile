@@ -10,8 +10,11 @@ import { ICustomerForm, customerSchema } from "../schema";
 import { UpdateCustomerForm } from "./form";
 import { customerStatusList } from "../../constants";
 import { LoaderBox } from "@components/base/Loader/styles";
+import { useFormErrorAlert } from "@hooks/useFormErrorAlert";
 
 export const CustomerUpdateFormPage = () => {
+  const { scrollViewFormRef, onFormError } = useFormErrorAlert();
+
   const {
     customerData,
     handleEnabledButton,
@@ -41,7 +44,7 @@ export const CustomerUpdateFormPage = () => {
       footer={
         <WrapperButtons>
           <Button
-            onPress={handleSubmit(handleRegister)}
+            onPress={handleSubmit(handleRegister, onFormError)}
             mode="contained"
             loading={registerLoading}
             disabled={!buttonEnabledState}
@@ -51,6 +54,7 @@ export const CustomerUpdateFormPage = () => {
         </WrapperButtons>
       }
       hasScroll
+      scrollViewRef={scrollViewFormRef}
     >
       {dataLoading ? (
         <LoaderBox>

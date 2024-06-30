@@ -9,15 +9,17 @@ import { Button } from "@components/base/Button";
 import { ServiceForm } from "./form";
 import { IAddressModel } from "@model/entities/address";
 import { IAddressForm } from "@components/forms/AddressForm/formSchema";
-import { useToast } from "@hooks/useToast";
 import {
   serviceOrderStatusEnum,
   serviceOrderStatusList,
 } from "../../constants";
 import { AbandonmentModal } from "../../components/AbandonmentModal";
 import { getNowDateTime } from "@utils/createDateTime";
+import { useFormErrorAlert } from "@hooks/useFormErrorAlert";
 
 export const ServiceFormPage = () => {
+  const { scrollViewFormRef, onFormError } = useFormErrorAlert();
+
   const {
     addressList,
     handleGoBack,
@@ -95,12 +97,16 @@ export const ServiceFormPage = () => {
       close={onAbandomentModalToggle}
       footer={
         <WrapperButtons>
-          <Button onPress={handleSubmit(handleSaveAndForward)} mode="contained">
+          <Button
+            onPress={handleSubmit(handleSaveAndForward, onFormError)}
+            mode="contained"
+          >
             Salvar e avançar
           </Button>
         </WrapperButtons>
       }
       hasScroll
+      scrollViewRef={scrollViewFormRef}
       steps={{ total: 4, current: 4 }}
     >
       <Container>
