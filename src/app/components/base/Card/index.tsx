@@ -38,6 +38,7 @@ export const Card = ({
       style={styles}
       onPress={onPress && !disabled ? onPress : undefined}
       disabled={disabled}
+      activeOpacity={!onPress ? 1 : 0.4}
     >
       {children}
       {footerLabel ? (

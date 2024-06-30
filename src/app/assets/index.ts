@@ -3,6 +3,7 @@ export const images = {
     dark: require("./brand/brand-dark.png"),
     light: require("./brand/brand-light.png"),
   },
+  icon: require("./icon.png"),
   background: require("./background.png"),
   feedback: {
     emptyState: require("./empty-state.png"),

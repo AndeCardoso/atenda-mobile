@@ -4,7 +4,6 @@ import { useHomeController } from "./useHomeController";
 import { useIsFocused } from "@react-navigation/native";
 import { Text } from "@components/base/Text";
 import { Section } from "@components/Section";
-import { Card } from "@components/base/Card";
 import { FabGroup } from "@components/base/FAB";
 import { Loader } from "@components/base/Loader";
 import { Carousel } from "@components/base/Carousel";
@@ -15,7 +14,9 @@ import { EquipmentGetResponseDTO } from "@services/equipment/dtos/response/Equip
 import { EmptyStateSection } from "./components/EmptyStateSection";
 import { DatasSection } from "./components/DatasSection";
 import { Divider } from "@components/base/Separator";
-import { AdvertiseCard, Container } from "./styles";
+import { Container } from "./styles";
+import { AdvertiseCard } from "./components/AdvertiseCard";
+import { Spacer } from "@components/base/Spacer";
 
 export const HomePage = () => {
   const isFocused = useIsFocused();
@@ -39,6 +40,9 @@ export const HomePage = () => {
     },
   } = useHomeController();
 
+  const hasServiceOrderOpened =
+    serviceOrderOpenedListData && serviceOrderOpenedListData.length > 0;
+
   return (
     <Layout
       hasBrand
@@ -56,12 +60,9 @@ export const HomePage = () => {
         ) : advertiseData ? (
           <>
             <Section title="Notificações" fullwidth>
-              <AdvertiseCard color="SECONDARY_INACTIVE">
-                <Text weight="600" size={24} color="WHITE">
-                  {advertiseData?.message}
-                </Text>
-              </AdvertiseCard>
+              <AdvertiseCard message={advertiseData?.message || ""} />
             </Section>
+            <Spacer spaceVertical={16} />
             <Divider spaceVertical={16} horizontalPadding={16} />
           </>
         ) : null}
@@ -76,13 +77,16 @@ export const HomePage = () => {
         <Divider spaceVertical={16} horizontalPadding={16} />
         <Section
           title="Próximas O.S. em aberto"
-          action={{ text: "Ver mais", onPress: handleGoToServiceOrders }}
+          action={
+            hasServiceOrderOpened
+              ? { text: "Ver mais", onPress: handleGoToServiceOrders }
+              : undefined
+          }
           fullwidth
         >
           {isLoadingServiceOrderOpenedList ? (
             <Loader size={64} />
-          ) : serviceOrderOpenedListData &&
-            serviceOrderOpenedListData.length > 0 ? (
+          ) : hasServiceOrderOpened ? (
             <Carousel
               height={248}
               data={serviceOrderOpenedListData}
