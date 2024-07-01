@@ -20,6 +20,7 @@ import { Divider } from "@components/base/Separator";
 import { Loader } from "@components/base/Loader";
 import { useIsFocused } from "@react-navigation/native";
 import { FabGroup } from "@components/base/FAB";
+import { LoaderBox } from "@components/base/Loader/styles";
 
 export const TechnicianDetailPage = () => {
   const isFocused = useIsFocused();
@@ -34,7 +35,9 @@ export const TechnicianDetailPage = () => {
   return (
     <Layout header="Detalhes do técnico" goBack={handleGoBack} hasScroll>
       {loading ? (
-        <Loader />
+        <LoaderBox>
+          <Loader size={64} />
+        </LoaderBox>
       ) : (
         <>
           <Container>

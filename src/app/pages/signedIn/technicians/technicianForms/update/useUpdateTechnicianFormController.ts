@@ -15,7 +15,7 @@ import { useToast } from "@hooks/useToast";
 
 export const useUpdateTechnicianFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
-  const { unexpectedErrorToast } = useToast();
+  const { unexpectedErrorToast, createToast } = useToast();
   const { params } = useRoute<any>();
   const { technicianId } = params;
   const queryClient = useQueryClient();
@@ -94,6 +94,10 @@ export const useUpdateTechnicianFormController = () => {
   const handleRegister = async (values: ITechnicianForm) => {
     const res = await mutateAsyncRegister(values);
     if (res.statusCode === HttpStatusCode.Ok) {
+      createToast({
+        message: "Técnico atualizado com sucesso",
+        alertType: "success",
+      });
       handleGoBack();
     }
   };

@@ -2,6 +2,8 @@ import {
   IUserForm,
   userSchemaObject,
 } from "@pages/signedIn/users/usersForms/schema";
+import { cnpjValidation } from "@utils/cnpjValidation";
+import { cpfValidation } from "@utils/cpfValidation";
 import { unmask } from "@utils/formatString";
 import * as yup from "yup";
 
@@ -34,21 +36,11 @@ export const registerCompanySchema: yup.ObjectSchema<IRegisterCompanyForm> = yup
         }),
       companyDocument: yup
         .string()
-        .test({
-          name: "min",
-          test: (value) => {
-            if (!value) return true;
-            return unmask(value).length >= 11;
-          },
-          message: "Documento da empresa deve ter no minímo 11 caracteres",
-        })
-        .test({
-          name: "max",
-          test: (value) => {
-            if (!value) return true;
-            return unmask(value).length <= 14;
-          },
-          message: "Documento da empresa deve ter no máximo de 14 caracteres",
+        .test("valid-document", "Documento inválido", (value) => {
+          if (value && value.length === 14) {
+            return cpfValidation(value);
+          }
+          return cnpjValidation(value);
         }),
       ...userSchemaObject,
     },

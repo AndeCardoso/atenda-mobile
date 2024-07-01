@@ -84,7 +84,7 @@ export const useAddressFormController = () => {
   const searchedCityList =
     citiesList &&
     citiesList?.filter((item) => {
-      return item.text
+      return removeAccentMarks(item.text)
         .toLowerCase()
         .includes(removeAccentMarks(searchedCityState?.toLowerCase()));
     });

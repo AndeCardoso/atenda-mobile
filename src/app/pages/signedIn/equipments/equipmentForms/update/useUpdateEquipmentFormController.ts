@@ -14,7 +14,7 @@ import { useToast } from "@hooks/useToast";
 
 export const useUpdateEquipmentFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
-  const { unexpectedErrorToast } = useToast();
+  const { unexpectedErrorToast, createToast } = useToast();
   const { params } = useRoute<any>();
   const { equipmentId } = params;
   const queryClient = useQueryClient();
@@ -86,6 +86,10 @@ export const useUpdateEquipmentFormController = () => {
   const handleRegister = async (values: IEquipmentForm) => {
     const res = await mutateAsyncRegister(values);
     if (res.statusCode === HttpStatusCode.Ok) {
+      createToast({
+        message: "Equipamento atualizado com sucesso",
+        alertType: "success",
+      });
       handleGoBack();
     }
   };

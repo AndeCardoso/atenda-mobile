@@ -9,9 +9,13 @@ import { Loader } from "@components/base/Loader";
 import { IUserForm, userSchema } from "../schema";
 import { UpdateUserForm } from "./form";
 import { useUpdateUserFormController } from "./useUpdateUserFormController";
+import { LoaderBox } from "@components/base/Loader/styles";
+import { useFormErrorAlert } from "@hooks/useFormErrorAlert";
 
 export const UserUpdateFormPage = () => {
   const { goBack } = useNavigation();
+  const { scrollViewFormRef, onFormError } = useFormErrorAlert();
+
   const {
     userData,
     handleRegister,
@@ -34,7 +38,7 @@ export const UserUpdateFormPage = () => {
       footer={
         <WrapperButtons>
           <Button
-            onPress={handleSubmit(handleRegister)}
+            onPress={handleSubmit(handleRegister, onFormError)}
             mode="contained"
             loading={registerLoading}
           >
@@ -43,9 +47,12 @@ export const UserUpdateFormPage = () => {
         </WrapperButtons>
       }
       hasScroll
+      scrollViewRef={scrollViewFormRef}
     >
       {dataLoading ? (
-        <Loader />
+        <LoaderBox>
+          <Loader size={64} />
+        </LoaderBox>
       ) : (
         <Container>
           <UpdateUserForm control={control} />

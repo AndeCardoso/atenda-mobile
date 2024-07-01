@@ -17,6 +17,7 @@ import { EquipmentAccordion } from "@components/accordions/EquipmentAccordion";
 import { Dimensions, Image } from "react-native";
 import { convertDateTimeToString } from "@utils/createDateTime";
 import { convertNumberToCurrency } from "@utils/convertCurrency";
+import { LoaderBox } from "@components/base/Loader/styles";
 
 const width = Dimensions.get("window").width;
 
@@ -35,7 +36,9 @@ export const ServiceOrderDetailPage = () => {
   return (
     <Layout header="Detalhes da O.S." goBack={handleGoBack} hasScroll>
       {loading ? (
-        <Loader />
+        <LoaderBox>
+          <Loader size={64} />
+        </LoaderBox>
       ) : (
         <>
           <Container>
@@ -137,21 +140,23 @@ export const ServiceOrderDetailPage = () => {
             <Text color="WHITE_TEXT" size={14}>
               Assinatura:
             </Text>
-            <Image
-              source={{
-                uri: `${serviceOrderData?.signatureUrl}`,
-              }}
-              alt="Assinatura do cliente"
-              resizeMode="contain"
-              resizeMethod="scale"
-              style={{
-                transform: [{ rotate: "90deg" }],
-                alignSelf: "center",
-                marginTop: -74,
-              }}
-              width={265}
-              height={width - 32}
-            />
+            {serviceOrderData?.signatureUrl ? (
+              <Image
+                source={{
+                  uri: `${serviceOrderData?.signatureUrl}`,
+                }}
+                alt="Assinatura do cliente"
+                resizeMode="contain"
+                resizeMethod="scale"
+                style={{
+                  transform: [{ rotate: "90deg" }],
+                  alignSelf: "center",
+                  marginTop: -74,
+                }}
+                width={265}
+                height={width - 32}
+              />
+            ) : null}
           </Container>
           <FabGroup
             isFocused={isFocused}

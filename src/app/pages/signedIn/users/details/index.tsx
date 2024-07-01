@@ -12,6 +12,7 @@ import { Layout } from "@components/Layout";
 import { Row } from "@components/base/Row";
 import { Container, WrapperName } from "./styles";
 import { FabGroup } from "@components/base/FAB";
+import { LoaderBox } from "@components/base/Loader/styles";
 
 export const UserDetailPage = () => {
   const isFocused = useIsFocused();
@@ -26,7 +27,9 @@ export const UserDetailPage = () => {
   return (
     <Layout header="Detalhes do usuário" goBack={handleGoBack} hasScroll>
       {loading ? (
-        <Loader />
+        <LoaderBox>
+          <Loader size={64} />
+        </LoaderBox>
       ) : (
         <>
           <Container>

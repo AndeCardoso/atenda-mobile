@@ -15,7 +15,7 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "com.anonymous.atendamobile"
     },
     "android": {
@@ -23,7 +23,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#293148"
       },
-      "package": "com.anonymous.atendamobile"
+      "package": "com.anonymous.atendamobile",
     },
     "web": {
       "favicon": "./assets/favicon.png"

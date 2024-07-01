@@ -64,7 +64,7 @@ export const useRegisterCustomerFormController = () => {
     const addressesForm = values.addresses;
     if (addressesForm.length === 0) {
       createToast({
-        duration: 5000,
+        duration: 3000,
         alertType: "alert",
         message: "É obrigatório informar ao menos um endereço",
       });
@@ -72,6 +72,10 @@ export const useRegisterCustomerFormController = () => {
     }
     const res = await mutateAsyncRegister(values);
     if (res.statusCode === HttpStatusCode.Created) {
+      createToast({
+        message: "Cliente cadastrado com sucesso",
+        alertType: "success",
+      });
       handleGoBack();
     }
   };

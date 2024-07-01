@@ -48,7 +48,9 @@ export const Button = ({
       {...rest}
     >
       {children}
-      {loading ? <StyledLoader size={16} color={loadingColors[mode]} /> : null}
+      {loading ? (
+        <StyledLoader size={16} color={loadingColors[mode]} small />
+      ) : null}
     </PaperButton>
   );
 };

@@ -27,7 +27,7 @@ export const Input = ({
 
   const inputRef = useRef<TextInputRN>(null);
 
-  const handleToogleShowPassword = () => {
+  const handleToggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
@@ -40,6 +40,7 @@ export const Input = ({
     width: "100%",
     height: longText ? 220 : undefined,
     backgroundColor: colors.INPUT_BACKGROUND,
+    textAlign: "auto",
   };
 
   const disabledInputStyle: StyleProp<TextStyle> = {
@@ -101,7 +102,7 @@ export const Input = ({
           <TextInput.Icon
             icon={showPassword ? "eye-off" : "eye"}
             color={colors.WHITE}
-            onPress={handleToogleShowPassword}
+            onPress={handleToggleShowPassword}
           />
         )
       }

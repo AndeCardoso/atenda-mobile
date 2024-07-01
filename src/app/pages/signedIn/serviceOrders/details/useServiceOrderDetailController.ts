@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { HttpStatusCode } from "axios";
-import { useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import {
   useFocusEffect,
   useNavigation,
@@ -11,6 +11,10 @@ import { SignedInNavigators, SignedInScreens } from "@routes/screens";
 import { SuperConsole } from "@tools/indentedConsole";
 import ServiceOrderService from "@services/serviceOrder";
 import { useToast } from "@hooks/useToast";
+import { Platform } from "react-native";
+import { openBrowserAsync } from "expo-web-browser";
+
+const android = Platform.OS === "android";
 
 export const useServiceOrderDetailController = () => {
   const { colors } = useTheme();
@@ -48,6 +52,33 @@ export const useServiceOrderDetailController = () => {
     }
   );
 
+  const { mutateAsync: pdfMutateAsync, isLoading: pdfLoading } = useMutation(
+    ["getPdfReport", serviceOrderId],
+    async () => {
+      const { statusCode, body } = await serviceOrderService.getPdfReport(
+        serviceOrderId
+      );
+      switch (statusCode) {
+        case HttpStatusCode.Ok:
+          await openBrowserAsync(body.url);
+          return;
+        case HttpStatusCode.NoContent:
+        case HttpStatusCode.BadRequest:
+        default:
+          SuperConsole(body, "getPdfReport");
+          unexpectedErrorToast();
+          return;
+      }
+    },
+    {
+      onError: async (error) => {
+        SuperConsole(error, "getPdfReport");
+        unexpectedErrorToast();
+        return;
+      },
+    }
+  );
+
   const handleGoToTechnicianDetail = (technicianId: number) => {
     navigate(SignedInNavigators.TECHNICIANS, {
       screen: SignedInScreens.TECHNICIANS_DETAILS,
@@ -63,6 +94,10 @@ export const useServiceOrderDetailController = () => {
   };
 
   const handleGoToPdfView = async () => {
+    if (android) {
+      await pdfMutateAsync();
+      return;
+    }
     navigate(SignedInScreens.SERVICE_ORDERS_REPORT, {
       serviceOrderId,
     });
@@ -87,7 +122,7 @@ export const useServiceOrderDetailController = () => {
   const fabActions = [
     {
       icon: "file-pdf-box",
-      label: "Emitir PDF",
+      label: "Emitir relatório",
       onPress: handleGoToPdfView,
       color: colors.PRIMARY,
       style: actionStyles,
@@ -114,7 +149,7 @@ export const useServiceOrderDetailController = () => {
     handleGoBack,
     fabActions,
     viewState: {
-      loading: isLoading,
+      loading: isLoading || pdfLoading,
     },
   };
 };

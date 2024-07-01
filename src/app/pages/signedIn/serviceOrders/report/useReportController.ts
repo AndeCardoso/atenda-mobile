@@ -58,16 +58,21 @@ export const useReportController = () => {
   );
 
   const handleShare = async () => {
-    const fileInfo = await getInfoAsync(fileUri);
-    if (fileInfo.exists) {
-      await Sharing.shareAsync(fileUri, { mimeType: "pdf" });
-    } else {
+    try {
+      await Sharing.shareAsync(fileUri, { UTI: ".pdf" });
+      return;
+    } catch (error) {
       createToast({
-        duration: 5000,
+        duration: 3000,
         alertType: "error",
-        message: "Erro ao salvar relatório",
+        message: "Erro ao compartilhar relatório",
       });
     }
+    createToast({
+      duration: 3000,
+      alertType: "error",
+      message: "Erro ao compartilhar relatório",
+    });
   };
 
   const handleSave = async () => {
@@ -91,17 +96,23 @@ export const useReportController = () => {
     const downloadResponse = await downloadResumable.downloadAsync();
 
     if (downloadResponse?.status === HttpStatusCode.Ok) {
-      await Sharing.shareAsync(downloadResponse.uri);
-      createToast({
-        duration: 5000,
-        alertType: "success",
-        message: "Relatório salvo com sucesso",
-      });
-      return;
-    }
+      const fileInfo = await getInfoAsync(downloadResponse?.uri);
 
+      if (fileInfo.exists) {
+        try {
+          await Sharing.shareAsync(downloadResponse.uri, { UTI: ".pdf" });
+        } catch (error) {
+          createToast({
+            duration: 3000,
+            alertType: "error",
+            message: "Erro ao salvar relatório",
+          });
+        }
+        return;
+      }
+    }
     createToast({
-      duration: 5000,
+      duration: 3000,
       alertType: "error",
       message: "Erro ao salvar relatório",
     });

@@ -97,16 +97,19 @@ export const EquipmentsPage = () => {
                 <EquipmentCard
                   data={item}
                   footerLabel="Detalhes"
+                  hasCustomer={isGeneralList}
                   onPress={() => handleGoToDetails(item.id)}
                 />
               )}
             />
-            <FabGroup
-              isSingle
-              isFocused={isFocused}
-              icon="plus"
-              onPress={handleGoToRegister}
-            />
+            {isGeneralList ? null : (
+              <FabGroup
+                isSingle
+                isFocused={isFocused}
+                icon="plus"
+                onPress={handleGoToRegister}
+              />
+            )}
           </>
         )}
       </Container>

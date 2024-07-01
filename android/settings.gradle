@@ -1,4 +1,4 @@
-rootProject.name = 'atenda-mobile'
+rootProject.name = 'Atenda'
 
 dependencyResolutionManagement {
   versionCatalogs {

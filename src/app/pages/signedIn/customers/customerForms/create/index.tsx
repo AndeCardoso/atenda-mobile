@@ -7,8 +7,11 @@ import { Button } from "@components/base/Button";
 import { useRegisterCustomerFormController } from "./useRegisterCustomerFormController";
 import { ICustomerForm, customerSchema } from "../schema";
 import { RegisterCustomerForm } from "./form";
+import { useFormErrorAlert } from "@hooks/useFormErrorAlert";
 
 export const CustomerRegisterFormPage = () => {
+  const { scrollViewFormRef, onFormError } = useFormErrorAlert();
+
   const {
     handleRegister,
     handleGoBack,
@@ -26,7 +29,7 @@ export const CustomerRegisterFormPage = () => {
       footer={
         <WrapperButtons>
           <Button
-            onPress={handleSubmit(handleRegister)}
+            onPress={handleSubmit(handleRegister, onFormError)}
             mode="contained"
             loading={registerLoading}
           >
@@ -35,6 +38,7 @@ export const CustomerRegisterFormPage = () => {
         </WrapperButtons>
       }
       hasScroll
+      scrollViewRef={scrollViewFormRef}
     >
       <Container>
         <RegisterCustomerForm controlProp={control} setValueProp={setValue} />

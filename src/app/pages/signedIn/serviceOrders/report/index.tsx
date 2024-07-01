@@ -10,7 +10,6 @@ import { ProgressBar } from "@components/base/ProgressBard";
 
 export const ReportPage = () => {
   const isFocused = useIsFocused();
-
   const {
     pdfData,
     handleGoBack,
@@ -29,7 +28,14 @@ export const ReportPage = () => {
           {downloadProgress > 0 && downloadProgress < 100 ? (
             <ProgressBar progressValue={downloadProgress} />
           ) : null}
-          <WebView source={{ uri: pdfData }} />
+          {pdfData ? (
+            <WebView
+              originWhitelist={["*"]}
+              source={{ uri: pdfData }}
+              style={{ flex: 1 }}
+              renderLoading={() => <Loader size={64} />}
+            />
+          ) : null}
           <FabGroup
             isFocused={isFocused}
             fabActions={fabActions}

@@ -13,7 +13,7 @@ import { useToast } from "@hooks/useToast";
 
 export const useUpdateUserFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
-  const { unexpectedErrorToast } = useToast();
+  const { unexpectedErrorToast, createToast } = useToast();
   const { params } = useRoute<any>();
   const { userId } = params;
   const queryClient = useQueryClient();
@@ -79,6 +79,10 @@ export const useUpdateUserFormController = () => {
   const handleRegister = async (values: IUserForm) => {
     const res = await mutateAsyncRegister(values);
     if (res.statusCode === HttpStatusCode.Ok) {
+      createToast({
+        message: "Usuário atualizado com sucesso",
+        alertType: "success",
+      });
       handleGoBack();
     }
   };

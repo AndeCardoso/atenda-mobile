@@ -81,10 +81,6 @@ export function ServiceOrderContextProvider({ children }: PropsWithChildren) {
     });
   };
 
-  const onTakeSignatureSnapshot = (signatureData: Uint8Array) => {
-    setCustomerSignatureSnapshotState(signatureData);
-  };
-
   return (
     <ServiceOrderContext.Provider
       value={{

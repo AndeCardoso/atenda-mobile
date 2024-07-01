@@ -8,7 +8,7 @@ import { useToast } from "@hooks/useToast";
 
 export const useRegisterEquipmentFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
-  const { unexpectedErrorToast } = useToast();
+  const { unexpectedErrorToast, createToast } = useToast();
   const { params } = useRoute<any>();
   const { customerId } = params;
 
@@ -53,6 +53,10 @@ export const useRegisterEquipmentFormController = () => {
   const handleRegister = async (values: IEquipmentForm) => {
     const res = await mutateAsyncRegister(values);
     if (res.statusCode === HttpStatusCode.Created) {
+      createToast({
+        message: "Equipamento cadastrado com sucesso",
+        alertType: "success",
+      });
       handleGoBack();
     }
   };

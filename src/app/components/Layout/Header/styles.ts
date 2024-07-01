@@ -1,8 +1,7 @@
 import { Row } from "@components/base/Row";
-import { ImageBackground } from "react-native";
 import styled from "styled-components/native";
 
-export const Container = styled(ImageBackground)<{ paddingTop: number }>`
+export const Container = styled.View<{ paddingTop: number }>`
   width: 100%;
   padding: 16px;
   padding-top: ${({ paddingTop }) => paddingTop}px;
