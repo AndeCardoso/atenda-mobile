@@ -26,7 +26,7 @@ export const EquipmentAccordion = ({
   },
 }: IEquipmentAccordionProps) => {
   return (
-    <Accordion title={nickname || ""}>
+    <Accordion title={nickname || model}>
       <Content>
         <DisplayField text="Status" value={equipmentStatusDisplay[status]} />
         <Divider />

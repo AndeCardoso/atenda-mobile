@@ -47,7 +47,7 @@ export const EquipmentCard = memo(
               numberOfLines={1}
               fullwidth
             >
-              {nickname}
+              {nickname || model}
             </Text>
 
             {status ? (
