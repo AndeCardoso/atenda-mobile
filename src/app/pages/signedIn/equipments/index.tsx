@@ -102,12 +102,14 @@ export const EquipmentsPage = () => {
                 />
               )}
             />
-            <FabGroup
-              isSingle
-              isFocused={isFocused}
-              icon="plus"
-              onPress={handleGoToRegister}
-            />
+            {isGeneralList ? null : (
+              <FabGroup
+                isSingle
+                isFocused={isFocused}
+                icon="plus"
+                onPress={handleGoToRegister}
+              />
+            )}
           </>
         )}
       </Container>
