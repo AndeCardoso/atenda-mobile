@@ -116,7 +116,11 @@ export const ServiceForm = ({
         <Text color="WHITE" weight="700">
           Endereço*
         </Text>
-        <Button mode="text" onPress={handleShowAddressToggle}>
+        <Button
+          mode="text"
+          onPress={handleShowAddressToggle}
+          style={{ backgroundColor: "transparent" }}
+        >
           {!showAddress ? "Adicionar novo" : "Selecionar existente"}
         </Button>
       </Row>
