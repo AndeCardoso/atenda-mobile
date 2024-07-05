@@ -75,7 +75,7 @@ export const Header = ({
             />
           ) : null}
           {Boolean(text) ? (
-            <Text weight="700" size={22} color="SECONDARY">
+            <Text weight="700" size={22} color="SECONDARY" fullwidth>
               {text}
             </Text>
           ) : null}
