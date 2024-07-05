@@ -39,7 +39,7 @@ export const EquipmentDetailPage = () => {
               <Row widthType="half">
                 <Icon name="laptop" color="WHITE" />
                 <Text color="WHITE" size={24} weight="600">
-                  {equipmentData?.nickname}
+                  {equipmentData?.nickname || equipmentData?.model}
                 </Text>
               </Row>
               {equipmentData?.status ? (
