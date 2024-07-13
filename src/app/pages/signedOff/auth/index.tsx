@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Layout, WrapperButtons, WrapperTop } from "./styles";
 import { Button } from "@components/base/Button";
@@ -13,6 +13,7 @@ import { Text } from "@components/base/Text";
 import { BaloonCard } from "@components/base/BaloonCard";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { images } from "@assets/index";
+import { useFocusEffect } from "@react-navigation/native";
 
 const ios = Platform.OS === "ios";
 
@@ -51,9 +52,11 @@ export const AuthPage = () => {
       setError("email", { message: loginErrorState, type: "validate" });
   }, [loginErrorState]);
 
-  useEffect(() => {
-    clearErrors();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      clearErrors();
+    }, [])
+  );
 
   return (
     <KeyboardAvoidingView

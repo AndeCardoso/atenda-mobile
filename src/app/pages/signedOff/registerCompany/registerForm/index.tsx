@@ -55,7 +55,7 @@ export const RegisterCompanyForm = ({ control }: IRegisterCompanyFormProps) => {
       />
       <BaloonCard color="PRIMARY">
         <Text color="SECONDARY">
-          {`A empresa cradastrada terá uma licença gratuita com o prazo de 15 dias para uso, após esse periodo a conta terá o acesso interrompido.\n\nAo completar 30 dias após o vencimento da licença gratuita, os dados salvos durante periodo de teste serão descartados.`}
+          {`A empresa cradastrada terá uma licença gratuita com o prazo de 15 dias para uso, após esse periodo a conta terá o acesso interrompido.`}
         </Text>
       </BaloonCard>
     </Container>

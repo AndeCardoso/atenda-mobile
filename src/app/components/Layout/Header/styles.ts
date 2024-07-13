@@ -12,12 +12,14 @@ export const Container = styled.View<{ paddingTop: number }>`
 
 export const ContainerTop = styled(Row)`
   align-items: center;
+  width: 100%;
   justify-content: space-between;
   padding: 0 4px;
   gap: 24px;
 `;
 
 export const StyledRow = styled(Row)`
+  flex: 1;
   width: auto;
   gap: 8px;
 `;
