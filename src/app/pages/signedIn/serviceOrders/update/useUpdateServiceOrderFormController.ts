@@ -13,6 +13,7 @@ import { IServiceForm } from "../schema";
 import { IServiceOrderModel } from "@model/entities/serviceOrder";
 import { useToast } from "@hooks/useToast";
 import { convertCurrencyToNumber } from "@utils/convertCurrency";
+import { useAuth } from "@hooks/useAuth";
 
 export const useUpdateServiceOrderFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
@@ -20,6 +21,7 @@ export const useUpdateServiceOrderFormController = () => {
   const { params } = useRoute<any>();
   const { serviceOrderId } = params;
   const queryClient = useQueryClient();
+  const { logout } = useAuth();
 
   const serviceOrderService = new ServiceOrderService();
 
@@ -33,6 +35,9 @@ export const useUpdateServiceOrderFormController = () => {
         case HttpStatusCode.Ok:
           return body;
         case HttpStatusCode.NoContent:
+        case HttpStatusCode.Unauthorized:
+          logout();
+          return;
         case HttpStatusCode.BadRequest:
         default:
           SuperConsole(body, "getServiceOrderUpdate");
@@ -79,6 +84,9 @@ export const useUpdateServiceOrderFormController = () => {
           switch (statusCode) {
             case HttpStatusCode.Ok:
               return body;
+            case HttpStatusCode.Unauthorized:
+              logout();
+              return;
             case HttpStatusCode.BadRequest:
             default:
               SuperConsole(body, "updateServiceOrder");

@@ -9,11 +9,13 @@ import { requestStateEnum } from "app/constants/requestStates";
 import { useToast } from "@hooks/useToast";
 import { SuperConsole } from "@tools/indentedConsole";
 import { technicianStatusEnum } from "./constants";
+import { useAuth } from "@hooks/useAuth";
 
 export const useTechniciansController = () => {
   const { unexpectedErrorToast } = useToast();
   const { navigate, canGoBack, goBack } = useNavigation<any>();
   const queryClient = useQueryClient();
+  const { logout } = useAuth();
 
   const technicianService = new TechnicianService();
 
@@ -44,6 +46,9 @@ export const useTechniciansController = () => {
           return body;
         case HttpStatusCode.NoContent:
           setListState(requestStateEnum.EMPTY);
+          return;
+        case HttpStatusCode.Unauthorized:
+          logout();
           return;
         case HttpStatusCode.BadRequest:
         default:

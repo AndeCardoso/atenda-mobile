@@ -5,10 +5,12 @@ import { SuperConsole } from "@tools/indentedConsole";
 import { IUserForm } from "../schema";
 import UserService from "@services/user";
 import { useToast } from "@hooks/useToast";
+import { useAuth } from "@hooks/useAuth";
 
 export const useRegisterUserFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
   const { unexpectedErrorToast, createToast } = useToast();
+  const { logout } = useAuth();
 
   const userService = new UserService();
 
@@ -23,6 +25,9 @@ export const useRegisterUserFormController = () => {
           switch (statusCode) {
             case HttpStatusCode.Created:
               return body;
+            case HttpStatusCode.Unauthorized:
+              logout();
+              return;
             case HttpStatusCode.BadRequest:
             default:
               SuperConsole(body, "userRegister");

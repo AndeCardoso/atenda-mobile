@@ -12,6 +12,7 @@ import { SuperConsole } from "@tools/indentedConsole";
 import { useCallback } from "react";
 import { useToast } from "@hooks/useToast";
 import { serviceOrderFilteredByEnum } from "@pages/signedIn/serviceOrders/constants";
+import { useAuth } from "@hooks/useAuth";
 
 export const useCustomerDetailController = () => {
   const { colors } = useTheme();
@@ -20,6 +21,7 @@ export const useCustomerDetailController = () => {
   const { params } = useRoute<any>();
   const { customerId } = params;
   const queryClient = useQueryClient();
+  const { logout } = useAuth();
 
   const customerService = new CustomerService();
 
@@ -33,6 +35,9 @@ export const useCustomerDetailController = () => {
         case HttpStatusCode.Ok:
           return body;
         case HttpStatusCode.NoContent:
+        case HttpStatusCode.Unauthorized:
+          logout();
+          return;
         case HttpStatusCode.BadRequest:
         default:
           SuperConsole(body, "customerDetails");

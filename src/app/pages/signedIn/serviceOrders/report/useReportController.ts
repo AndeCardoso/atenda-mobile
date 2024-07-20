@@ -16,6 +16,7 @@ import {
   getInfoAsync,
 } from "expo-file-system";
 import * as Sharing from "expo-sharing";
+import { useAuth } from "@hooks/useAuth";
 
 export const useReportController = () => {
   const { colors } = useTheme();
@@ -24,6 +25,7 @@ export const useReportController = () => {
   const { params } = useRoute<any>();
   const { serviceOrderId } = params;
   const queryClient = useQueryClient();
+  const { logout } = useAuth();
 
   const [downloadProgress, setDownloadProgress] = useState(0);
 
@@ -41,6 +43,9 @@ export const useReportController = () => {
         case HttpStatusCode.Ok:
           return body.url;
         case HttpStatusCode.NoContent:
+        case HttpStatusCode.Unauthorized:
+          logout();
+          return;
         case HttpStatusCode.BadRequest:
         default:
           SuperConsole(body, "getPdfReport");

@@ -12,6 +12,7 @@ import { ITechnicianForm } from "../schema";
 import { unmask } from "@utils/formatString";
 import { useCallback } from "react";
 import { useToast } from "@hooks/useToast";
+import { useAuth } from "@hooks/useAuth";
 
 export const useUpdateTechnicianFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
@@ -19,6 +20,7 @@ export const useUpdateTechnicianFormController = () => {
   const { params } = useRoute<any>();
   const { technicianId } = params;
   const queryClient = useQueryClient();
+  const { logout } = useAuth();
 
   const technicianService = new TechnicianService();
 
@@ -32,6 +34,9 @@ export const useUpdateTechnicianFormController = () => {
         case HttpStatusCode.Ok:
           return body;
         case HttpStatusCode.NoContent:
+        case HttpStatusCode.Unauthorized:
+          logout();
+          return;
         case HttpStatusCode.BadRequest:
         default:
           SuperConsole(body, "getTechnicianUpdate");
@@ -72,6 +77,9 @@ export const useUpdateTechnicianFormController = () => {
           switch (statusCode) {
             case HttpStatusCode.Ok:
               return body;
+            case HttpStatusCode.Unauthorized:
+              logout();
+              return;
             case HttpStatusCode.BadRequest:
             default:
               SuperConsole(body, "updateTechnician");

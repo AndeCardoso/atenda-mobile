@@ -8,11 +8,13 @@ import { reducePages } from "@utils/reducePages";
 import { requestStateEnum } from "app/constants/requestStates";
 import { useToast } from "@hooks/useToast";
 import { SuperConsole } from "@tools/indentedConsole";
+import { useAuth } from "@hooks/useAuth";
 
 export const useUsersController = () => {
   const { navigate, canGoBack, goBack } = useNavigation<any>();
   const { unexpectedErrorToast } = useToast();
   const queryClient = useQueryClient();
+  const { logout } = useAuth();
 
   const userService = new UserService();
 
@@ -41,6 +43,9 @@ export const useUsersController = () => {
           return body;
         case HttpStatusCode.NoContent:
           setListState(requestStateEnum.EMPTY);
+          return;
+        case HttpStatusCode.Unauthorized:
+          logout();
           return;
         case HttpStatusCode.BadRequest:
         default:

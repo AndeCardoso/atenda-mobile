@@ -12,6 +12,7 @@ import { SuperConsole } from "@tools/indentedConsole";
 import { useCallback } from "react";
 import { useToast } from "@hooks/useToast";
 import { serviceOrderFilteredByEnum } from "@pages/signedIn/serviceOrders/constants";
+import { useAuth } from "@hooks/useAuth";
 
 export const useTechnicianDetailController = () => {
   const { colors } = useTheme();
@@ -20,6 +21,7 @@ export const useTechnicianDetailController = () => {
   const { params } = useRoute<any>();
   const { technicianId } = params;
   const queryClient = useQueryClient();
+  const { logout } = useAuth();
 
   const technicianService = new TechnicianService();
 
@@ -33,6 +35,9 @@ export const useTechnicianDetailController = () => {
         case HttpStatusCode.Ok:
           return body;
         case HttpStatusCode.NoContent:
+        case HttpStatusCode.Unauthorized:
+          logout();
+          return;
         case HttpStatusCode.BadRequest:
         default:
           SuperConsole(body, "technicianDetails");

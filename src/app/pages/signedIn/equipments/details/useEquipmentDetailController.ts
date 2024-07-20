@@ -12,6 +12,7 @@ import { SuperConsole } from "@tools/indentedConsole";
 import { useCallback } from "react";
 import { useToast } from "@hooks/useToast";
 import { serviceOrderFilteredByEnum } from "@pages/signedIn/serviceOrders/constants";
+import { useAuth } from "@hooks/useAuth";
 
 export const useEquipmentDetailController = () => {
   const { colors } = useTheme();
@@ -20,6 +21,7 @@ export const useEquipmentDetailController = () => {
   const { params } = useRoute<any>();
   const { equipmentId } = params;
   const queryClient = useQueryClient();
+  const { logout } = useAuth();
 
   const equipmentService = new EquipmentService();
 
@@ -31,6 +33,9 @@ export const useEquipmentDetailController = () => {
         case HttpStatusCode.Ok:
           return body;
         case HttpStatusCode.NoContent:
+        case HttpStatusCode.Unauthorized:
+          logout();
+          return;
         case HttpStatusCode.BadRequest:
         default:
           SuperConsole(body, "equipmentDetails");

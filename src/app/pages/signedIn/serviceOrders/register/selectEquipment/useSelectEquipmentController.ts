@@ -15,6 +15,7 @@ import { useServiceOrderContext } from "@contexts/serviceOrder";
 import { IEquipmentModel } from "@model/entities/equipment";
 import { SignedInNavigators, SignedInScreens } from "@routes/screens";
 import { SuperConsole } from "@tools/indentedConsole";
+import { useAuth } from "@hooks/useAuth";
 
 export const useSelectEquipmentController = () => {
   const { unexpectedErrorToast } = useToast();
@@ -22,6 +23,7 @@ export const useSelectEquipmentController = () => {
   const queryClient = useQueryClient();
   const route = useRoute<any>();
   const { customerId } = route.params;
+  const { logout } = useAuth();
 
   const { onSelectEquipment } = useServiceOrderContext();
 
@@ -55,6 +57,9 @@ export const useSelectEquipmentController = () => {
           return body;
         case HttpStatusCode.NoContent:
           setListState(requestStateEnum.EMPTY);
+          return;
+        case HttpStatusCode.Unauthorized:
+          logout();
           return;
         case HttpStatusCode.BadRequest:
         default:
