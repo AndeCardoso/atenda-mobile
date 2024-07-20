@@ -43,6 +43,7 @@ export const useReportController = () => {
         case HttpStatusCode.Ok:
           return body.url;
         case HttpStatusCode.NoContent:
+          return;
         case HttpStatusCode.Unauthorized:
           logout();
           return;

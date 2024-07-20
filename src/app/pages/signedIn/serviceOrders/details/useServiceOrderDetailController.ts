@@ -38,6 +38,7 @@ export const useServiceOrderDetailController = () => {
         case HttpStatusCode.Ok:
           return body;
         case HttpStatusCode.NoContent:
+          return;
         case HttpStatusCode.Unauthorized:
           logout();
           return;
@@ -68,6 +69,7 @@ export const useServiceOrderDetailController = () => {
           await openBrowserAsync(body.url);
           return;
         case HttpStatusCode.NoContent:
+          return;
         case HttpStatusCode.Unauthorized:
           logout();
           return;

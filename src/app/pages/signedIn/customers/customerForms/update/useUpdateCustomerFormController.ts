@@ -40,6 +40,7 @@ export const useUpdateCustomerFormController = () => {
         case HttpStatusCode.Ok:
           return body;
         case HttpStatusCode.NoContent:
+          return;
         case HttpStatusCode.Unauthorized:
           logout();
           return;
