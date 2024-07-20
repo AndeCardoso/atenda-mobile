@@ -16,7 +16,12 @@
     ],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.anonymous.atendamobile"
+      "bundleIdentifier": "com.anonymous.atendamobile",
+      "splash": {
+        "image": "./assets/splash.png",
+        "resizeMode": "cover",
+        "backgroundColor": "#293148"
+      }
     },
     "android": {
       "adaptiveIcon": {
