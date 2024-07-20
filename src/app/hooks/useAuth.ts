@@ -1,8 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { useNavigation } from "@react-navigation/native";
-import { Navigators, SignedOffScreens } from "@routes/screens";
-
 import { AsyncAuthEnum } from "@model/asyncStorage/auth";
 import { useAuthContext } from "@contexts/auth/useAuthContext";
 

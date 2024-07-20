@@ -53,8 +53,6 @@ export class AxiosHttpClient implements IHttpClient {
       if (err?.response?.status === HttpStatusCode.Unauthorized) {
         await AsyncStorage.removeItem(AsyncAuthEnum.TOKEN);
       }
-      if (err?.response?.status === HttpStatusCode.InternalServerError) {
-      }
 
       return {
         statusCode: err?.response?.status,
