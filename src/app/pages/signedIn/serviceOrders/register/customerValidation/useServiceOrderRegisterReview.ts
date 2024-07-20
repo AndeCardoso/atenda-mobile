@@ -14,12 +14,14 @@ import { captureRef } from "react-native-view-shot";
 import * as MediaLibrary from "expo-media-library";
 import { serviceOrderStatusEnum } from "../../constants";
 import { convertCurrencyToNumber } from "@utils/convertCurrency";
+import { useAuth } from "@hooks/useAuth";
 
 export const useServiceOrderRegisterReview = () => {
   const signatureRef = useRef();
   const { navigate, replace, canGoBack, goBack, getParent } =
     useNavigation<any>();
   const { unexpectedErrorToast, createToast } = useToast();
+  const { logout } = useAuth();
 
   const [permissionStatus, requestPermission] = MediaLibrary.usePermissions();
 
@@ -99,6 +101,9 @@ export const useServiceOrderRegisterReview = () => {
           switch (statusCode) {
             case HttpStatusCode.Created:
               return body;
+            case HttpStatusCode.Unauthorized:
+              logout();
+              return;
             case HttpStatusCode.BadRequest:
             default:
               SuperConsole(body, "serviceOrderRegister");
@@ -136,6 +141,9 @@ export const useServiceOrderRegisterReview = () => {
         switch (statusCode) {
           case HttpStatusCode.Created:
             return body;
+          case HttpStatusCode.Unauthorized:
+            logout();
+            return;
           case HttpStatusCode.BadRequest:
           case HttpStatusCode.NotFound:
           default:

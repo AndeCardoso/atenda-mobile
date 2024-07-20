@@ -26,7 +26,7 @@ export const AppRoutes = () => {
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         }}
       >
-        {token ? (
+        {token !== null ? (
           <Stack.Screen
             name={Navigators.SIGNED_IN_NAVIGATOR}
             component={SignedInNavigator}

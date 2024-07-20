@@ -11,6 +11,7 @@ import { SuperConsole } from "@tools/indentedConsole";
 import { useCallback } from "react";
 import UserService from "@services/user";
 import { useToast } from "@hooks/useToast";
+import { useAuth } from "@hooks/useAuth";
 
 export const useUserDetailController = () => {
   const { colors } = useTheme();
@@ -19,6 +20,7 @@ export const useUserDetailController = () => {
   const { params } = useRoute<any>();
   const { userId } = params;
   const queryClient = useQueryClient();
+  const { logout } = useAuth();
 
   const userService = new UserService();
 
@@ -32,6 +34,10 @@ export const useUserDetailController = () => {
         case HttpStatusCode.Ok:
           return body;
         case HttpStatusCode.NoContent:
+          return;
+        case HttpStatusCode.Unauthorized:
+          logout();
+          return;
         case HttpStatusCode.BadRequest:
         default:
           SuperConsole(body, "userDetails");

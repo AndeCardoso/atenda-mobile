@@ -13,33 +13,38 @@ interface ICustomerAccordionProps {
   data: Partial<ICustomerModel>;
 }
 
-export const CustomerAccordion = ({
-  data: { name, document, email, phone, status, secondPhone },
-}: ICustomerAccordionProps) => {
+export const CustomerAccordion = ({ data }: ICustomerAccordionProps) => {
   return (
-    <Accordion title={name || ""}>
+    <Accordion title={data?.name || ""}>
       <Content>
-        <DisplayField text="Status" value={customerStatusDisplay[status!!]} />
+        <DisplayField
+          text="Status"
+          value={customerStatusDisplay[data?.status!!]}
+        />
         <Divider />
-        <DisplayField text="Documento" value={formatCpf(document)} hasCopy />
+        <DisplayField
+          text="Documento"
+          value={formatCpf(data?.document)}
+          hasCopy
+        />
         <Divider />
         <DisplayField
           text="Celular"
-          value={formatCellphoneNumber(phone)}
+          value={formatCellphoneNumber(data?.phone)}
           hasCall
         />
         <Divider />
-        {secondPhone ? (
+        {data?.secondPhone ? (
           <>
             <DisplayField
               text="Celular secundário"
-              value={formatCellphoneNumber(secondPhone)}
+              value={formatCellphoneNumber(data?.secondPhone)}
               hasCall
             />
             <Divider />
           </>
         ) : null}
-        <DisplayField text="E-mail" value={email} hasCopy />
+        <DisplayField text="E-mail" value={data?.email} hasCopy />
         <Spacer spaceVertical={8} />
       </Content>
     </Accordion>

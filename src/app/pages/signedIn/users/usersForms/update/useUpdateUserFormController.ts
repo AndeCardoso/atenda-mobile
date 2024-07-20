@@ -10,6 +10,7 @@ import UserService from "@services/user";
 import { IUserForm } from "../schema";
 import { useCallback } from "react";
 import { useToast } from "@hooks/useToast";
+import { useAuth } from "@hooks/useAuth";
 
 export const useUpdateUserFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
@@ -17,6 +18,7 @@ export const useUpdateUserFormController = () => {
   const { params } = useRoute<any>();
   const { userId } = params;
   const queryClient = useQueryClient();
+  const { logout } = useAuth();
 
   const userService = new UserService();
 
@@ -30,6 +32,10 @@ export const useUpdateUserFormController = () => {
         case HttpStatusCode.Ok:
           return body;
         case HttpStatusCode.NoContent:
+          return;
+        case HttpStatusCode.Unauthorized:
+          logout();
+          return;
         case HttpStatusCode.BadRequest:
         default:
           SuperConsole(body, "getUserUpdate");
@@ -57,6 +63,9 @@ export const useUpdateUserFormController = () => {
           switch (statusCode) {
             case HttpStatusCode.Ok:
               return body;
+            case HttpStatusCode.Unauthorized:
+              logout();
+              return;
             case HttpStatusCode.BadRequest:
             default:
               SuperConsole(body, "updateUser");

@@ -11,6 +11,7 @@ import EquipmentService from "@services/equipment";
 import { IEquipmentForm } from "../schema";
 import { useCallback } from "react";
 import { useToast } from "@hooks/useToast";
+import { useAuth } from "@hooks/useAuth";
 
 export const useUpdateEquipmentFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
@@ -18,6 +19,7 @@ export const useUpdateEquipmentFormController = () => {
   const { params } = useRoute<any>();
   const { equipmentId } = params;
   const queryClient = useQueryClient();
+  const { logout } = useAuth();
 
   const equipmentService = new EquipmentService();
 
@@ -29,6 +31,10 @@ export const useUpdateEquipmentFormController = () => {
         case HttpStatusCode.Ok:
           return body;
         case HttpStatusCode.NoContent:
+          return;
+        case HttpStatusCode.Unauthorized:
+          logout();
+          return;
         case HttpStatusCode.BadRequest:
         default:
           SuperConsole(body, "getEquipmentUpdate");
@@ -64,6 +70,9 @@ export const useUpdateEquipmentFormController = () => {
           switch (statusCode) {
             case HttpStatusCode.Ok:
               return body;
+            case HttpStatusCode.Unauthorized:
+              logout();
+              return;
             case HttpStatusCode.BadRequest:
             default:
               SuperConsole(body, "updateEquipment");
