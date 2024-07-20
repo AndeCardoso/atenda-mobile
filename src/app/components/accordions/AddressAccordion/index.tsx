@@ -12,29 +12,27 @@ interface IAddressAccordionProps {
   data: IAddressModel;
 }
 
-export const AddressAccordion = ({
-  data: { nickname, cep, city, complement, district, number, state, street },
-}: IAddressAccordionProps) => {
+export const AddressAccordion = ({ data }: IAddressAccordionProps) => {
   return (
-    <Accordion title={nickname || ""}>
+    <Accordion title={data?.nickname || ""}>
       <Content>
         <Row>
-          <DisplayField text="Logradouro" value={street} />
+          <DisplayField text="Logradouro" value={data?.street} />
         </Row>
         <Divider />
         <Row>
-          <DisplayField text="Cep" value={formatCep(cep)} />
-          <DisplayField text="Número" value={number} />
+          <DisplayField text="Cep" value={formatCep(data?.cep)} />
+          <DisplayField text="Número" value={data?.number} />
         </Row>
         <Divider />
         <Row>
-          <DisplayField text="Bairro" value={district} />
-          <DisplayField text="Complemento" value={complement} />
+          <DisplayField text="Bairro" value={data?.district} />
+          <DisplayField text="Complemento" value={data?.complement} />
         </Row>
         <Divider />
         <Row>
-          <DisplayField text="Cidade" value={city} />
-          <DisplayField text="Estado" value={state} />
+          <DisplayField text="Cidade" value={data?.city} />
+          <DisplayField text="Estado" value={data?.state} />
         </Row>
         <Spacer spaceVertical={8} />
       </Content>
