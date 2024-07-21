@@ -14,11 +14,13 @@ import ServiceOrderService from "@services/serviceOrder";
 import { RegisterServiceOrderScreens } from "./navigators";
 import { SuperConsole } from "@tools/indentedConsole";
 import { serviceOrderStatusEnum } from "./constants";
+import { useAuth } from "@hooks/useAuth";
 
 export const useServiceOrderController = () => {
   const { unexpectedErrorToast } = useToast();
   const { navigate, canGoBack, goBack } = useNavigation<any>();
   const queryClient = useQueryClient();
+  const { logout } = useAuth();
   const { params } = useRoute<any>();
   const id = params?.id;
   const filteredBy = params?.filteredBy;
@@ -53,6 +55,9 @@ export const useServiceOrderController = () => {
           return body;
         case HttpStatusCode.NoContent:
           setListState(requestStateEnum.EMPTY);
+          return;
+        case HttpStatusCode.Unauthorized:
+          logout();
           return;
         case HttpStatusCode.BadRequest:
         default:

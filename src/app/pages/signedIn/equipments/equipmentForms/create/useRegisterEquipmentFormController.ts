@@ -5,12 +5,14 @@ import { SuperConsole } from "@tools/indentedConsole";
 import EquipmentService from "@services/equipment";
 import { IEquipmentForm } from "../schema";
 import { useToast } from "@hooks/useToast";
+import { useAuth } from "@hooks/useAuth";
 
 export const useRegisterEquipmentFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
   const { unexpectedErrorToast, createToast } = useToast();
   const { params } = useRoute<any>();
   const { customerId } = params;
+  const { logout } = useAuth();
 
   const equipmentService = new EquipmentService();
 
@@ -31,6 +33,9 @@ export const useRegisterEquipmentFormController = () => {
           switch (statusCode) {
             case HttpStatusCode.Created:
               return body;
+            case HttpStatusCode.Unauthorized:
+              logout();
+              return;
             case HttpStatusCode.BadRequest:
             default:
               SuperConsole(body, "equipmentRegister");

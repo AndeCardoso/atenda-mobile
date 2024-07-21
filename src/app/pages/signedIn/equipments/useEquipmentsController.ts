@@ -14,12 +14,14 @@ import { useToast } from "@hooks/useToast";
 import { SuperConsole } from "@tools/indentedConsole";
 import { GetEquipmentListRequestDTO } from "@services/equipment/dtos/request/GetEquipmentListRequestDTO";
 import { equipmentStatusEnum } from "./constants";
+import { useAuth } from "@hooks/useAuth";
 
 export const useEquipmentsController = () => {
   const { unexpectedErrorToast } = useToast();
   const { navigate, canGoBack, goBack } = useNavigation<any>();
   const queryClient = useQueryClient();
   const { params } = useRoute<any>();
+  const { logout } = useAuth();
 
   const isGeneralList = !Boolean(params?.customerId);
 
@@ -55,6 +57,9 @@ export const useEquipmentsController = () => {
           return body;
         case HttpStatusCode.NoContent:
           setListState(requestStateEnum.EMPTY);
+          return;
+        case HttpStatusCode.Unauthorized:
+          logout();
           return;
         case HttpStatusCode.BadRequest:
         default:

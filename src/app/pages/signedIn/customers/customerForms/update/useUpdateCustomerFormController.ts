@@ -12,6 +12,7 @@ import { ICustomerForm } from "../schema";
 import { unmask } from "@utils/formatString";
 import { useCallback, useState } from "react";
 import { useToast } from "@hooks/useToast";
+import { useAuth } from "@hooks/useAuth";
 
 export const useUpdateCustomerFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
@@ -19,6 +20,7 @@ export const useUpdateCustomerFormController = () => {
   const { params } = useRoute<any>();
   const { customerId } = params;
   const queryClient = useQueryClient();
+  const { logout } = useAuth();
 
   const customerService = new CustomerService();
 
@@ -38,6 +40,10 @@ export const useUpdateCustomerFormController = () => {
         case HttpStatusCode.Ok:
           return body;
         case HttpStatusCode.NoContent:
+          return;
+        case HttpStatusCode.Unauthorized:
+          logout();
+          return;
         case HttpStatusCode.BadRequest:
         default:
           SuperConsole(body, "getCustomerUpdate");
@@ -84,6 +90,9 @@ export const useUpdateCustomerFormController = () => {
           switch (statusCode) {
             case HttpStatusCode.Ok:
               return body;
+            case HttpStatusCode.Unauthorized:
+              logout();
+              return;
             case HttpStatusCode.BadRequest:
             default:
               SuperConsole(body, "updateCustomer");

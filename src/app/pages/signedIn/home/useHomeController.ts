@@ -27,6 +27,9 @@ export const useHomeController = () => {
           return body;
         case HttpStatusCode.NoContent:
           return;
+        case HttpStatusCode.Unauthorized:
+          logout();
+          return;
         case HttpStatusCode.BadRequest:
         default:
           SuperConsole(body, "advertise");
@@ -55,6 +58,9 @@ export const useHomeController = () => {
           return body;
         case HttpStatusCode.NoContent:
           return;
+        case HttpStatusCode.Unauthorized:
+          logout();
+          return;
         case HttpStatusCode.BadRequest:
         default:
           SuperConsole(body, "serviceOrderOpenedList");
@@ -81,6 +87,9 @@ export const useHomeController = () => {
             return body;
           case HttpStatusCode.NoContent:
             return;
+          case HttpStatusCode.Unauthorized:
+            logout();
+            return;
           case HttpStatusCode.BadRequest:
           default:
             SuperConsole(body, "equipmentQueue");
@@ -105,6 +114,9 @@ export const useHomeController = () => {
         case HttpStatusCode.Ok:
           return body;
         case HttpStatusCode.NoContent:
+          return;
+        case HttpStatusCode.Unauthorized:
+          logout();
           return;
         case HttpStatusCode.BadRequest:
         default:

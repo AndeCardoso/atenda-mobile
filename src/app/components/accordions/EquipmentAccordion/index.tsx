@@ -12,39 +12,30 @@ interface IEquipmentAccordionProps {
   data: IEquipmentModel;
 }
 
-export const EquipmentAccordion = ({
-  data: {
-    nickname,
-    brand,
-    model,
-    status,
-    accessories,
-    color,
-    description,
-    serialNumber,
-    voltage,
-  },
-}: IEquipmentAccordionProps) => {
+export const EquipmentAccordion = ({ data }: IEquipmentAccordionProps) => {
   return (
-    <Accordion title={nickname || model}>
+    <Accordion title={data?.nickname || data?.model}>
       <Content>
-        <DisplayField text="Status" value={equipmentStatusDisplay[status]} />
+        <DisplayField
+          text="Status"
+          value={equipmentStatusDisplay[data?.status]}
+        />
         <Divider />
         <Row>
-          <DisplayField text="Marca" value={brand} />
-          <DisplayField text="Modelo" value={model} />
+          <DisplayField text="Marca" value={data?.brand} />
+          <DisplayField text="Modelo" value={data?.model} />
         </Row>
         <Divider />
-        <DisplayField text="Nº de série" value={serialNumber} />
+        <DisplayField text="Nº de série" value={data?.serialNumber} />
         <Divider />
         <Row>
-          <DisplayField text="Voltagem" value={voltage} />
-          <DisplayField text="Cor" value={color} />
+          <DisplayField text="Voltagem" value={data?.voltage} />
+          <DisplayField text="Cor" value={data?.color} />
         </Row>
         <Divider />
-        <DisplayField text="Acessórios" value={accessories} />
+        <DisplayField text="Acessórios" value={data?.accessories} />
         <Divider />
-        <DisplayField text="Descrição" value={description} />
+        <DisplayField text="Descrição" value={data?.description} />
         <Spacer spaceVertical={8} />
       </Content>
     </Accordion>

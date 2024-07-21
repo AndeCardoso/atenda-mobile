@@ -16,28 +16,26 @@ interface ITechnicianAccordionProps {
   data: Partial<ITechnicianModel>;
 }
 
-export const TechnicianAccordion = ({
-  data: { name, phone, position, cpf, status },
-}: ITechnicianAccordionProps) => {
+export const TechnicianAccordion = ({ data }: ITechnicianAccordionProps) => {
   return (
-    <Accordion title={name || ""}>
+    <Accordion title={data?.name || ""}>
       <Content>
         <Row>
           <DisplayField
             text="Status"
-            value={technicianStatusDisplay[status!!]}
+            value={technicianStatusDisplay[data?.status!!]}
           />
           <DisplayField
             text="Cargo"
-            value={technicianPositionDisplay[position!!]}
+            value={technicianPositionDisplay[data?.position!!]}
           />
         </Row>
         <Divider />
-        <DisplayField text="Documento" value={formatCpf(cpf)} hasCopy />
+        <DisplayField text="Documento" value={formatCpf(data?.cpf)} hasCopy />
         <Divider />
         <DisplayField
           text="Celular"
-          value={formatCellphoneNumber(phone)}
+          value={formatCellphoneNumber(data?.phone)}
           hasCall
         />
         <Spacer spaceVertical={8} />

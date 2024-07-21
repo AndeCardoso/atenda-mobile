@@ -7,10 +7,12 @@ import { ICustomerForm } from "../schema";
 import { unmask } from "@utils/formatString";
 import { IAddressForm } from "@components/forms/AddressForm/formSchema";
 import { useToast } from "@hooks/useToast";
+import { useAuth } from "@hooks/useAuth";
 
 export const useRegisterCustomerFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
   const { createToast, unexpectedErrorToast } = useToast();
+  const { logout } = useAuth();
 
   const customerService = new CustomerService();
 
@@ -41,6 +43,9 @@ export const useRegisterCustomerFormController = () => {
           switch (statusCode) {
             case HttpStatusCode.Created:
               return body;
+            case HttpStatusCode.Unauthorized:
+              logout();
+              return;
             case HttpStatusCode.BadRequest:
             default:
               SuperConsole(body, "customerRegister");

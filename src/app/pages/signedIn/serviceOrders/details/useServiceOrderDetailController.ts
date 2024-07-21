@@ -13,6 +13,7 @@ import ServiceOrderService from "@services/serviceOrder";
 import { useToast } from "@hooks/useToast";
 import { Platform } from "react-native";
 import { openBrowserAsync } from "expo-web-browser";
+import { useAuth } from "@hooks/useAuth";
 
 const android = Platform.OS === "android";
 
@@ -23,6 +24,7 @@ export const useServiceOrderDetailController = () => {
   const { params } = useRoute<any>();
   const { serviceOrderId } = params;
   const queryClient = useQueryClient();
+  const { logout } = useAuth();
 
   const serviceOrderService = new ServiceOrderService();
 
@@ -36,6 +38,10 @@ export const useServiceOrderDetailController = () => {
         case HttpStatusCode.Ok:
           return body;
         case HttpStatusCode.NoContent:
+          return;
+        case HttpStatusCode.Unauthorized:
+          logout();
+          return;
         case HttpStatusCode.BadRequest:
         default:
           SuperConsole(body, "serviceOrderDetails");
@@ -63,6 +69,10 @@ export const useServiceOrderDetailController = () => {
           await openBrowserAsync(body.url);
           return;
         case HttpStatusCode.NoContent:
+          return;
+        case HttpStatusCode.Unauthorized:
+          logout();
+          return;
         case HttpStatusCode.BadRequest:
         default:
           SuperConsole(body, "getPdfReport");

@@ -6,10 +6,12 @@ import TechnicianService from "@services/technician";
 import { ITechnicianForm } from "../schema";
 import { unmask } from "@utils/formatString";
 import { useToast } from "@hooks/useToast";
+import { useAuth } from "@hooks/useAuth";
 
 export const useRegisterTechnicianFormController = () => {
   const { goBack, canGoBack } = useNavigation<any>();
   const { unexpectedErrorToast, createToast } = useToast();
+  const { logout } = useAuth();
 
   const technicianService = new TechnicianService();
 
@@ -34,6 +36,9 @@ export const useRegisterTechnicianFormController = () => {
           switch (statusCode) {
             case HttpStatusCode.Created:
               return body;
+            case HttpStatusCode.Unauthorized:
+              logout();
+              return;
             case HttpStatusCode.BadRequest:
             default:
               SuperConsole(body, "technicianRegister");

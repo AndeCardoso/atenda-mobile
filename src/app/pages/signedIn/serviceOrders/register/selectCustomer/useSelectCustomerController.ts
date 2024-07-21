@@ -11,12 +11,14 @@ import { RegisterServiceOrderScreens } from "../../navigators";
 import { useServiceOrderContext } from "@contexts/serviceOrder";
 import { ICustomerModel } from "@model/entities/customer";
 import { SuperConsole } from "@tools/indentedConsole";
+import { useAuth } from "@hooks/useAuth";
 
 export const useSelectCustomerController = () => {
   const { unexpectedErrorToast } = useToast();
   const { navigate, canGoBack, goBack } = useNavigation<any>();
   const queryClient = useQueryClient();
   const { onSelectCustomer } = useServiceOrderContext();
+  const { logout } = useAuth();
 
   const customerService = new CustomerService();
 
@@ -45,6 +47,9 @@ export const useSelectCustomerController = () => {
           return body;
         case HttpStatusCode.NoContent:
           setListState(requestStateEnum.EMPTY);
+          return;
+        case HttpStatusCode.Unauthorized:
+          logout();
           return;
         case HttpStatusCode.BadRequest:
         default:

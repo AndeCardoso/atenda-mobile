@@ -11,11 +11,13 @@ import { useServiceOrderContext } from "@contexts/serviceOrder";
 import { ITechnicianModel } from "@model/entities/technician";
 import { SignedInNavigators, SignedInScreens } from "@routes/screens";
 import { SuperConsole } from "@tools/indentedConsole";
+import { useAuth } from "@hooks/useAuth";
 
 export const useSelectTechnicianController = () => {
   const { unexpectedErrorToast } = useToast();
   const { navigate, canGoBack, goBack } = useNavigation<any>();
   const queryClient = useQueryClient();
+  const { logout } = useAuth();
 
   const { onSelectTechnician } = useServiceOrderContext();
 
@@ -52,6 +54,9 @@ export const useSelectTechnicianController = () => {
           return body;
         case HttpStatusCode.NoContent:
           setListState(requestStateEnum.EMPTY);
+          return;
+        case HttpStatusCode.Unauthorized:
+          logout();
           return;
         case HttpStatusCode.BadRequest:
         default:
