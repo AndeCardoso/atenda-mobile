@@ -19,7 +19,7 @@ export const Modal = ({
     <Portal>
       <PaperModal visible={modalVisible} onDismiss={onToggleModal} dismissable>
         <KeyboardAvoidingView
-          behavior={ios ? "padding" : "height"}
+          behavior={"padding"}
           keyboardVerticalOffset={ios ? RFValue(40) : 0}
         >
           {children}
