@@ -151,7 +151,7 @@ export const ServiceOrderDetailPage = () => {
                 style={{
                   transform: [{ rotate: "90deg" }],
                   alignSelf: "center",
-                  marginTop: -74,
+                  marginTop: -24,
                 }}
                 width={265}
                 height={width - 32}
